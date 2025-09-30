@@ -1,0 +1,288 @@
+<div class="sidebar close " [ngClass]="{'close': isSidebarClosed}">
+    <div class="logo-details" class="ml-2 mt-5">
+        <!-- <img src="\assets\icons\H&K logo_231111ong 2.png" alt="logo"> -->
+        <div class=" justify-content-end d-flex">
+            <i class='bi bi-text-right' (click)="toggleSidebar()"></i>
+        </div>
+    </div>
+
+
+    <ul class="nav-links">
+        <li>
+            <a class="subhead-a">
+                <span class="link_name sub-head">Menu</span>
+            </a>
+        </li>
+        <li class="line mt-3">
+            <a href="superadmin/dashboard">
+                <i class="bi bi-columns-gap"></i>
+                <span class="link_name">Dashboard</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="superadmin/dashboard">Dashboard</a></li>
+            </ul>
+        </li>
+
+        <li class="line">
+            <div class="icon-link" (click)="toggleCollapse(2)">
+                <a>
+                    <i class="bi bi-person-fill"></i>
+                    <span class="link_name">Master</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[2] }">
+                <li><a class="link_name">Master</a></li>
+                <!-- <li><a href="superadmin/unit">Company</a></li> -->
+                <!-- <li><a href="superadmin/department">Department</a></li> -->
+                <!-- <li><a href="superadmin/designation">Designation</a></li> -->
+                <!-- <li><a href="superadmin/pf-esi">PF & ESI</a></li> -->
+                <!-- <li><a href="superadmin/vendor">Vendor</a></li> -->
+                <li><a href="superadmin/employeelist">Employees</a></li>
+                <!-- <li><a href="superadmin/promotions">Promotions</a></li> -->
+
+            </ul>
+
+
+        </li>
+        <!-- <li class="line">
+            <div class="icon-link" (click)="toggleCollapse(5)">
+                <a>
+                    <i class="bi bi-cash-stack"></i>
+                    <span class="link_name">Loans & Advances</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[5] }">
+                <li><a class="link_name">Loans & Advance</a></li>
+
+                <li><a href="superadmin/advance-salary">Advance Salary</a></li>
+
+                <li><a href="superadmin/loan-view">Loan</a></li>
+
+            </ul>
+        </li> -->
+
+        <li class="line">
+            <div class="icon-link" (click)="toggleCollapse(10)">
+                <a>
+                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                    <span class="link_name">Attendance</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[10] }">
+                <li><a class="link_name">Attendance</a></li>
+<!-- 
+                <li><a href="superadmin/ot-punch">OT Punch</a></li>
+                <li><a href="superadmin/employee-punch">Employee Punch</a></li> -->
+
+
+                <li><a href="/superadmin/attendance">Upload Attendance</a></li>
+
+            </ul>
+        </li>
+
+
+        <!-- <li class="line">
+            <a href="superadmin/attendance">
+                <i class="bi bi-cloud-arrow-up-fill"></i>
+                <span class="link_name">Attendance</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="superadmin/attendance">Attendance</a></li>
+            </ul>
+        </li> -->
+
+        <!-- <li class="line ">
+            <a href="superadmin/promotions">
+                <i class="bi bi-box-arrow-up"></i>
+                <span class="link_name">Add Promotion</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="superadmin/promotions">Add Promotion</a></li>
+            </ul>
+        </li> -->
+
+
+        <!-- <li class="line">
+            <div class="icon-link" (click)="toggleCollapse(11)">
+                <a>
+                    <i class="bi bi-wallet2"></i>
+                    <span class="link_name">Collection</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[11] }">
+                <li><a class="link_name">Collection</a></li>
+                <li><a href="superadmin/collectioncriteria">Collection Criteria</a></li>
+                <li><a href="superadmin/collections">Set Collection</a></li>
+            </ul>
+        </li> -->
+
+
+
+
+        <!-- <li class="line">
+            <div class="icon-link" (click)="toggleCollapse(6)">
+                <a>
+                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                    <span class="link_name">Attendance</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[6] }">
+                <li><a class="link_name">Attendance</a></li>
+
+                <li><a href="superadmin/attendance">Attendance</a></li>
+
+            </ul>
+        </li> -->
+
+
+        <li class="line">
+            <div class="icon-link" (click)="toggleCollapse(7)">
+                <a>
+                    <i class="bi bi-cash"></i>
+                    <span class="link_name">Salary</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[7] }">
+                <li><a class="link_name">Salary</a></li>
+
+                <li><a href="superadmin/emp-salary">Pay Salary</a></li>
+                <li><a href="superadmin/view-monthlysalary">Paid Salary</a></li>
+                <!-- <li><a href="superadmin/paymnet-edits">Edit Payments</a></li> -->
+            </ul>
+        </li>
+
+
+        <!-- <li class="line">
+            <div class="icon-link" (click)="toggleCollapse(8)">
+                <a>
+                    <i class="bi bi-clipboard-data-fill"></i>
+                    <span class="link_name">Report</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[8] }">
+                <li><a class="link_name">Report</a></li>
+
+                <li><a href="superadmin/rejoined_employees">Rejoined Employees</a></li>
+                <li><a href="superadmin/loan-report">Loan</a></li>
+                <li><a href="superadmin/advancesalary-report">Advance Salary</a></li>
+                <li><a href="superadmin/attendance-report">Daily Attendance</a></li>
+                <li><a href="superadmin/ot-report">OT Report</a></li>
+
+                <li><a href="superadmin/payslip-report">payslip Report</a></li>
+
+
+                <li><a href="superadmin/download-report">Reports</a></li>
+
+
+            </ul>
+        </li> -->
+
+        <!-- <li class="line">
+            <div class="icon-link" (click)="toggleCollapse(9)">
+                <a>
+                    <i class="bi bi-clock-fill"></i> <span class="link_name">Shift</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[9] }">
+                <li><a class="link_name">shift</a></li>
+
+                <li><a href="superadmin/shiftlist">Shift List</a></li>
+                <li><a href="superadmin/workshift">Employee Work Shift</a></li>
+
+            </ul>
+        </li> -->
+
+
+        <!-- <li class="line">
+            <a href="superadmin/backup">
+                <i class="bi bi-database-down"></i>
+                <span class="link_name">Backup</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="superadmin/backup">Backup</a></li>
+            </ul>
+        </li> -->
+
+
+        <hr style="border: 1px solid #ffffff; margin: 0px 10px 0px 10px; ">
+        <li class="line">
+            <a (click)="showDialog()">
+                <i class='bx bx-log-out'></i>
+                <span class="link_name">Logout</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a (click)="showDialog()" class="link_name">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+
+</div>
+
+
+<section class="home-section">
+    <div class="home-content justify-content-end d-flex">
+        <!-- <div class="mr-3">
+            <i class="bi bi-gear-fill"></i>
+        </div> -->
+        <!-- Bell icon for notifications -->
+        <!-- <div class="mr-3">
+            <i class="bi bi-bell-fill"></i>
+        </div> -->
+
+        <div class="dropdown mr-4">
+            <div class="profile-content d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <img src="\assets\images\Ellipse 5.png" alt="" style="width: 32px; height: 32px; border-radius: 50%;">
+                <span class="profile ml-2 mr-2">Super Admin</span>
+                <!-- Down arrow icon -->
+                <i class="bi bi-chevron-down"></i>
+            </div>
+            <!-- Dropdown menu with logout option -->
+            <div class="dropdown-menu dropdown-menu-right" (click)="logout()">
+                <a class="dropdown-item">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- need padding or margin give p-4 ml-3 -->
+    <div class="ps-4">
+        <router-outlet></router-outlet>
+    </div>
+</section>
+
+
+<!-- Logout Confirmation Modal -->
+<p-dialog header="Confirm Logout" [(visible)]="display" [modal]="true" [style]="{width: '350px'}" [closable]="false">
+    <div class="text-center mb-3">
+        <i class="bi bi-exclamation-triangle-fill custom-warning-icon"></i>
+        <p class="mt-1">Are you sure you want to log out?</p>
+    </div>
+    <p-footer>
+        <div class="d-flex justify-content-center">
+            <!-- Cancel Button -->
+            <button type="button" pButton label="Cancel" icon="pi pi-times" class="custom-cancel-button me-2"
+                (click)="onReject()"></button>
+
+            <!-- Logout Button -->
+            <button type="button" pButton label="Logout" icon="pi pi-check" class="custom-logout-button"
+                (click)="logout()"></button>
+        </div>
+    </p-footer>
+</p-dialog>
+
+
+
+
+
+<div *ngIf="Loader" class="spinner-container">
+    <div class="spinner"></div>
+</div>

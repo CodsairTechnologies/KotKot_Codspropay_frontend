@@ -1,0 +1,268 @@
+<div class="main" id="main">
+
+  <div class="row  first-row align-items-center">
+    <!-- breadcrumbs -->
+    <div class="col-md-10 col-12">
+      <div class="breadcrumb">
+        <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
+        <a routerLink="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp; <i
+          class="bi bi-chevron-right"></i> &nbsp;
+        <a routerLink="/superadmin/attendance" class="breadcrumb-item">Attendance</a> &nbsp; <i
+          class="bi bi-chevron-right"></i> &nbsp;
+        <a routerLink="/superadmin/view-attendance" class="breadcrumb-item">View Attendance</a>
+      </div>
+    </div>
+    <!-- breadcrumbs -->
+
+
+
+    <div class="col-md-2 col-12 text-md-end text-end button-group">
+      <button class="bttn" type="button" (click)="toggleInputRow()">
+        Filter <i class="bi bi-funnel-fill"></i>
+      </button>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="row" *ngIf="showInputRow">
+    <div class="mb-3 filter-body">
+      <form [formGroup]="SearchForm">
+        <div class="row">
+          <div class="col-4 mb-5 mt-3 ms-4 search">
+            <label for="Search" class="form-label">Search</label>
+            <div class="d-flex align-items-center mt-2">
+              <div class="form-check me-3">
+                <input class="form-check-input" type="radio" formControlName="searchOption" id="flexRadioDefault1"
+                  value="name" (change)="resetInputField()" />
+                <label class="form-check-label" for="flexRadioDefault1">Name</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" formControlName="searchOption" id="flexRadioDefault2"
+                  value="empid" (change)="resetInputField()" />
+                <label class="form-check-label" for="flexRadioDefault2">Employee ID</label>
+              </div>
+            </div>
+            <div *ngIf="SearchForm.get('searchOption')?.value === 'name'">
+              <input type="text" class="form-control mt-2" id="SearchName" placeholder="Enter employee name"
+                formControlName="searchKeyword" (input)="onInputChange()" />
+            </div>
+            <div *ngIf="SearchForm.get('searchOption')?.value === 'empid'">
+              <input type="text" class="form-control mt-2" id="SearchID" placeholder="Enter employee ID"
+                formControlName="searchKeyword" (input)="onInputChange()" />
+            </div>
+          </div>
+
+
+          <div class="col-1">
+            <button class="filter-search1" (click)="searchAttendanceFn()"><i class="bi bi-search"></i></button>
+          </div>
+          <div class="col-3  mb-5 ms-4 filter">
+
+            <label for="Department" class="form-label pb-1">Filter By Department</label>
+
+            <select class="form-select" aria-label="Default select example" formControlName="Department"
+              (change)="selectByDepartment($event, 'add')">
+              <option value="" disabled selected>Select Department</option>
+              <option [value]="dept['id']" *ngFor="let dept of departmentlist">{{ dept['departmentname']
+                }}</option>
+            </select>
+
+          </div>
+          <div class="col-2  mb-5 ms-4 filter">
+            <label for="Role" class="form-label">Role</label>
+            <select class="form-select" aria-label="Default select example" formControlName="Role">
+              <option value="" disabled selected>Select Role</option>
+              <option value="Staff">Staff</option>
+              <option value="Office Staff">Office Staff</option>
+
+            </select>
+          </div>
+
+          <div class="col-1">
+            <button class="filter-search1" (click)="getFilterAttendanceTableFn()"><i
+                class="bi bi-funnel-fill"></i></button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="box">
+    <div class="table-container">
+      <div class="table-scrollable table-responsive">
+        <table class="table table-striped table-custom-spacing">
+          <thead class="sticky-header text-center">
+            <tr class="text-center">
+              <th scope="col">SlNo</th>
+              <th scope="col">Employee ID</th>
+              <th scope="col">Emp. Name</th>
+              <th scope="col">Role</th>
+
+              <th scope="col">Department</th>
+              <th scope="col">Working Days</th>
+              <th scope="col">Total Leave</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of paginatedList; let i = index">
+              <tr class="text-center">
+                <td class="text-center" data-label="SlNo">{{(currentPage - 1) * itemsPerPage + i + 1}}</td>
+                <td data-label="Employee ID">{{ item.empid }}</td>
+                <td data-label="Emp. Name">{{ item.empname }}</td>
+                <td data-label="Emp. Name">{{ item.role }}</td>
+
+                <td data-label="Department">{{ item.department }}</td>
+                <td data-label="Working Days">{{ item.total_working_days }}</td>
+                <td data-label="Total Leave">{{ item.total_leave_days }}</td>
+                <td data-label="Actions">
+                  <!-- <button *ngIf="item.role === 'OfficeStaff'" class="button" data-bs-toggle="modal"
+                    data-bs-target="#manualentry" (click)="getemployee(item.empid, item.empname)">
+                    <i class="bi bi-pencil-fill icon"></i>
+                  </button>&nbsp; -->
+                  <button class="button" (click)="toggleInnerTable(item.empid)">
+                    <i class="bi bi-chevron-down" [ngClass]="{'rotated': expandedItemId === item.empid}"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <tr *ngIf="item.empid === expandedItemId" class="inner-table-row">
+                <td colspan="8">
+                  <div class="nested-table-container">
+                    <h6 class="text-center table-head">Attendance Summary</h6>
+                    <table class="inner-table table table-bordered">
+                      <thead class="text-center">
+                        <tr>
+                          <th *ngFor="let day of daysArray">{{ day | titlecase }}</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center">
+                        <tr>
+                          <td *ngFor="let day of daysArray">{{ workSummary[0][day] || '—' }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+
+            </ng-container>
+          </tbody>
+        </table>
+
+      </div>
+
+
+      <div class="paginator-container">
+        <p-paginator [rows]="itemsPerPage" [totalRecords]="attendancelist.length"
+          [rowsPerPageOptions]="itemsPerPageOptions" (onPageChange)="onPageChange($event)"
+          [dropdownAppendTo]="'body'"></p-paginator>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+<div class="modal fade" id="manualentry" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true" (hidden.bs.modal)="onModalHidden()">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header p-3">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Attendance Entry</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="AddManualForm">
+
+          <div class="row mb-2">
+            <!-- Attendance File -->
+            <div class="col-12">
+              <label for="Employee" class="form-label">Employee <span class="required">*</span></label>
+              <input type="text" class="form-control" id="date" formControlName="Name" readonly>
+
+            </div>
+
+          </div>
+
+
+          <div class="row mb-3">
+
+            <div class="col-6">
+              <label for="monthSelect" class="form-label">Select Date </label>
+              <input type="date" class="form-control" id="date" formControlName="attendanceDate"
+                (change)="attendanceByiD()">
+            </div>
+            <div class="col-6" *ngIf="AddManualForm.get('attendanceDate')?.value">
+              <label for="Holiday" class="form-label">Attendance Status <span class="required">*</span></label>
+              <select class="form-select" id="Holiday" formControlName="Holiday">
+                <option value="" disabled>Select Status</option>
+                <option value="P">Present</option>
+                <option value="L">Leave</option>
+              </select>
+
+
+              <div class="error-msg"
+                *ngIf="AddManualForm.get('Holiday')?.errors && AddManualForm.get('Holiday')?.touched">
+                <p>Please select an attendance status!</p>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="upload-bttn" (click)="addManualAttendanceFn()">Upload</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- modal for delete -->
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger"> <i class="bi bi-exclamation-triangle-fill fs-1 ms-3"></i> &nbsp; Delete
+          data</h5>
+        <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="col-12">
+            <h6 class="text-center">Are you sure want to delete this data? </h6>
+          </div>
+          <div class="text-center button-model">
+
+            <button type="button" class="btn btn-secondary w-25" data-bs-dismiss="modal"
+              aria-label="Close">Close</button> &nbsp;&nbsp;
+
+            <button type="button" class="btn btn-danger w-25" data-bs-dismiss="modal">Delete</button>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="Loader" class="spinner-container">
+  <div class="spinner"></div>
+</div>

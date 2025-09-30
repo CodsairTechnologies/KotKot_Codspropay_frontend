@@ -1,0 +1,1088 @@
+/* css of breadcrumbs */
+
+.background {
+    background-color: #132742;
+    height: 270px;
+    z-index: 1;
+    margin-top: -11px;
+    padding-left: -50px;
+}
+
+.breadcrumb {
+    list-style: none;
+    padding: 10px;
+    margin: 0 0px 0 20px;
+}
+
+.breadcrumbs {
+    position: relative;
+    display: inline-block;
+}
+
+.breadcrumbs:not(:last-child)::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 10px;
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"%3E%3Cpath fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"%3E%3C/path%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: 5px;
+}
+
+
+.bi-house-door-fill {
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.first-row {
+    width: 100%;
+}
+
+.home-icon {
+    margin-right: 5px;
+}
+
+.arrow-icon {
+    margin: 0 5px;
+}
+
+.bi-chevron-right::before {
+    font-weight: bolder !important;
+}
+
+/* css of breadcrumbs */
+
+
+
+/* card css */
+
+.header-card {
+    flex-direction: row;
+    display: flex;
+    border-bottom: none;
+
+}
+
+.header-card2 {
+    flex-direction: row;
+    display: flex;
+    border-bottom: none;
+
+}
+
+.first-card {
+    width: 90%;
+    height: 100%;
+    background: linear-gradient(to right, #0B5E8C, #006DAB);
+    border-radius: 5px;
+}
+
+.second-card {
+    width: 90%;
+    height: 100%;
+    background: linear-gradient(to right, #08968D, #087069);
+    border-radius: 5px;
+}
+
+.bi-person-video2 {
+    color: white;
+    font-size: 43px;
+}
+
+
+.bi-graph-down {
+    color: white;
+    font-size: 43px;
+}
+
+.user-name {
+    color: #fff;
+    font-size: 17px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    margin-top: 15px;
+
+}
+
+.options {
+    font-size: 37px;
+    color: white;
+}
+
+.count {
+    color: #fff;
+    font-size: 50px;
+    font-style: normal;
+    font-family: "Rowdies", sans-serif;
+    font-weight: 700;
+}
+
+
+/* card css */
+
+
+/* calender css */
+
+
+.calendar-container {
+    width: 90%;
+    overflow-x: auto;
+    background-color: white;
+    margin-left: 30px !important;
+    border-radius: 10px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .25);
+    /* height: 400px; */
+}
+
+
+.calendar-container ::ng-deep .fc-daygrid-cell {
+    min-width: 50px;
+}
+
+.calendar-container ::ng-deep .fc-daygrid-day-frame {
+    padding: 0px;
+}
+
+.calendar-container ::ng-deep .fc-daygrid-day-number {
+    font-size: 0.8em;
+}
+
+
+
+.calendar-container ::ng-deep .fc-event-title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+
+.calendar-container ::ng-deep .fc-daygrid-event {
+    font-size: 0.75em;
+}
+
+
+.calendar-container ::ng-deep .fc-daygrid-cell {
+    height: 50px;
+    padding: 2px;
+}
+
+.calendar-container ::ng-deep .fc-daygrid-day-frame {
+    height: 50px;
+}
+
+
+.calendar-container ::ng-deep .fc-toolbar {
+    font-size: 0.8em;
+    padding: 2px;
+}
+
+.calendar-container ::ng-deep .fc-daygrid-event {
+    font-size: 0.75em;
+    padding: 2px;
+}
+
+.calendar-container ::ng-deep .fc-daygrid-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    height: 30px;
+}
+
+
+
+
+.calendar-container ::ng-deep .fc-daygrid-cell {
+    height: 0px;
+    padding: 2px;
+}
+
+.calendar-container ::ng-deep .fc-daygrid-day-frame {
+    height: 5px;
+}
+
+::ng-deep .fc-daygrid-day-top {
+    justify-content: center;
+    display: flex;
+    margin-top: 10px;
+}
+
+
+::ng-deep .fc-toolbar-title {
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+
+::ng-deep .fc-theme-standard .fc-scrollgrid {
+    border: none;
+}
+
+::ng-deep .fc-scrollgrid-sync-inner a {
+    text-decoration: none;
+    color: #3b3b3b;
+    font-size: 16px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.calendar-container ::ng-deep .fc-day-today {
+    background-color: #f3f0f0;
+}
+
+::ng-deep .fc-scroller {
+    overflow: hidden !important;
+}
+
+::ng-deep .fc-today-button .fc-button .fc-button-primary {
+    display: none !important;
+}
+
+.calendar-container ::ng-deep .Event1 {
+    background: linear-gradient(to right, #be0b0b, #e01818);
+    border: none;
+}
+
+.calendar-container ::ng-deep .Event2 {
+    background: linear-gradient(to right, #3eb031, #70e958);
+    border: none;
+}
+
+.calendar-container ::ng-deep .Event3 {
+    background: linear-gradient(to right, #5690ce, #3661f0);
+    border: none;
+}
+
+.calendar-container ::ng-deep .Event4 {
+    background: linear-gradient(to right, #ea0f0f, #eb6c6c);
+    border: none;
+}
+
+.calendar-container ::ng-deep .Event5 {
+    background: linear-gradient(to right, #fa3737, #c45656);
+    border: none;
+}
+
+.calendar-container ::ng-deep .Event6 {
+    background: linear-gradient(to right, #994ee5, #a173f0);
+    border: none;
+}
+
+.calendar-container ::ng-deep .Event7 {
+    background: linear-gradient(to right, #2c39c4, #5c569a);
+    border: none;
+}
+
+/* calender css */
+
+
+
+/* todo css  */
+
+
+.todo-card {
+    height: 26rem; 
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .25);
+    font-family: "Poppins", sans-serif;
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding: 1rem 2rem 1rem 2rem;
+}
+
+/* Table container to enable horizontal scrolling */
+.table-responsive {
+    max-height: 300px; 
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+/* Custom Scrollbar for WebKit (Chrome, Edge, Safari) */
+.todo-card::-webkit-scrollbar,
+.table-responsive::-webkit-scrollbar {
+    width: 8px; 
+    height: 8px; 
+}
+
+.todo-card::-webkit-scrollbar-thumb,
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+.todo-card::-webkit-scrollbar-thumb:hover,
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.todo-card::-webkit-scrollbar-track,
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+
+.vehicletodo-card {
+    height: 22rem; 
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .25);
+    font-family: "Poppins", sans-serif;
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding: 1rem 2rem 1rem 2rem;
+}
+
+.employee-list {
+    height: 27rem;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+
+.todo-form {
+    margin-bottom: 1rem;
+    margin-top: 5px;
+}
+
+
+.todo-heading {
+    color: #4b4848;
+    font-size: 27px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.bi-plus-circle-fill {
+    color: #4b4848;
+    font-size: 25px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-icon {
+    background: transparent;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+
+
+.todo-table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.edit-todo{
+    margin-top: 20px;
+}
+
+
+/* Specific max-width for the second column */
+.todo-table .table-row td:nth-child(2) {
+    max-width: 200px;
+}
+
+.tododetails {
+    cursor: pointer;
+}
+
+.action-icons .bi {
+    color: black;
+    font-size: 20px;
+}
+
+.form-control[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+
+
+.chevron {
+    font-size: 22px;
+    font-weight: bolder;
+}
+
+
+/* todo css  */
+
+
+
+/* Employee css  */
+
+.employee-heading {
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.employee-name {
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.employee-data {
+    color: #848992;
+    font-size: 15px;
+    font-style: normal;
+    margin-top: 0;
+    text-align: left;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+}
+
+
+.table {
+    width: 100%;
+    border-collapse: collapse; 
+}
+
+.table-bordered {
+    border: 1px solid #ddd; 
+}
+
+.table-bordered th, 
+.table-bordered td {
+    border: 1px solid #ddd;
+    padding:8px; 
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.bg-yellow {
+    background-color: rgb(250, 200, 108);
+}
+
+.bg-green {
+    background-color: rgb(112, 181, 112);
+}
+
+.bg-red {
+    background-color: rgb(216, 126, 126);
+}
+
+.bg-white {
+    background-color: rgb(243, 239, 239);
+}
+
+
+
+.employee-list::-webkit-scrollbar {
+    width: 5px;
+    height: 5px; 
+}
+
+.employee-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.employee-list::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 2px;
+}
+
+.employee-list::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
+}
+
+
+
+
+
+
+.big-card {
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .25);
+    border: none;
+
+    height: 23rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+.big-card::-webkit-scrollbar {
+    width: 5px;
+}
+
+.big-card::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.big-card::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 2px;
+}
+
+.card-row {
+    border: none;
+}
+
+.row-heading {
+    color: #303030;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+}
+
+.row-para1 {
+    color: #313131;
+    font-size: 18px;
+    font-style: normal;
+    margin-top: 0;
+    text-align: left;
+    font-family: "Arial", sans-serif;
+    font-weight: 400;
+
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    /* -webkit-line-clamp: 1; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.row-para2 {
+    color: #9c9a9a;
+    font-size: 18px;
+    font-style: normal;
+    margin-top: 0;
+    text-align: left;
+    font-family: "Arial", sans-serif;
+    font-weight: 400;
+}
+
+.chevron {
+    margin-top: 32px;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.bi-caret-right-fill {
+    font-size: 28px;
+    color: #4a4a4a;
+}
+
+.mainrow-heading {
+    color: #4a4a4a;
+    font-size: 20px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+}
+
+.main-row {
+    width: 95%;
+    margin-left: 55px;
+    height: 100%;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+}
+
+
+
+
+/* chart and card  css  */
+.chart-card {
+    border: none;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .25);
+    margin-top: 20px;
+    padding: 4.2rem;
+}
+
+
+.icon-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon-col {
+    display: flex;
+    align-items: center;
+}
+
+.bi-record-fill {
+    color: #910D0D;
+    font-size: 30px;
+}
+
+.expense-roundicon {
+    color: #97E9EE;
+    font-size: 30px;
+}
+
+.label {
+    margin-left: 10px;
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.income {
+    margin-top: 10px;
+    text-align: center;
+    color: #333;
+    font-size: 20px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    margin-left: 37px;
+}
+
+.percentage {
+    margin-right: 10px;
+    color: #329241;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.income-heading {
+    color: #000;
+    font-size: 19px;
+    font-style: normal;
+    margin-top: 0;
+    text-align: left;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.bi-arrow-up {
+    color: #329241;
+    font-weight: 500;
+}
+
+.income-card {
+    border: none;
+}
+
+.expense-card {
+    border: none;
+}
+
+
+/* chart and card  css  */
+
+
+
+
+/* table css  */
+
+.table-heading {
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    margin-top: 0;
+    text-align: left;
+    margin-left: -10px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+}
+
+.table-btn {
+    color: #ffffff;
+    font-size: 14px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    background-color: black;
+    width: 85%;
+}
+
+.card-btn {
+    color: #ffffff;
+    font-size: 14px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    background-color: black;
+    width: auto;
+}
+
+.table-card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25); 
+    padding: 0 25px;
+}
+
+
+.table-row {
+    /* cursor: pointer;  */
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid rgb(230, 228, 228);
+    height: 30px;
+    height: 55px;
+    border-top: none;
+}
+
+
+.table-row:hover {
+    background-color: #f0f0f0;
+}
+
+
+.table-row2 {
+    height: 30px;
+    height: 55px;
+    border-top: none;
+
+}
+
+.table-row th {
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.table-row2 td {
+    color: #606c89;
+    font-size: 12px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+}
+
+/* table css  */
+
+
+
+.visitors {
+    color: #000;
+    font-size: 19px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.real-time {
+    color: #c4c4c4;
+    font-size: 15px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.bi-three-dots {
+    color: #c4c4c4;
+    font-size: 20px;
+}
+
+.small-chart {
+    border: none;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .25);
+    height: 25rem;
+
+}
+
+.income2 {
+    color: #333;
+    font-size: 20px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.percentage2 {
+    color: #329241;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.employee-list {
+    margin: 20px;
+}
+
+.expiry-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.expiry-header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.expiry-header h5,
+.expiry-header h6 {
+    margin: 0;
+}
+
+.expiry-details {
+    padding: 7px;
+}
+
+.expiry-info {
+    padding: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    border-bottom: 1px solid #ddd;
+}
+
+.expiry-info:last-child {
+    border-bottom: none;
+}
+
+.bg-success {
+    background-color: #d4edda !important;
+}
+
+.bg-warning {
+    background-color: #fff3cd !important;
+}
+
+.bg-danger {
+    background-color: #f8d7da !important;
+}
+
+
+.btn-danger-custom {
+    background-color: #dc3545; 
+    border-color: #dc3545;
+    color: white;
+  }
+  
+  .btn-danger-custom:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+
+  .bttn {
+    background-color: #132742;
+    border-color: #132742;
+    color: white;
+  }
+  
+  .bttn:hover {
+    background-color: #3e5472;
+    border-color: #132742;
+  }
+  
+
+  /* calender events */
+
+.p-dialog {
+    padding: 1rem
+  }
+  
+  .p-field {
+    margin-bottom: 1rem;
+  }
+  
+
+  input[pInputText], textarea[pInputTextarea] {
+    width: 100%; 
+    padding: 0.5rem; 
+    border: 1px solid #ced4da; 
+    border-radius: 4px; 
+    box-sizing: border-box;
+  }
+  
+  textarea[pInputTextarea] {
+    height: 100px; 
+    resize: vertical; 
+  }
+  
+  button[pButton] {
+    margin-right: 0.5rem; 
+  }
+  
+  button[type="submit"] {
+    background-color: #007ad9; 
+    color: #fff; 
+    border: none; 
+    border-radius: 4px; 
+  }
+  
+  button.p-button-secondary {
+    background-color: #6c757d; 
+    color: #fff; 
+    border: none; 
+    border-radius: 4px; 
+  }
+  
+  button[pButton]:hover {
+    opacity: 0.9; 
+    cursor: pointer; 
+  }
+  
+
+  /* Styles for the event list dialog */
+
+.event-list {
+    max-height: 300px; 
+    overflow-y: auto; 
+  }
+  
+  .event-item {
+    word-wrap: break-word; 
+    white-space: normal;  
+    margin-bottom: 10px;  
+  }
+  
+  .event-item p {
+    margin: 0; 
+  }
+  
+
+  
+  /* Loader styles */
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 9999;
+}
+
+.spinner {
+    border: 8px solid #132742;
+    border-top: 8px solid #fff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.small-table {
+    font-size: 0.85rem;
+}
+
+.table th, .table td {
+    padding: 6px;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+}
+
+
+
+
+/* Invoice Heading */
+.invoice-heading {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Table Styling */
+.premium-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    font-size: 0.7rem;
+}
+
+.premium-table thead {
+    background: #343a40;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+}
+
+.premium-table th {
+    padding: 12px;
+    text-align: left;
+    border: none;
+}
+
+.premium-table tbody tr {
+    background: #ffffff;
+    transition: all 0.3s ease-in-out;
+}
+
+.premium-table tbody tr:hover {
+    background: #f1f1f1;
+    transform: scale(1.02);
+}
+
+.premium-table td {
+    padding: 12px;
+    border: none;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+
+/* Download Button */
+.download-btn {
+    font-size: 1rem;
+    color: #070707;
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.download-btn:hover {
+    transform: scale(1.2);
+}
+
+/* Status Colors */
+.status-pending {
+    color: orange;
+}
+
+.status-process {
+    color: blue;
+}
+
+.status-closed {
+    color: red;
+}
+
+.status-received {
+    color: green;
+}

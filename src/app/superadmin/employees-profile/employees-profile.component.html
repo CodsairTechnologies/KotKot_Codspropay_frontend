@@ -1,0 +1,1531 @@
+<div class="main" id="main">
+
+
+
+
+    <div class="row first-row align-items-center">
+        <!-- Breadcrumbs -->
+        <div class="col-lg-5 col-12">
+            <div class="breadcrumb">
+                <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
+                <a href="/super-admin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp;
+                <i class="bi bi-chevron-right"></i> &nbsp;
+                <a routerLink="/super-admin/viewemployee" class="breadcrumb-item">Employees</a> &nbsp;
+                <i class="bi bi-chevron-right"></i> &nbsp;
+                <a href="/super-admin/employee-profile" class="breadcrumb-item">Employee Profile</a>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+
+    </div>
+
+    <div class="row">
+        <div class="col-12 d-flex justify-content-end pe-4">
+            <div class="button-group d-flex flex-wrap gap-2">
+                <button class="bttn" data-bs-toggle="modal" data-bs-target="#downloadprofile">
+                    Profile &nbsp; <i class="bi bi-download"></i>
+                </button>
+
+                <button class="btt-certificate" data-bs-toggle="modal" data-bs-target="#downloadexperiencecertificate">
+                    Exp. Certificate &nbsp; <i class="bi bi-download"></i>
+                </button>
+
+                <button *ngIf="!empdetails.resigneddate" class="btt-certificate btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#resignationModal">
+                    Resign Letter &nbsp; <i class="bi bi-download"></i>
+                </button>
+
+                <button class="bttn" data-bs-toggle="modal" data-bs-target="#payslip">
+                    Payslip &nbsp; <i class="bi bi-download"></i>
+                </button>
+
+                <button class="bttn" data-bs-toggle="modal" data-bs-target="#timesheet">
+                    Timesheet <i class="bi bi-download"></i>
+                </button>
+
+                <button *ngIf="empdetails.resigneddate" class="bttn" data-bs-toggle="modal"
+                    data-bs-target="#confirmRejoinModal">
+                    Rejoin
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div>
+
+
+        <form [formGroup]="EmployeeForm">
+            <label for="" class="title">Employee Details</label>
+            <div class="box">
+                <div class="row">
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <!-- Employee Image -->
+                        <div class="img-card card">
+                            <img src="{{apiurl+this.profileimgurl}}" class="img-fluid" alt="Employee Image">
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-12 col-sm-12">
+                        <div class="row mt-4">
+                            <div class="col-md-6 col-sm-12 mb-3">
+                                <!-- Name -->
+                                <div class="mb-3">
+                                    <label for="Name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="Name" formControlName="Name" readonly>
+                                </div>
+                                <!-- Contact Number -->
+                                <div class="mb-3">
+                                    <label for="ContactNo" class="form-label">Contact No</label>
+                                    <input type="text" class="form-control" id="ContactNo" formControlName="ContactNo"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 mb-3">
+                                <!-- Employee ID -->
+                                <div class="mb-3">
+                                    <label for="EmpID" class="form-label">Employee ID</label>
+                                    <input type="text" class="form-control" id="EmpID" formControlName="EmpID" readonly>
+                                </div>
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="Email" class="form-label">Email</label>
+                                    <input type="text" class="form-control" id="Email" formControlName="Email" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <!-- Unit -->
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="mb-3">
+                            <label for="Unit" class="form-label">Unit</label>
+                            <input type="text" class="form-control" id="Unit" formControlName="Unit" readonly>
+                        </div>
+                    </div>
+                    <!-- Department -->
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="mb-3">
+                            <label for="Department" class="form-label">Department</label>
+                            <input type="text" class="form-control" id="Department" formControlName="Department"
+                                readonly>
+                        </div>
+                    </div>
+                    <!-- Designation -->
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="mb-3">
+                            <label for="Designation" class="form-label">Designation</label>
+                            <input type="text" class="form-control" id="Designation" formControlName="Designation"
+                                readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- PF Number -->
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="mb-3">
+                            <label for="PF" class="form-label">PF Number</label>
+                            <input type="text" class="form-control" id="PF" formControlName="PF" readonly>
+                        </div>
+                    </div>
+                    <!-- UAN Number -->
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="mb-3">
+                            <label for="UAN" class="form-label">UAN Number</label>
+                            <input type="text" class="form-control" id="UAN" formControlName="UAN" readonly>
+                        </div>
+                    </div>
+                    <!-- IP Number -->
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <div class="mb-3">
+                            <label for="IP" class="form-label">IP Number</label>
+                            <input type="text" class="form-control" id="IP" formControlName="IP" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <div class="mb-3">
+                            <label for="Shift" class="form-label ">Shift</label>
+                            <input type="text" class="form-control" id="Shift" formControlName="Shift" readonly>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <div class="mb-3">
+                            <label for="OT" class="form-label">OT</label>
+                            <input type="text" class="form-control" id="OT" formControlName="OT" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <div class="mb-3">
+                            <label for="CasualLeave" class="form-label">Casual Leave</label>
+                            <input type="text" class="form-control" id="CasualLeave" formControlName="CasualLeave"
+                                readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        <!-- salary details -->
+
+
+        <div class="profiledetails">
+
+
+            <div class="rectangle">Salary Details</div>
+
+
+            <hr class="divider">
+
+
+            <div class="icon" (click)="toggleBox('salary')">
+                <i class="bi bi-chevron-double-down"></i>
+            </div>
+
+
+        </div>
+
+
+        <div class="salary-box" *ngIf="issalaryBoxVisible" @toggleBox>
+
+            <form [formGroup]="SalaryForm">
+
+                <div class="row">
+
+                    <!-- Salary -->
+
+                    <div class="col-4">
+
+                        <div class="mb-3 dob">
+                            <label for="Salary" class="form-label">Salary</label>
+                            <input type="text" class="form-control" id="Salary" formControlName="Salary" readonly>
+                        </div>
+
+                    </div>
+
+                    <!-- DA -->
+
+                    <div class="col-4">
+                        <div class="mb-3 age">
+                            <label for="DA" class="form-label">DA</label>
+                            <input type="text" class="form-control" id="DA" formControlName="DA" readonly>
+                        </div>
+
+                    </div>
+
+
+                    <!-- HRA -->
+
+                    <div class="col-4">
+                        <div class="mb-3 email">
+                            <label for="HRA" class="form-label">HRA</label>
+                            <input type="text" class="form-control" id="HRA" formControlName="HRA" readonly>
+
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                </div>
+
+                <div class="row">
+
+                    <!-- TA -->
+
+                    <div class="col-4">
+                        <div class="mb-3 email">
+                            <label for="TA" class="form-label">TA</label>
+                            <input type="text" class="form-control" id="TA" formControlName="TA" readonly>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-4">
+                        <div class="mb-3 ta">
+                            <label for="FoodAllowance" class="form-label">Food Allowance</label>
+                            <input type="text" class="form-control" id="FoodAllowance" formControlName="FoodAllowance"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="mb-3 ta">
+                            <label for="ExtraAllowance" class="form-label">Extra Allowance</label>
+                            <input type="text" class="form-control" id="ExtraAllowance" formControlName="ExtraAllowance"
+                                readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="mb-3 ta">
+                            <label for="monthlyworkingdays" class="form-label">Monthly Workingdays</label>
+                            <input type="text" class="form-control" id="monthlyworkingdays"
+                                formControlName="monthlyworkingdays" readonly>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="row">
+                    <div class="col-12 button-group">
+                        <div class="d-flex flex-wrap justify-content-end">
+                            <!-- <button class="bttn-salary mt-2 mt-md-4" (click)="route()">Given Salary</button> -->
+                            <button class="bttn-group mt-2 mt-md-4 ms-2" data-bs-toggle="modal"
+                                data-bs-target="#salaryhistory" (click)="getSalaryHistoryTableFn()">History</button>
+                            <button class="bttn-group mt-2 mt-md-4 ms-2" data-bs-toggle="modal"
+                                data-bs-target="#editsalary" (click)="setSalaryValues()">Edit</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+
+
+        <!-- pf details -->
+
+
+        <div class="profiledetails">
+            <div class="rectangle">PF Details</div>
+            <hr class="divider">
+            <div class="icon" (click)="toggleBox('pf')">
+                <i class="bi bi-chevron-double-down"></i>
+            </div>
+        </div>
+
+
+        <div class="salary-box" *ngIf="isPFBoxVisible" @toggleBox>
+
+            <form [formGroup]="PFForm">
+                <div class="row">
+
+                    <!-- pf number -->
+
+                    <div class="col-4">
+
+                        <div class="mb-3 dob">
+                            <label for="PFNumber" class="form-label">PF Number</label>
+                            <input type="text" class="form-control" id="PFNumber" formControlName="PFNumber" readonly>
+                        </div>
+
+                    </div>
+
+                    <!-- UAN Number -->
+
+                    <div class="col-4">
+                        <div class="mb-3 age">
+                            <label for="UANNumber" class="form-label">UAN Number</label>
+                            <input type="text" class="form-control" id="UANNumber" formControlName="UANNumber" readonly>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Employee Contribution -->
+
+                    <div class="col-4">
+                        <div class="mb-3 email">
+                            <!-- <label for="EmployeeContribution" class="form-label">Employee Contribution</label>
+                            <input type="text" class="form-control" id="EmployeeContribution"
+                                formControlName="EmployeeContribution" readonly> -->
+
+                            <label for="PFAmount" class="form-label">PF Amount</label>
+                            <input type="text" class="form-control" id="PFAmount" formControlName="PFAmount" readonly>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+
+                    <div class="col-4">
+                        <div class="mb-3 email">
+                            <label for="PFPercentage" class="form-label">PF Percentage</label>
+                            <input type="text" class="form-control" id="PFPercentage" formControlName="PFPercentage"
+                                readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-8 text-end">
+                        <button class="bttn mt-4 w-25 editbtn" data-bs-toggle="modal" data-bs-target="#editpf"
+                            (click)="setSalaryValues()">Edit</button>
+                    </div>
+
+                    <!-- <div class="col-md-12 col-12 button-group">
+                        <div class="d-flex flex-wrap justify-content-end">
+                            
+                            <button class="bttn-group mt-2 mt-md-4" data-bs-toggle="modal"
+                                data-bs-target="#pfhistory" (click)="getSalaryHistoryTableFn()">History</button>
+                            <button class="bttn-group mt-2 mt-md-4 ms-2" data-bs-toggle="modal"
+                                data-bs-target="#editpf" (click)="setSalaryValues()">Edit</button>
+                        </div>
+                    </div> -->
+                </div>
+            </form>
+        </div>
+
+
+
+        <!-- ESI details -->
+
+
+        <div class="profiledetails">
+            <div class="rectangle">ESI Details</div>
+            <hr class="divider">
+            <div class="icon" (click)="toggleBox('esi')">
+                <i class="bi bi-chevron-double-down"></i>
+            </div>
+        </div>
+
+
+        <div class="salary-box" *ngIf="isESIBoxVisible" @toggleBox>
+
+            <form [formGroup]="ESIForm">
+                <div class="row">
+                    <div class="col-4">
+
+                        <div class="mb-3 dob">
+                            <label for="ESI" class="form-label">ESI Percentage</label>
+                            <input type="text" class="form-control" id="ESI" formControlName="ESI" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                    </div>
+
+                    <div class="col-4 text-end">
+                        <!-- <button class="bttn mt-4 w-50" data-bs-toggle="modal" data-bs-target="#editesi">Edit</button> -->
+                    </div>
+
+                    <!-- pf number -->
+
+                    <!-- <div class="col-4">
+
+                        <div class="mb-3 dob">
+                            <label for="PFNumber" class="form-label">PF Number</label>
+                            <input type="text" class="form-control" id="PFNumber" formControlName="PFNumber" readonly>
+                        </div>
+
+                    </div> -->
+
+                    <!-- UAN Number -->
+
+                    <!-- <div class="col-4">
+                        <div class="mb-3 age">
+                            <label for="UANNumber" class="form-label">UAN Number</label>
+                            <input type="text" class="form-control" id="UANNumber" formControlName="UANNumber" readonly>
+                        </div>
+
+                    </div> -->
+
+
+                    <!-- Employee Contribution -->
+
+                    <!-- <div class="col-4">
+                        <div class="mb-3 email">
+                            <label for="EmployeeContribution" class="form-label">Employee Contribution</label>
+                            <input type="text" class="form-control" id="EmployeeContribution"
+                                formControlName="EmployeeContribution" readonly>
+
+
+                        </div>
+
+                    </div> -->
+
+                </div>
+            </form>
+        </div>
+
+
+        <div class="profiledetails">
+            <div class="rectangle">Document Details</div>
+            <hr class="divider">
+            <div class="icon" (click)="toggleBox('document')">
+                <i class="bi bi-chevron-double-down"></i>
+            </div>
+        </div>
+
+
+        <div class="salary-box" *ngIf="isDocumentBoxVisible" @toggleBox>
+
+            <form [formGroup]="DocumentForm">
+                <!-- <div class="row mb-3">
+
+                    <div class="col-6">
+                        <label for="Adhar" class="form-label">Adhar Image</label>
+                        <div class="file-upload card">
+                            <div class="upload-container">
+                                <button (click)="openImageModal(apiurl + adharurl)" class="custom-file-upload">
+                                    Open
+                                </button>
+                                <span class="file-name">{{ empdetails.adharimgurl}}</span>
+                                <span class="no-file" *ngIf="!adharurl">No file selected</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="adhaarno">
+                            <label for="Aadhar Number" class="form-label file-label">Aadhar Number</label>
+                            <input type="text" class="form-control" formControlName="AadharNumber" readonly>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="Pan" class="form-label">Pan Image</label>
+
+                        <div class="file-upload card">
+                            <div class="upload-container">
+                                <button (click)="openImageModal(apiurl + empdetails.panimgurl)"
+                                    class="custom-file-upload">
+                                    Open
+                                </button>
+                                <span class="file-name">{{ empdetails.panimgurl}}</span>
+                                <span class="no-file" *ngIf="!panurl">No file selected</span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="adhaarno">
+                            <label for="Pan Number" class="form-label file-label">PAN Number</label>
+                            <input type="text" class="form-control" formControlName="PanNumber" readonly>
+                        </div>
+                    </div>
+                </div> -->
+
+
+
+                <div class="row mb-3">
+                    <div class="col-md-5">
+                        <label for="DrivingLicence" class="form-label">Driving Licence Image</label>
+
+                        <div class="file-upload card">
+                            <div class="upload-container">
+                                <button (click)="openImageModal(apiurl + empdetails.drivinglicenseimgurl)"
+                                    class="custom-file-upload">
+                                    Open
+                                </button>
+                                <span class="file-name">{{ empdetails.drivinglicenseimgurl}}</span>
+                                <span class="no-file" *ngIf="!drivingurl">No file selected</span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="adhaarno">
+                            <label for="driving Number" class="form-label file-label">Driving Licence Number</label>
+                            <input type="text" class="form-control" placeholder="Enter Driving Licence Number here"
+                                formControlName="DrivingLicenceNumber" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="adhaarno">
+                            <label for="LicenceExpiry" class="form-label file-label">Driving Licence Expiry</label>
+                            <input type="text" class="form-control" placeholder="Enter Licence Expiry here"
+                                formControlName="LicenceExpiry" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-5">
+                        <label for="Passport" class="form-label">Passport Image</label>
+
+                        <div class="file-upload card">
+                            <div class="upload-container">
+                                <button (click)="openImageModal(apiurl + empdetails.passportimgurl)"
+                                    class="custom-file-upload">
+                                    Open
+                                </button>
+                                <span class="file-name">{{ empdetails.passportimgurl}}</span>
+                                <span class="no-file" *ngIf="!passporturl">No file selected</span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="adhaarno">
+                            <label for="Passport Number" class="form-label file-label">Passport Number</label>
+                            <input type="text" class="form-control" placeholder="Enter Passport Number here"
+                                formControlName="PassportNumber" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="adhaarno">
+                            <label for="PassporyExpiry" class="form-label file-label">Passport Expiry</label>
+                            <input type="text" class="form-control" placeholder="Enter Passpory Expiry here"
+                                formControlName="PassportExpiry" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row for visa Image  -->
+                <div class="row mb-3">
+                    <div class="col-md-5">
+                        <label for="Passport" class="form-label">Visa</label>
+                        <div class="file-upload card">
+
+
+                            <div class="upload-container">
+                                <button (click)="openImageModal(apiurl + visaurl)" class="custom-file-upload">
+                                    Open
+                                </button>
+                                <span class="file-name_visa">{{ empdetails.visaimg}}</span>
+                                <span class="no-file" *ngIf="!visaurl">No file selected</span>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="adhaarno">
+                            <label for="VisaNumber" class="form-label file-label">Visa Number</label>
+                            <input type="text" class="form-control" placeholder="Enter Visa Number here"
+                                formControlName="VisaNumber" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="adhaarno">
+                            <label for="VisaExpiry" class="form-label file-label">Visa Expiry</label>
+                            <input type="text" class="form-control" placeholder="Enter Visa Expiry here"
+                                formControlName="VisaExpiry" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-md-5">
+                        <div class="adhaarno">
+                            <label for="validid" class="form-label">Other valid id if any</label>
+                            <div class="file-upload card">
+
+
+                                <div class="upload-container">
+                                    <button (click)="openImageModal(apiurl + idurl)" class="custom-file-upload">
+                                        Open
+                                    </button>
+                                    <span class="file-name_id">{{ empdetails.otherIdimg}}</span>
+                                    <span class="no-file" *ngIf="!idurl">No file selected</span>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="adhaarno">
+                            <label for="IDNumber" class="form-label file-label">ID Number</label>
+                            <input type="text" class="form-control" placeholder="Enter ID Number here"
+                                formControlName="IDNumber" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="adhaarno">
+                            <label for="IDExpiry" class="form-label file-label">ID Expiry</label>
+                            <input type="text" class="form-control" placeholder="Enter ID Expiry here"
+                                formControlName="IDExpiry" readonly>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+
+        <!-- Loan details -->
+
+
+        <div class="profiledetails">
+            <div class="rectangle ps-3">Loan Details</div>
+            <hr class="divider">
+            <div class="icon" (click)="toggleBox('loan')">
+                <i class="bi bi-chevron-double-down"></i>
+            </div>
+        </div>
+
+
+        <div class="salary-box" *ngIf="isloanBoxVisible" @toggleBox>
+
+            <!-- <div class="box"> -->
+            <app-table [arrList]="arrList" [arrColumns]="arrColumns">
+            </app-table>
+            <!-- </div> -->
+
+            <div class="row">
+
+                <div class="col-12 text-end">
+                    <button class="bttn mt-4 w-25" data-bs-toggle="modal" data-bs-target="#loanhistory"
+                        (click)="getLoanHistoryTableFn()">History</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- MODALS -->
+
+
+
+<!-- Modal for edit salary-->
+
+<div class="modal fade" id="editsalary" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Salary</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <form action="" [formGroup]="editsalaryform">
+
+                    <div class="row pt-4">
+
+                        <div class="col-6 mb-3">
+
+                            <label for="BasicSalary" class="form-label">Basic Salary</label>
+                            <input type="text" class="form-control" id="BasicSalary" placeholder="Enter Basic Salary"
+                                formControlName="BasicSalary">
+
+                        </div>
+
+                        <div class="col-6 mb-3">
+
+                            <label for="DA" class="form-label">DA</label>
+                            <input type="text" class="form-control" id="DA" placeholder="Enter DA" formControlName="DA">
+
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-6 mb-3">
+
+                            <label for="HRA" class="form-label">HRA</label>
+                            <input type="text" class="form-control" id="HRA" placeholder="Enter HRA"
+                                formControlName="HRA">
+
+                        </div>
+                        <div class="col-6 mb-3">
+
+                            <label for="TA" class="form-label">TA</label>
+                            <input type="text" class="form-control" id="TA" placeholder="Enter TA" formControlName="TA">
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label for="FoodAllowance" class="form-label">Food Allowance</label>
+                            <input type="text" class="form-control" id="FoodAllowance"
+                                placeholder="Enter Food Allowance" formControlName="FoodAllowance">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label for="ExtraAllowance" class="form-label">Extra Allowance</label>
+                            <input type="text" class="form-control" id="ExtraAllowance"
+                                placeholder="Enter Extra Allowance" formControlName="ExtraAllowance">
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="text-end">
+                            <button class="bttn" (click)="editPaymentFn()">Update</button>
+
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal for salary history -->
+
+<div class="modal fade" id="salaryhistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog custom-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Salary Hisory</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <!-- filter -->
+                <div class="mt-3">
+                    <form [formGroup]="FilterForm">
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="fromDate" class="form-label">From Date</label>
+                                <input type="date" class="form-control" id="fromDate" formControlName="fromDate">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="toDate" class="form-label">To Date</label>
+                                <input type="date" class="form-control" id="toDate" formControlName="toDate">
+                            </div>
+                            <div class="col-md-4  ">
+                                <div class="filter-group">
+                                    <button type="button" class="bttn ps-3 pe-3" (click)="SalaryFilterByDateFn()"><i
+                                            class="bi bi-funnel-fill"></i></button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- table -->
+
+                <div class="mt-5">
+                    <table class="table table-striped table-bordered table-custom-spacing text-center">
+                        <thead>
+                            <tr class="table-dark">
+                                <th style="width: 10%;">SlNo</th>
+                                <th style="width: 30%;">Amount</th>
+                                <th style="width: 30%;">From Date</th>
+                                <th style="width: 30%;">To Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of paginatedPaymentList; let i = index" class="text-center">
+                                <td>{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
+                                <td>{{item.salary}}</td>
+                                <td>{{item.salaryaddeddate}}</td>
+                                <td>{{item.salarychangedate}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="text-align: right;">
+                        <p-paginator [rows]="itemsPerPage" [totalRecords]="salList.length"
+                            [rowsPerPageOptions]="itemsPerPageOptions"
+                            (onPageChange)="onPageChange($event)"></p-paginator>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal for edit pf -->
+
+<div class="modal fade" id="editpf" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit PF Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="EditPFForm">
+
+                    <div class="mb-3 email">
+                        <label for="PFAmount" class="form-label">PF Amount</label>
+                        <input type="text" class="form-control" id="PFAmount" formControlName="PFAmount">
+                    </div>
+
+                    <div class="error-msg"
+                        *ngIf="EditPFForm.get('PFAmount')?.errors && EditPFForm.get('PFAmount')?.touched">
+                        <p>PF Amount is required!</p>
+                    </div>
+
+                    <!-- <div class="mb-3 email">
+                        <label for="EmployerContribution" class="form-label">Employer Contribution</label>
+                        <input type="text" class="form-control" id="EmployerContribution"
+                            placeholder="Enter Employer Contribution" formControlName="EmployerContribution">
+                    </div>
+
+                    <div class="error-msg"
+                        *ngIf="EditPFForm.get('EmployerContribution')?.errors && EditPFForm.get('EmployerContribution')?.touched">
+                        <p>Employer Contribution is required!</p>
+                    </div> -->
+
+
+                </form>
+
+
+                <div class="text-end pb-2">
+                    <button type="submit" class="bttn" (click)="editPfFn()">Update</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- loan history -->
+
+<div class="modal fade" id="loanhistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog custom-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Loan History</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mt-5">
+                    <table class="table table-striped table-bordered table-custom-spacing text-center">
+                        <thead>
+                            <tr class="table-dark">
+                                <th style="width: 10%;">SlNo</th>
+                                <th style="width: 15%;">Loan No</th>
+                                <th style="width: 25%;">Amount</th>
+                                <th style="width: 20%;">EMI</th>
+                                <th style="width: 30%;">Closed Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of loanhistory; let i = index" class="text-center">
+                                <td>{{ i + 1}}</td>
+                                <td>{{item.loanNo}}</td>
+                                <td>{{item.amount}}</td>
+                                <td>{{item.emiamount}}</td>
+                                <td>{{item.closuredate}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- <div style="text-align: right;">
+                    <p-paginator [rows]="itemsPerPage" [totalRecords]="salList.length"
+                        [rowsPerPageOptions]="itemsPerPageOptions" (onPageChange)="onPageChange($event)"
+                        [dropdownAppendTo]="'body'"></p-paginator>
+                </div> -->
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal for print profile-->
+
+<div class="modal fade" id="downloadprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header p-4">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="container">
+                    <div class="profile-container" #profilecontent>
+                        <div *ngFor="let item of EmpDetailsList">
+
+                            <h5 class="profile-title">Employee Profile</h5>
+                            <div class="row profile-img">
+                                <h5 class="employee-id">{{item.employeeId}}</h5>
+                                <img [src]="apiurl + profileimgurl" class="img-fluid" alt="Employee Image">
+                            </div>
+                            <div class="empdetails">
+                                <table>
+                                    <tr>
+                                        <td class="label">Employee Name :</td>
+                                        <td class="value">{{item.name || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Employee Number :</td>
+                                        <td class="value">{{item.employeeId || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Date of Joining :</td>
+                                        <td class="value">{{item.joiningdate || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Firm :</td>
+                                        <td class="value">{{item.firm || 'AZOOMIE'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Department :</td>
+                                        <td class="value">{{item.departmentname || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Designation :</td>
+                                        <td class="value">{{item.designation || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Gender :</td>
+                                        <td class="value">{{item.gender || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Date of Birth :</td>
+                                        <td class="value">{{item.dob || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Blood Group :</td>
+                                        <td class="value">{{item.bloodgroup || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Father/Mother Name :</td>
+                                        <td class="value">{{item.fathername || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Spouse Name :</td>
+                                        <td class="value">{{item.spoucename || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Contact Numbers :</td>
+                                        <td class="value">{{item.contactNo || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Address :</td>
+                                        <td class="value">{{item.address || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">E-Mail ID :</td>
+                                        <td class="value email">{{item.email || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Bank Name :</td>
+                                        <td class="value">{{item.bankname || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Branch :</td>
+                                        <td class="value">{{item.branch || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Bank A/c Number :</td>
+                                        <td class="value">{{item.accountnumber || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">IFS Code :</td>
+                                        <td class="value">{{item.ifsccode || 'NA'}}</td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <td class="label">Income Tax Number (PAN) :</td>
+                                        <td class="value">{{item.panNo || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Aadhaar Number :</td>
+                                        <td class="value">{{item.adharNo || 'NA'}}</td>
+                                    </tr> -->
+                                    <tr>
+                                        <td class="label">Universal Account Number (UAN) :</td>
+                                        <td class="value">{{item.uanno || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">PF Account Number :</td>
+                                        <td class="value">{{item.pfno || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">PF Date of Joining :</td>
+                                        <td class="value">{{item.pfdate || 'NA'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">ESI Number :</td>
+                                        <td class="value">{{item.esinumber || 'NA'}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="bttn me-5" (click)="downloadPDF()">Download &nbsp; <i
+                        class="bi bi-download"></i></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal for print Experience certificate-->
+
+<div class="modal fade" id="downloadexperiencecertificate" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header p-4">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="certi">
+
+                <div class="container" #experiencecertificate>
+                    <div class="experience-container">
+                        <div *ngFor="let item of EmpDetailsList">
+                            <h6 class="experience-title">WHOMSOEVER IT MAY CONCERN</h6>
+
+                            <div class="experience-content">
+                                <p>
+                                    This is to certify that
+                                    <span class="bold-text cap">{{ item.name }}</span>,
+                                    <span class="bold-text cap">{{ item.address }}</span>
+
+                                    <ng-container *ngIf="item.resigneddate; else ongoing">
+                                        was working with us as
+                                        <span class="bold-text">{{ item.designation }}</span> from
+                                        <span class="bold-text">{{ item.joiningdate | date: 'dd-MM-yyyy' }}</span>
+                                        to <span class="bold-text">{{ item.resigneddate | date: 'dd-MM-yyyy' }}</span>.
+                                        {{ pronoun }} was professionally sound, hard-working, and a devoted worker. {{
+                                        pronoun
+                                        }} wass efficient and punctual in {{ possessivePronoun }} duty time and very
+                                        obedient. We
+                                        wish {{ objectivePronoun }} all success in future and endeavours.
+                                    </ng-container>
+
+                                    <ng-template #ongoing>
+                                        is working with us as
+                                        <span class="bold-text">{{ item.designation }}</span> from
+                                        <span class="bold-text">{{ item.joiningdate | date: 'dd-MM-yyyy' }}
+                                            onwards</span>. {{ pronoun }} is professionally sound, hard-working, and a
+                                        devoted worker. {{
+                                        pronoun
+                                        }} is efficient and punctual in {{ possessivePronoun }} duty time and very
+                                        obedient. We
+                                        wish {{ objectivePronoun }} all success in future and endeavours.
+                                    </ng-template>
+
+
+                                </p>
+
+                                <p class="bold-text mt-5">For AZOOMIE.</p>
+
+                                <div class="date">
+                                    <p class="bold-text mt-5">N/A</p>
+                                    <p class="bold-text">Managing Director</p>
+                                </div>
+
+                                <div class="date">
+                                    <p class="bold-text mt-5">{{item.unitname}}</p>
+                                    <p class="bold-text">Date: {{ currentDate | date: 'dd-MM-yyyy' }}</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="bttn me-5" (click)="downloadCertificate()">Download &nbsp; <i
+                        class="bi bi-download"></i></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- payslip -->
+
+<div class="modal fade" id="payslip" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    (hidden.bs.modal)="onModalHidden()">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header p-4">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="certi">
+
+                <div class="container" #experiencecertificate>
+                    <div class="experience-container">
+
+
+
+                        <form action="" [formGroup]="payslipfilter">
+                            <div class="mb-3">
+                                <label for="monthSelect" class="form-label">Month</label>
+                                <select class="form-select" id="monthSelect" aria-label="Default select example"
+                                    formControlName="month">
+                                    <option selected disabled hidden value="">Select</option>
+                                    <option value="January">January</option>
+                                    <option value="February">February</option>
+                                    <option value="March">March</option>
+                                    <option value="April">April</option>
+                                    <option value="May">May</option>
+                                    <option value="June">June</option>
+                                    <option value="July">July</option>
+                                    <option value="August">August</option>
+                                    <option value="September">September</option>
+                                    <option value="October">October</option>
+                                    <option value="November">November</option>
+                                    <option value="December">December</option>
+                                </select>
+                            </div>
+
+                            <div class="error-msg"
+                                *ngIf="payslipfilter.get('month')?.errors && payslipfilter.get('month')?.touched">
+                                <p>Month is required!</p>
+                            </div>
+
+                            <!-- year -->
+
+                            <div class="mb-3">
+                                <label for="year" class="form-label">Year</label>
+                                <input type="number" class="form-control" id="year" placeholder="Enter year"
+                                    formControlName="year" min="1900" max="2099" step="1">
+                            </div>
+
+                            <div class="error-msg"
+                                *ngIf="payslipfilter.get('year')?.errors && payslipfilter.get('year')?.touched">
+                                <p>Year is required!</p>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="bttn me-3" (click)="fetchPaySlipData()">Download &nbsp; <i
+                        class="bi bi-download"></i></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Rejoin Confirmation Modal -->
+<div class="modal fade" id="confirmRejoinModal" tabindex="-1" aria-labelledby="confirmRejoinModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmRejoinModalLabel">Confirm Rejoin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to confirm that {{ empdetails.name }} has rejoined?
+
+                <!-- Rejoin Date Picker -->
+                <div class="mt-4 mb-4">
+                    <label for="rejoinDate" class="form-label">Rejoin Date</label>
+                    <input type="date" id="rejoinDate" class="form-control" [(ngModel)]="rejoinDate">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="confirmRejoin()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- timesheet -->
+
+<div class="modal fade" id="timesheet" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    (hidden.bs.modal)="onModalHidden()">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header p-4">
+                <h5 class="modal-title" id="timesheetLabel">Timesheet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="certi">
+
+                <div class="container" #timesheet>
+                    <div class="experience-container">
+
+
+
+                        <form action="" [formGroup]="timesheetForm">
+
+                            <!-- year -->
+
+                            <div class="mb-3">
+                                <label for="year" class="form-label">Year</label>
+                                <input type="month" class="form-control" id="year" placeholder="Enter year"
+                                    formControlName="month">
+                            </div>
+
+                            <div class="error-msg"
+                                *ngIf="timesheetForm.get('year')?.errors && timesheetForm.get('year')?.touched">
+                                <p>Year is required!</p>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="bttn me-3" (click)="fetchtimesheetData()">Download &nbsp; <i
+                        class="bi bi-download"></i></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div *ngIf="Loader" class="spinner-container">
+    <div class="spinner"></div>
+</div>
+
+
+
+<!-- resignation letter  -->
+<div class="modal fade" id="resignationModal" tabindex="-1" aria-labelledby="resignationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="resignationModalLabel">Submit Resignation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="reloadCurrentPage()"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form [formGroup]="resignationForm" (ngSubmit)="submitResignation()">
+                    <!-- Resignation Date -->
+                    <div class="mb-3">
+                        <label class="form-label">Resignation Date</label>
+                        <input type="date" formControlName="resignDate" class="form-control" />
+                        <div *ngIf="resignationForm.get('resignDate')?.touched && resignationForm.get('resignDate')?.invalid"
+                            class="text-danger mt-1">
+                            <small *ngIf="resignationForm.get('resignDate')?.errors?.['required']">
+                                Resignation date is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Reason -->
+                    <div class="mb-3">
+                        <label class="form-label">Reason</label>
+                        <textarea formControlName="reason" class="form-control" rows="3"
+                            placeholder="Enter your reason"></textarea>
+                        <div *ngIf="resignationForm.get('reason')?.touched && resignationForm.get('reason')?.invalid"
+                            class="text-danger mt-1">
+                            <small *ngIf="resignationForm.get('reason')?.errors?.['required']">
+                                Reason is required.
+                            </small>
+                            <small *ngIf="resignationForm.get('reason')?.errors?.['minlength']">
+                                Reason must be at least 5 characters.
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn bttn">Submit</button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Resignation Letter Modal -->
+<div class="modal fade" id="resignationLetterModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"
+            style="padding: 15px; font-family: Calibri, Arial, sans-serif; max-width: 800px; margin: auto; font-size: 12px; line-height: 1.2;">
+
+            <div id="pdfWrapper">
+                <div id="letterContent" style="width: 100%;" *ngIf="resignationData">
+
+                    <!-- Title -->
+                    <div
+                        style="text-align: center; font-weight: bold; text-transform: uppercase; font-size: 14px; margin-bottom: 10px;">
+                        RESIGNATION NOTICE / <span style="font-weight: normal;">इस्तीफा सूचना</span>
+                    </div>
+
+                    <!-- Date -->
+                    <div style="text-align: right; margin-bottom: 10px;">
+                        Date : <span style="font-weight: bold;">{{ resignationData.date }}</span><br>
+                        दिनांक : <span style="font-weight: bold;">{{ resignationData.date }}</span>
+                    </div>
+
+                    <!-- From -->
+                    <p style="margin: 10px 0;">
+                        <strong>From,</strong><br>
+                        <strong>प्रेषक,</strong><br>
+                        <span style="font-weight: bold;">{{ resignationData.name }}</span><br>
+                        <span style="font-weight: bold;">{{ resignationData.designation }}</span><br>
+                        <span style="font-weight: bold;">{{ resignationData.address }}</span><br>
+                        <!-- <span style="font-weight: bold;">{{ resignationData.name_hi }}</span><br>
+                    <span style="font-weight: bold;">{{ resignationData.designation_hi }}</span><br>
+                    <span style="font-weight: bold;">{{ resignationData.address_hi }}</span> -->
+                    </p>
+
+                    <!-- To -->
+                    <p style="margin: 10px 0;">
+                        <strong>To,</strong><br>
+                        <strong>प्रति,</strong><br>
+                        The HR Department<br>
+                        मानव संसाधन विभाग<br>
+                        Azonix, Padapparamba<br>
+                        एजोनिक्स, पाडप्परम्बा
+                    </p>
+
+                    <!-- Greeting -->
+                    <p style="margin: 8px 0;">
+                        Sir,<br>महोदय,
+                    </p>
+
+                    <!-- English Body -->
+                    <p style="margin: 8px 0;">
+                        Please accept this letter as formal notification that I am leaving my position as
+                        <span style="font-weight: bold;">{{ resignationData.designation }}</span><br>
+                        with Azonix on <span style="font-weight: bold;">{{ resignationData.resigneddate }}</span>.
+                        Reason:
+                        <span style="font-weight: bold;">{{ resignationData.resignreason }}</span>
+                    </p>
+
+                    <!-- Hindi Body -->
+                    <p style="margin: 8px 0;">
+                        कृपया इस पत्र को मेरी औपचारिक सूचना के रूप में स्वीकार करें कि मैं एजोनिक्स में अपने पद से
+                        <span style="font-weight: bold;">{{ resignationData.designation_hi }}</span> को
+                        <span style="font-weight: bold;">{{ resignationData.resigneddate }}</span> इस्तीफा दे रहा/रही
+                        हूं।
+                        कारण:
+                        <span style="font-weight: bold;">{{ resignationData.resignreason_hi }}</span>
+                    </p>
+
+                    <!-- Appreciation English -->
+                    <p style="margin: 8px 0;">
+                        Thank you for the opportunities you have provided to me during my time with the company. I am
+                        more
+                        than grateful to have had the opportunity of working with the team here. If I can be of any
+                        assistance during this transition, please let me know.
+                    </p>
+
+                    <!-- Appreciation Hindi -->
+                    <p style="margin: 8px 0;">
+                        कंपनी में मेरे कार्यकाल के दौरान आपने जो अवसर प्रदान किये, उसके लिए मैं आपका अत्यंत आभारी हूँ।
+                        यहाँ
+                        टीम के साथ काम करना मेरे लिए बहुत अच्छा अनुभव रहा है। इस संक्रमण अवधि में यदि मैं किसी प्रकार की
+                        सहायता कर सकता हूँ, तो कृपया बताएं।
+                    </p>
+
+                    <!-- Red Notice English -->
+                    <p style="color: red; font-size: 10px; margin: 8px 0;">
+                        *Salary and allowances will be released only for the employees who have submitted resignation
+                        notice
+                        within the stipulated time schedule, i.e. 1 month prior to the date of release.
+                    </p>
+
+                    <!-- Red Notice Hindi -->
+                    <p style="color: red; font-size: 10px; margin: 8px 0;">
+                        वेतन और भत्ते केवल उन्हीं कर्मचारियों को जारी किए जाएंगे जिन्होंने नियत समय सीमा के भीतर,
+                        अर्थात्
+                        त्याग पत्र जारी होने की तारीख से 1 माह पहले, अपना इस्तीफा नोटिस प्रस्तुत किया हो।
+                    </p>
+
+                    <!-- Sincerely -->
+                    <div class="justify-content-end d-flex">
+                        <p style="margin: 15px 0;">
+                            Sincerely,<br>
+                            सादर,<br><br>
+                            <span style="font-weight: bold;">{{ resignationData.name }} / {{ resignationData.name_hi
+                                }}</span>
+                        </p>
+                    </div>
+
+                    <!-- Remarks -->
+                    <p style="margin: 10px 0;"><strong>Remarks / टिप्पणी:</strong></p>
+                    <div style="border-bottom: 1px solid black; height: 10px;"></div>
+
+                    <!-- Signatures -->
+                    <table style="width: 100%; text-align: center; margin-top: 5px; font-size: 11px;">
+                        <tr>
+                            <td>________________________<br>Department Manager<br>विभाग प्रबंधक</td>
+                            <td>________________________<br>HR Manager<br>मानव संसाधन प्रबंधक</td>
+                            <td>________________________<br>Managing Director<br>प्रबंध निदेशक</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer" style="margin-top: 10px; padding-top: 10px;">
+                <button class="btn bttn-download" (click)="downloadLetterPdf()">Download as PDF</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal" (click)="reloadCurrentPage()">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+

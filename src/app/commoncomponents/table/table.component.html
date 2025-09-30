@@ -1,0 +1,99 @@
+<p-table [columns]="arrColumns" [value]="arrList" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true"
+    [(first)]="first" [rowsPerPageOptions]="[15,25,50,100]" class="p-table" [scrollable]="true" scrollHeight="530px">
+    <!-- Header -->
+    <ng-template pTemplate="header" let-columns>
+        <tr class="table-heading">
+            <th *ngFor="let col of columns" [ngStyle]="getColumnStyles(col, 'th')" class="table-th">
+                {{ col.strHeader }}
+            </th>
+        </tr>
+    </ng-template>
+
+    <!-- Body -->
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr class="table-content" [ngClass]="{'expiry-warning': rowData.isexpiry === 'Yes'}" data-bs-toggle="tooltip"
+            [attr.title]="rowData.isexpiry === 'Yes' ? 'This employee\'s documents are about to expire!' : ''">
+            <td *ngFor="let col of columns" [ngStyle]="getColumnStyles(col, 'td')" class="table-td">
+                <ng-container *ngIf="col.strKey !== 'strActions'; else actions">
+
+                    <!-- Image rendering logic for 'imageurl' -->
+                    <ng-container *ngIf="col.strKey === 'image'">
+                        <img [src]="rowData[col.strKey]" alt="Image" width="50" height="50"
+                            style="border-radius: 50%; cursor: pointer;" (click)="openImage(rowData[col.strKey])">
+                    </ng-container>
+
+
+                   <!-- Request Status Dropdown -->
+                   <ng-container *ngIf="(col.strKey == 'requestStatus' || col.strKey == 'reqStatus')">
+                    <div class="d-flex justify-content-center">
+                        <select
+                            class="form-select form-select-sm narrow-select"
+                            [ngClass]="{
+                                'status-pendings': rowData.status === 'Pending',
+                                'status-approved': rowData.status === 'Approved',
+                                'status-rejected': rowData.status === 'Rejected'
+                            }"
+                            [(ngModel)]="rowData.status"
+                            (change)="onrequestStatusChange(rowData, $event)"
+                        >
+                            <option value="Pending">Pending</option>
+                            <option value="On Process">On Process</option>
+                            <option value="Closed">Closed</option>
+                            <option value="Payment Received">Payment Received</option>
+
+                        </select>
+                    </div>
+                </ng-container>
+                    
+
+                    <ng-container *ngIf="col.strKey === 'strStatus'">
+                        <div class="form-check form-switch justify-content-center d-flex">
+                            <input class="form-check-input custom-toggle" [checked]="rowData.status === 'Active'"
+                                type="checkbox" role="switch" (change)="toggleTableData(rowData, $event)">
+                            <label class="form-check-label"></label>
+                        </div>
+                    </ng-container>
+                    <ng-container
+                        *ngIf="col.strKey !== 'strActions' && col.strKey !== 'strStatus'  && col.strKey !== 'image' ">
+                        {{rowData[col.strKey]}}
+                    </ng-container>
+                </ng-container>
+                <ng-template #actions>
+
+                    <button class="button" *ngIf="showDownloadButton && rowData.image" (click)="downloadASPDF(rowData.image)">
+                        <i class="bi bi-file-earmark-pdf-fill text-danger"></i>
+                    </button>&nbsp;
+                    
+                    
+
+                    
+                    <button class="button" *ngIf="blnHasSingleview" (click)="singleviewTableData(rowData)">
+                        <i class="bi bi-eye-fill"></i></button>&nbsp;
+                    <ng-container>
+                        <button *ngIf="blnNoEdit && (!hideEditIconForInactive || rowData.status === 'Active')"
+                            class="button" (click)="editTableData(rowData)">
+                            <i class="bi bi-pencil-fill"></i></button>&nbsp;
+                        <button class="button" *ngIf="blnHasProfile" (click)="profileTableData(rowData)">
+                            <i class="bi bi-person-bounding-box">
+                                <!-- Expiry Count Badge -->
+                                <span *ngIf="rowData.expirycount > 0"
+                                    class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                                    {{ rowData.expirycount }}
+                                </span>
+                            </i>
+                        </button>&nbsp;
+
+                        <button *ngIf="blnForDelete && (!hideDeleteIconForActive || rowData.status !== 'Active')"
+                            class="button" (click)="dltTableData(rowData)">
+                            <i class="bi bi-trash-fill"></i>
+                        </button> &nbsp;
+
+
+                    </ng-container>
+                    <button class="button" *ngIf="blnHasDown">
+                        <i class="bi bi-chevron-down"></i></button>
+                </ng-template>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

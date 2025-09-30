@@ -1,0 +1,194 @@
+/* General Table Styling */
+.p-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0; /* No gaps between rows */
+    background-color: #ffffff; /* Clean background */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Ensures rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Header */
+.table-th {
+    padding: 0.8rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    /* color: white; */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    text-align: center;
+    background-color: #fff !important;
+    border-bottom: 2px solid #e6e4e4;
+    text-transform: uppercase; /* Capitalize header text */
+}
+
+/* Body Rows - Striped Effect */
+.table-content:nth-child(odd) {
+    background-color: #f9f9f9; /* Light gray for odd rows */
+}
+
+.table-content:nth-child(even) {
+    background-color: #ffffff; /* White for even rows */
+}
+
+.table-content:hover {
+    background-color: rgba(19, 39, 66, 0.1); /* Hover effect */
+    transition: background-color 0.3s ease;
+}
+
+/* Cells */
+.table-td {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #333333;
+    text-align: center;
+    padding: 0.7rem;
+    border: none;
+    vertical-align: middle;
+}
+
+
+/* Row and Cell Effects */
+td {
+    height: 55px;
+    border: none !important;
+}
+
+tr {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Buttons */
+.button {
+    border: none;
+    background: transparent;
+    color: #555555;
+    font-size: 16px;
+    padding: 0.2rem 0.4rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+    transform: scale(1.1);
+}
+
+/* Checkbox */
+.form-check-input {
+    font-size: 20px;
+    background-color: white;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-check-input:checked {
+    background-color: #132742 !important;
+    border-color: #132742 !important;
+}
+
+/* Paginator - Right Align */
+::ng-deep .p-paginator {
+    justify-content: flex-end !important; /* Right-align paginator */
+    margin-top: 16px;
+}
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+    min-width: 2rem !important;
+    border-radius: 4px;
+    height: 32px;
+    background-color: #e6e4e4;
+    color: #333333;
+    margin: 0 4px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+}
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page:hover {
+    background-color: #132742;
+    color: white;
+}
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background-color: #132742;
+    color: white;
+    font-weight: bold;
+}
+
+/* Responsive Table Wrapper */
+.table-responsive {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.expiry-warning {
+    border: 2px solid red !important; 
+    background-color: #f8d7da !important; 
+}
+
+/* Message box for hovering on expired rows */
+.expiry-message {
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    top: 50px;
+    left: 10px;
+    z-index: 100;
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0.3s, opacity 0.3s;
+}
+
+.expiry-message p {
+    margin: 0;
+}
+
+/* Make the message disappear when not hovered */
+.expiry-message.hidden {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* Tooltip Warning Style */
+.tooltip-warning + .tooltip-inner {
+    background-color: #e74c3c; /* Red background for expiry warning */
+    color: white;
+  }
+  
+  /* Default Tooltip Style */
+  .tooltip-default + .tooltip-inner {
+    background-color: #3498db; /* Blue background for normal tooltips */
+    color: white;
+  }
+
+  /* Custom Red Dot */
+.profile-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: red;
+    border: 2px solid white; /* Optional: adds a border around the dot */
+  }
+  
+  /* Ensure the badge stays in the top-right corner of the icon */
+.bi-person-bounding-box {
+    position: relative;
+}
+
+.badge {
+    font-size: 0.48rem;  /* Optional, to make the badge smaller */
+}
+
+  

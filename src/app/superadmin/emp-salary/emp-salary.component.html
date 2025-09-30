@@ -1,0 +1,391 @@
+<div class="main" id="main">
+
+  <div class="row  first-row">
+    <!-- breadcrumbs -->
+    <div class="breadcrumb">
+      <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
+      <a routerLink="/super-admin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp; <i
+        class="bi bi-chevron-right"></i> &nbsp;
+      <a routerLink="/super-admin/emp-salary" class="breadcrumb-item">Employee Salary</a>
+    </div>
+
+    <!-- breadcrumbs -->
+
+
+
+    <div class="row">
+      <div class="mb-3 filter-body">
+        <form action="" [formGroup]="filterform">
+          <div class="row mt-3 gx-2 align-items-end">
+
+            <!-- Role -->
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+              <label class="form-label">Role</label>
+              <select class="form-select" formControlName="Role">
+                <option value="" disabled selected>Select Role</option>
+                                <option value="All">All</option>
+
+                <option value="Staff">Staff</option>
+                <option value="Office Staff">Office Staff</option>
+              </select>
+            </div>
+
+            <!-- Department -->
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+              <label class="form-label">Department</label>
+              <select class="form-select" (change)="selected_Deparment($event,'add')" formControlName="Department">
+                <option value="" disabled selected>Select Department</option>
+                <option [value]="item.id" *ngFor="let item of Department_ArrayList">
+                  {{ item.departmentname }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Salary Date -->
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+              <label class="form-label">Salary Date</label>
+              <select class="form-select" id="salaryDate" formControlName="salaryDate">
+                <option value="" disabled selected>Select Salary Date</option>
+                <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+              </select>
+            </div>
+
+            <!-- Total Working Days -->
+            <!-- <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+              <label class="form-label">Tot. Working Days</label>
+              <input type="text" class="form-control" formControlName="TotWorkingDays" placeholder="e.g. 28 or 31">
+            </div> -->
+
+            <!-- Month & Year -->
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+              <label class="form-label">Month & Year</label>
+              <input type="month" class="form-control" formControlName="Month">
+            </div>
+
+            <!-- Filter Button (not full width) -->
+            <div class="col-lg-1 col-md-4 col-sm-6 mb-3 d-flex align-items-end justify-content-start">
+              <div class="search">
+                <label class="form-label d-none d-md-block">&nbsp;</label>
+                <button class="filter-search1" (click)="DeptFilterFn()">
+                  <i class="bi bi-funnel-fill"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-4 col-sm-12 mb-3">
+              <label for="Search" class="form-label">Search by Employee ID</label>
+              <input type="text" class="form-control" id="Date" formControlName="searchID"
+                placeholder="Enter Employee ID">
+            </div>
+
+            <!-- Salary Date -->
+            <!-- <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+              <label class="form-label">Salary Date</label>
+              <select class="form-select" formControlName="searchSalaryDate">
+                <option value="" disabled selected>Select Date</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+              </select>
+            </div> -->
+
+            <!-- Total Working Days -->
+            <!-- <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+              <label class="form-label">Tot. Working Days</label>
+              <input type="text" class="form-control" formControlName="searchWorkingDays" placeholder="e.g. 28 or 31">
+            </div> -->
+            <div class="col-md-2 col-sm-6 d-flex">
+              <button class="filter-search" (click)="searchFn()"><i class="bi bi-search"></i></button>
+            </div>
+
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 col-sm-12 mb-3">
+              <div class="payment-options">
+                <label for="Search" class="form-label">Payment Type</label><br>
+
+                <label for="fullPayment" class="radio-label">
+                  <input type="radio" formControlName="paymentType" value="Full" id="fullPayment" />
+                  Full
+                </label>
+                <label for="partialPayment" class="radio-label">
+                  <input type="radio" formControlName="paymentType" value="Partial" id="partialPayment" />
+                  Partial
+                </label>
+              </div>
+
+              <!-- Paid Amount Input (shown only if Partial Payment is selected) -->
+              <div class="form-group" *ngIf="filterform.get('paymentType')?.value === 'Partial'">
+                <input type="number" id="paidAmount" formControlName="paidAmount" placeholder="Enter paid amount"
+                  class="form-control" />
+              </div>
+            </div>
+
+            <!-- Right aligned payout button -->
+            <div class="col-md-8 col-sm-12 d-flex justify-content-end align-items-end mb-3">
+              <button class="bttn" (click)="payout()">Payout</button>
+            </div>
+          </div>
+
+
+
+        </form>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="box ">
+    <!-- filtered table -->
+
+    <div class="table-container" #checkboxTable class="table-container">
+      <div class="table-scrollable table-responsive">
+        <table class="table table-striped table-custom-spacing">
+          <thead class="sticky-header">
+            <tr class="text-center">
+              <!-- Fixed columns (first 6) -->
+
+              <th class="fixed-col" scope="col">
+                <input type="checkbox" [(ngModel)]="selectAll" (change)="onSelectAllChange($event)"
+                  class="form-check-input table-check"> Select
+              </th>
+
+              <th class="fixed-col" scope="col">SlNo</th>
+              <th class="fixed-col" scope="col">Month</th>
+              <th class="fixed-col" scope="col">Emp ID</th>
+              <th class="fixed-col last-fixed-col" scope="col">Name</th>
+
+              <!-- <th scope="col">Role</th>
+              <th scope="col">Salary Type</th> -->
+
+              <th scope="col">Company</th>
+              <th scope="col">Department</th>
+              <th scope="col">Basic Salary</th>
+              <th scope="col">Working Days</th>
+              <th scope="col">Total Working Hours</th>
+
+
+              <th scope="col">Basic + da</th>
+              <th scope="col">DA</th>
+              <th scope="col">HRA</th>
+
+              <th scope="col">TA</th>
+              <th scope="col">Hour Rate</th>
+              <th scope="col">Tot ot</th>
+
+              <th scope="col">Ot Earnings</th>
+
+              <th scope="col">Food Allowance</th>
+              <th scope="col">Extra Allowance</th>
+              <th scope="col">Tot. Earnings</th>
+
+              <th scope="col">Adv. Amount</th>
+              <th scope="col">EMI</th>
+
+
+              <th scope="col">PF</th>
+              <th scope="col">ESI</th>
+              <th scope="col">Total Deduction</th>
+              <th scope="col">Salary</th>
+
+              <th scope="col">Paid Salary</th>
+              <th scope="col">Old Balance</th>
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of paginatedPaymentList; let i = index" class="text-center">
+
+
+              <td class="fixed-col text-center">
+                <div class="form-check">
+                  <input class="form-check-input table-check" type="checkbox"
+                    (change)="onCheckboxChange(item.employeeid, $event, item)" [disabled]="item.Ispaid === 'Yes'"
+                    [checked]="item.Ispaid === 'Yes' || item.checked" />
+
+                </div>
+              </td>
+
+
+              <!-- </td> -->
+              <td class="fixed-col text-center">{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
+              <td class="fixed-col">{{ item.month }}</td>
+              <td class="fixed-col">{{ item.employeeid }}</td>
+              <td class="fixed-col last-fixed-col">{{ item.name }}</td>
+
+              <!-- <td>{{ item.role }}</td>
+              <td>{{ item.salarytype }}</td> -->
+
+              <td>{{ item.unit }}</td>
+              <td>{{ item.department }}</td>
+              <td>{{ item.basicsalary }}</td>
+              <td>{{ item.workingdays }}</td>
+              <td>{{ item.total_hours }}</td>
+
+
+              <td>{{ item.basicda }}</td>
+              <td>{{ item.da }}</td>
+              <td>{{ item.hra }}</td>
+
+              <td>{{ item.ta }}</td>
+              <td>{{ item.hourlyrate }}</td>
+              <td>{{ item.total_ot }}</td>
+
+              <td>{{ item.ot_earnings }}</td>
+
+              <td>{{ item.foodallowance }}</td>
+              <td>{{ item.extraallowance }}</td>
+              <td>{{ item.total_earnings }}</td>
+
+              <td>{{ item.advancesalaryamount }}</td>
+              <td>{{ item.emi }}</td>
+              <td>{{ item.pf }}</td>
+              <td>{{ item.esi }}</td>
+
+              <td>{{ item.totaldeduction }}</td>
+              <td>{{ item.salary }}</td>
+              <td>{{ item.paidsalary }}</td>
+              <td>{{ item.oldbalance }}</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+
+    <div style="text-align: right;">
+      <p-paginator [rows]="itemsPerPage" [totalRecords]="salaryList.length" [rowsPerPageOptions]="itemsPerPageOptions"
+        (onPageChange)="onPageChange($event)" [dropdownAppendTo]="'body'"></p-paginator>
+    </div>
+
+
+  </div>
+
+</div>
+
+
+
+<p-dialog header="Employee Deduction Details" [(visible)]="showDeductionDialog" [modal]="true" [style]="{width: '50vw'}"
+  styleClass="normal-font">
+
+  <form [formGroup]="deductionForm" class="bootstrap-form">
+
+    <!-- Salary Withheld Section -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <h5 class="mb-3 mt-1">Salary Withheld</h5>
+        <div class="form-check mb-2">
+          <input type="checkbox" class="form-check-input" id="withheldCheckbox" formControlName="isSalaryWithheld"
+            (change)="onSalaryWithheldToggle()" />
+          <label class="form-check-label" for="withheldCheckbox">Withhold Salary</label>
+        </div>
+
+        <!-- Conditionally show input field -->
+        <div *ngIf="deductionForm.get('isSalaryWithheld')?.value">
+          <label for="withheldDays" class="form-label">No. of Days</label>
+          <input type="number" class="form-control" id="withheldDays" formControlName="withheldDays" min="0" />
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- LOP Section -->
+    <!-- <div class="row mb-3">
+      <div class="col-md-12">
+        <h5 class="mb-3 mt-1">Loss of Pay (LOP)</h5>
+        <div class="row">
+          <div class="col-md-4">
+            <label for="lopDays" class="form-label">No. of Days</label>
+            <input type="number" class="form-control" id="lopDays" formControlName="lopDays" min="0">
+          </div>
+          <div class="col-md-4">
+            <label for="amountPerDay" class="form-label">Amount per Day</label>
+            <input type="number" class="form-control" id="amountPerDay" formControlName="amountPerDay" min="0" readonly>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Total LOP Amount</label>
+            <div class="form-control-plaintext">
+              {{ (deductionForm.get('lopDays')?.value || 0) * (deductionForm.get('amountPerDay')?.value || 0) |
+              currency:'INR'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Fine Section -->
+    <!-- <div class="row mb-3">
+      <div class="col-md-12">
+        <h5 class="mb-3 mt-1">Fines</h5>
+        <div formArrayName="fines">
+          <div *ngFor="let fine of fines.controls; let i = index" [formGroupName]="i"
+            class="fine-row mb-2 p-2 border rounded">
+            <div class="row">
+              <div class="col-md-4">
+                <label [for]="'reason'+i" class="form-label">Reason</label>
+                <input type="text" class="form-control" [id]="'reason'+i" formControlName="reason"
+                  placeholder="Enter reason">
+              </div>
+              <div class="col-md-3">
+                <label [for]="'date'+i" class="form-label">Date</label>
+                <input type="date" class="form-control" [id]="'date'+i" formControlName="date">
+              </div>
+              <div class="col-md-3">
+                <label [for]="'amount'+i" class="form-label">Amount</label>
+                <input type="number" class="form-control" [id]="'amount'+i" formControlName="amount" min="0">
+              </div>
+              <div class="col-md-2 d-flex align-items-end">
+                <button type="button" class="btn btn-danger btn-sm" (click)="removeFine(i)" *ngIf="i > 0">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm mt-2" (click)="addFine()">
+          <i class="bi bi-plus"></i> Add Fine
+        </button>
+      </div>
+    </div> -->
+
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <h5 class="mb-3 mt-1">Incentive</h5>
+        <label for="incentive" class="form-label">Amount</label>
+        <input type="number" class="form-control" id="incentive" formControlName="incentive" min="0"
+          placeholder="Enter incentive amount">
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-secondary" (click)="cancelDeduction()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="saveDeduction()">Save</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</p-dialog>
+
+
+
+
+<div *ngIf="Loader" class="spinner-container">
+  <div class="spinner"></div>
+</div>

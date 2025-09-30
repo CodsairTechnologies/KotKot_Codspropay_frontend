@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Galdeano&display=swap');
+
+
+
+/* Add this CSS to your styles */
+.container-fluid {
+    background-image: url('/assets/images/bg.png'); /* Replace with your image path */
+    background-size: cover; /* Ensures the image covers the entire background */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center; /* Centers the image */
+    min-height: 100vh; /* Ensures the body covers the viewport height */
+    margin: 0; /* Removes default margin */
+}
+
+
+
+.main-row {
+    min-height: 100vh;
+    /* Set minimum height to 100% of the viewport height */
+}
+
+.card {
+    background-color: rgba(0, 0, 0, 0.3); /* Black background with 60% opacity */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight black shadow */
+    width: 100%;
+    max-width: 483px;
+    height: 500px;
+    margin: auto;
+    border-radius: 5px;
+    border: none;
+    color: #fff; /* Optional: Ensure text inside the card is visible on a dark background */
+}
+
+
+.form-controls label {
+    z-index: 1;
+    position: absolute;
+    margin-top: -8px;
+    margin-left: 19px;
+    background-color: white;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.form-control {
+    font-size: 16px;
+    font-style: normal;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    background-color: #f5f4f4;
+    height: 47px;
+    /* border: none; */
+}
+
+
+.form-control::placeholder {
+    color: #c8c3c3; /* Change to desired color */
+}
+
+.form-check-label {
+    color: #c8c3c3;;
+    font-size: 14px;
+    font-style: normal;
+    margin-top: 0;
+    text-align: left;
+    font-family: "Poppins",sans-serif;
+    font-weight: 400;
+}
+
+.forgot-password a {
+    font-family: "Poppins", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-decoration: none;
+    color: black;
+    justify-content: flex-end;
+    display: flex;
+}
+
+
+.btn {
+
+    height: 49px;
+    min-width: 375px;
+    width: 100%;
+    max-width: 100%;
+    font-size: 18px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    color: #fff;
+    border: none;
+    background-color: rgb(7, 103, 141);
+}
+
+.btn:hover {
+    background-color: rgb(42, 103, 127);
+    color: #fff;
+
+}
+
+.heading {
+    color: #fff;
+    font-size: 33px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.small-heading {
+    color: #b6b5b5;
+    font-size: 14px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+
+.password-input-container {
+    position: relative;
+}
+
+.toggle-password-btn {
+    position: absolute;
+    right: 25px;
+    /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.form-check2 {
+    margin-left: 4rem;
+}
+
+.logo-img {
+    width: 40%;
+}
+
+.bi {
+    color:#c2bdbd ;
+}
+
+
+
+/* Loader styles */
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: for overlay effect */
+    z-index: 9999;
+}
+
+.spinner {
+    border: 8px solid #132742;
+    border-top: 8px solid #fff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+.error-msg{
+    color: red;
+    font-size: 12px;
+    margin-left: 2px;
+    margin-top: 5px;
+  }
+
+/* Red border for invalid input */
+.is-invalid {
+    border-color: #dc3545 !important;
+  }
+  
+  /* Optional: Add a hover effect */
+  .is-invalid:hover {
+    border-color: #ff6666 !important;
+  }
+  
+
+/* Media query for mobile devices */
+@media only screen and (max-width: 767px) {
+    .form-control {
+        min-width: 100%;
+        max-width: none;
+    }
+
+    .btn {
+        min-width: 100%;
+        width: auto;
+        max-width: none;
+    }
+
+    .card {
+        max-width: none;
+    }
+}
+
+
+
+/* Media query for tablet screens */
+@media only screen and (max-width: 992px) {
+    .main-row {
+        /* padding-top: 50px; */
+        flex-direction: column-reverse;
+    }
+    .main-form{
+        padding-bottom: 50px;
+    }
+
+    .card {
+        max-width: 100%;
+    }
+
+    .image-col {
+        display: none;
+    }
+
+    .col-lg-6.col-md-6 {
+        width: 100%;
+    }
+
+    .form-control {
+        min-width: auto;
+    }
+
+
+
+}

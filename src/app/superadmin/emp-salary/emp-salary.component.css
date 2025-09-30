@@ -1,0 +1,872 @@
+/* breadcrums start */
+
+.breadcrumb {
+  list-style: none;
+  padding: 10px;
+  margin-left: 40px;
+}
+
+.breadcrumbs {
+  position: relative;
+  display: inline-block;
+}
+
+.breadcrumbs:not(:last-child)::after {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 10px;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"%3E%3Cpath fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"%3E%3C/path%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-left: 5px;
+}
+
+.bi-house-door-fill {
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  font-style: normal;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+
+
+.home-icon {
+  margin-right: 5px;
+}
+
+.arrow-icon {
+  margin: 0 5px;
+}
+
+.bi-chevron-right {
+
+  max-width: 25px;
+  font-size: 13px;
+  margin-top: 5px;
+
+}
+
+.bi-chevron-right::before {
+  font-weight: bolder !important;
+}
+
+
+/* breadcrums end */
+
+
+
+/* filter */
+
+
+
+.box {
+  border: 0.5px solid #b0b0b0;
+  height: auto;
+  margin: 34px 50px 8px 44px;
+  padding: 30px 10px 30px 10px;
+}
+
+
+.bttn {
+  background-color: #132742;
+  color: #fff;
+  width: 100px;
+  height: 42px;
+  font-size: 18px;
+  font-style: normal;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  border: none;
+  margin-top: 10px;
+  margin-left: 20px;
+  border-radius: 5px 5px 5px 5px;
+  border: none;
+  margin-top: 49px;
+
+}
+
+
+.bttn:hover {
+  background-color: #3e5472;
+}
+
+
+/* .payout-btn .bttn{
+    margin-top: 49px;
+  }
+   */
+.filter-body {
+  border: 0.1px solid #c8c7c7;
+
+  width: 91%;
+  margin: 34px 50px 40px 50px;
+  padding: 0px 40px 30px 40px;
+  background-color: #f8f7f7;
+  height: auto;
+  border-radius: 10px;
+}
+
+.filter-search {
+  background-color: #132742;
+  border: none;
+  width: 55px;
+  height: 42px;
+  border-radius: 6px;
+  color: #fff;
+  margin-top: 34px;
+  margin-left: -5px;
+
+}
+
+.filter-search1 {
+  background-color: #132742;
+  border: none;
+  width: 55px;
+  height: 42px;
+  border-radius: 6px;
+  color: #fff;
+  margin-top: 50px;
+  /* margin-left: 10px; */
+
+}
+
+
+@media (max-width: 768px) {
+
+  .filter-search,
+  .filter-search1 {
+    margin-top: 0;
+  }
+
+  .payout-btn .bttn {
+    margin-top: 0;
+    margin-right: 20px;
+  }
+}
+
+.form-check-label {
+  font-size: 14px;
+    font-style: normal;
+  font-family: "Poppins", sans-serif;
+}
+
+.form-select {
+  height: 46px;
+  width: 100%;
+  font-size: 13px;
+}
+
+
+.form-select option {
+  color: #000;
+}
+
+.form-select:focus {
+  color: #000;
+}
+
+.form-select option[value=""][disabled] {
+  display: none;
+}
+
+.form-select option[value=""] {
+  color: #d4d3d3;
+}
+
+.form-control {
+  height: 46px;
+  width: 100%;
+}
+
+.form-control::placeholder {
+  font-size: 13px;
+  color: #d4d3d3;
+
+}
+
+.filter-body .form-label {
+  font-weight: 500;
+}
+
+.form-label {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.vertical-line-border {
+  border-left: 0.1px solid #c8c7c7;
+  height: 300px;
+  margin-left: 40px;
+}
+
+
+.search .form-control {
+  height: 46px;
+  width: 100%;
+  /* margin-left: 20px; */
+}
+
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: 0;
+  /* No gaps between rows */
+  background-color: #ffffff;
+  /* Clean background */
+  border-radius: 8px;
+  /* Rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+
+  border-top: none !important;
+
+}
+
+.sticky-header th+th {
+  border-left: none;
+  /* No border between cells */
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #343a40;
+  color: black;
+  padding: 0.8rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  text-transform: uppercase;
+  border-top: none !important;
+}
+
+
+/* Cells */
+.table td {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: #333333;
+  text-align: center;
+  padding: 0.7rem;
+  border: none;
+  vertical-align: middle;
+  /* white-space: nowrap;  */
+
+}
+
+/* Cells */
+.table th {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+
+
+}
+
+
+
+.table-scrollable {
+  max-height: 535px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.table-custom-spacing {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+
+
+
+td {
+  height: 55px;
+  border: none !important;
+}
+
+tr {
+  transition: all 0.3s ease-in-out;
+}
+
+
+.table-responsive {
+  overflow-x: auto;
+  /* Enables horizontal scrolling */
+  width: 100%;
+  /* Ensures it takes the full width of the parent */
+}
+
+.sticky-header th {
+  border: none !important;
+}
+
+/* Fixed columns (first 6) */
+.fixed-col {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  border-right: 1px solid #dee2e6;
+  border: none !important;
+  /* Optional: Add a border to differentiate */
+}
+
+.fixed-col:nth-child(1) {
+  /* Select */
+  width: 100px;
+  left: 0;
+}
+
+.fixed-col:nth-child(2) {
+  /* SlNo */
+  width: 60px;
+  left: 100px;
+}
+
+.fixed-col:nth-child(3) {
+  /* Month */
+  width: 100px;
+  left: 160px;
+}
+
+.fixed-col:nth-child(4) {
+  /* Emp ID */
+  width: 80px;
+  left: 260px;
+}
+
+.fixed-col:nth-child(5) {
+  /* Name */
+  width: 180px;
+  left: 340px;
+}
+
+@media (max-width: 768px) {
+  .fixed-col {
+    width: auto;
+    /* Adjust as needed */
+  }
+
+  .table-custom-spacing {
+    font-size: 8px;
+    /* Adjust font size for smaller screens if necessary */
+  }
+}
+
+
+
+
+.table td:nth-child(6),
+.table th:nth-child(6) {
+  width: 150px;
+}
+
+
+/* Department */
+.table td:nth-child(7),
+.table th:nth-child(7) {
+  width: 150px;
+}
+
+/* Basic Salary */
+.table td:nth-child(8),
+.table th:nth-child(8) {
+  width: 120px;
+}
+
+/* Working Days */
+.table td:nth-child(9),
+.table th:nth-child(9) {
+  width: 100px;
+}
+
+/* Total OT */
+.table td:nth-child(10),
+.table th:nth-child(10) {
+  width: 100px;
+}
+
+/* Basic + DA */
+.table td:nth-child(11),
+.table th:nth-child(11) {
+  width: 130px;
+}
+
+/* DA */
+.table td:nth-child(12),
+.table th:nth-child(12) {
+  width: 130px;
+}
+
+/* HRA */
+.table td:nth-child(13),
+.table th:nth-child(13) {
+  width: 120px;
+}
+
+/* TA */
+.table td:nth-child(14),
+.table th:nth-child(14) {
+  width: 100px;
+}
+
+/* OT Earnings */
+.table td:nth-child(15),
+.table th:nth-child(15) {
+  width: 140px;
+}
+
+/* Incentives */
+.table td:nth-child(16),
+.table th:nth-child(16) {
+  width: 140px;
+}
+
+/* Mould */
+.table td:nth-child(17),
+.table th:nth-child(17) {
+  width: 100px;
+}
+
+/* Night Allowance */
+.table td:nth-child(18),
+.table th:nth-child(18) {
+  width: 140px;
+}
+
+/* Performance Incentives */
+.table td:nth-child(19),
+.table th:nth-child(19) {
+  width: 180px;
+}
+
+/* Other Incentives */
+.table td:nth-child(20),
+.table th:nth-child(20) {
+  width: 150px;
+}
+
+/* Total Earnings */
+.table td:nth-child(21),
+.table th:nth-child(21) {
+  width: 160px;
+}
+
+/* Advances */
+.table td:nth-child(22),
+.table th:nth-child(22) {
+  width: 150px;
+}
+
+/* EMI */
+.table td:nth-child(23),
+.table th:nth-child(23) {
+  width: 100px;
+}
+
+/* PF */
+.table td:nth-child(24),
+.table th:nth-child(24) {
+  width: 100px;
+}
+
+/* ESI */
+.table td:nth-child(25),
+.table th:nth-child(25) {
+  width: 100px;
+}
+
+/* Salary */
+.table td:nth-child(26),
+.table th:nth-child(26) {
+  width: 150px;
+}
+
+.table td:nth-child(27),
+.table th:nth-child(27) {
+  width: 150px;
+}
+
+.table td:nth-child(28),
+.table th:nth-child(28) {
+  width: 150px;
+}
+
+.table td:nth-child(29),
+.table th:nth-child(29) {
+  width: 150px;
+}
+
+.table td:nth-child(30),
+.table th:nth-child(30) {
+  width: 150px;
+}
+
+.table td:nth-child(31),
+.table th:nth-child(31) {
+  width: 150px;
+}
+
+
+
+/* Add a border to the right of the last fixed column */
+.fixed-col.last-fixed-col {
+  border-right: 2px solid #dee2e6;
+  /* Adjust color and width as needed */
+}
+
+/* Ensure that scrollable columns have the correct border settings */
+.table-custom-spacing td:not(.fixed-col),
+.table-custom-spacing th:not(.fixed-col) {
+  border-left: 1px solid #dee2e6;
+  /* Border between fixed and scrollable columns */
+}
+
+
+
+
+
+
+.select {
+  font-size: 15px;
+  font-style: normal;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  width: 36%;
+  margin-left: 23px;
+}
+
+
+@media (max-width: 768px) {
+  .table-custom-spacing {
+    font-size: 8px;
+    /* Adjust font size for smaller screens if necessary */
+  }
+
+  .table-custom-spacing th,
+  .table-custom-spacing td {
+    white-space: nowrap;
+    /* Prevent text wrapping in smaller screens */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+
+
+
+
+
+
+/* paginator css starts*/
+
+/* Paginator - Right Align */
+::ng-deep .p-paginator {
+  justify-content: flex-end !important;
+  /* Right-align paginator */
+  margin-top: 16px;
+}
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+  min-width: 2rem !important;
+  border-radius: 4px;
+  height: 32px;
+  background-color: #e6e4e4;
+  color: #333333;
+  margin: 0 4px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+}
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page:hover {
+  background-color: #132742;
+  color: white;
+}
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background-color: #132742;
+  color: white;
+  font-weight: bold;
+}
+
+/* paginator css ends*/
+
+
+
+/*checkbox */
+
+.form-check-input:checked {
+  background-color: #132742;
+  border-color: #132742;
+}
+
+.form-check-input:checked:focus {
+  border-color: #132742;
+  box-shadow: 0 0 0 0.25rem rgba(85, 151, 111, 0.25);
+}
+
+.form-check-input:checked+.form-check-label::before {
+  background-color: #132742;
+  border-color: #132742;
+}
+
+
+.button-container .button {
+  border: none;
+  background: transparent;
+  color: #555555;
+  font-size: 16px;
+  padding: 0.2rem 0.4rem;
+  transition: all 0.3s ease-in-out;
+}
+
+
+
+/* Loader styles */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Optional: for overlay effect */
+  z-index: 9999;
+}
+
+.spinner {
+  border: 8px solid #132742;
+  border-top: 8px solid #fff;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.modal-content {
+  border-radius: 12px;
+  border: none;
+}
+
+.modal-header {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.modal-footer {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.btn-close {
+  opacity: 0.8;
+}
+
+.btn-close:hover {
+  opacity: 1;
+}
+
+
+
+input.form-control {
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+input.form-control:focus {
+  border-color: #0d6efd;
+  /* Bootstrap Primary */
+  box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+}
+
+
+/* Container for the radio buttons to ensure they are displayed in a row */
+.payment-options {
+  display: flex;
+  align-items: center;
+  /* Align the radio buttons vertically with the labels */
+  gap: 20px;
+  /* Space between the radio buttons */
+}
+
+/* Style for each radio button label */
+.radio-label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  /* Adjust font size to match existing design */
+}
+
+/* Adjust the appearance of the radio buttons */
+.radio-label input[type="radio"] {
+  margin-right: 8px;
+  /* Space between the radio button and text */
+  accent-color: #132742;
+  /* Match the primary color */
+}
+
+
+/* :host ::ng-deep .p-dialog {
+  background: #ffffff !important;
+  border-radius: 8px;
+
+  .p-dialog-header {
+    background: #ffffff !important;
+    padding: 0.75rem 1rem !important;
+    font-weight: 600;
+    border-bottom: none !important;
+  }
+
+  .p-dialog-content {
+    background: #ffffff !important;
+    color: #212529;
+    padding-top: 1rem !important; 
+  }
+
+  .btn-primary {
+    background-color: #2a5a78;
+    border-color: #2a5a78;
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: #1e485e;
+    border-color: #1e485e;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+  }
+
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+  }
+
+  .btn-danger:hover {
+    background-color: #bd2130;
+    border-color: #b21f2d;
+  }
+
+  .form-control:focus {
+    border-color: #2a5a78;
+    box-shadow: 0 0 0 0.2rem rgba(42, 90, 120, 0.25);
+  }
+
+  .fine-row {
+    background-color: #ffffff;
+  }
+
+  h5 {
+    color: #2a5a78;
+    font-weight: 600;
+    margin-top: 1rem;
+  }
+}
+ */
+:host ::ng-deep .p-dialog {
+  background: #ffffff !important;
+  border-radius: 8px;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+  background: #ffffff !important;
+  padding: 0.75rem 1rem !important;
+  font-weight: 600;
+  border-bottom: none !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  background: #ffffff !important;
+  color: #212529;
+  padding-top: 1rem !important;
+}
+
+:host ::ng-deep .p-dialog .btn-primary {
+  background-color: #2a5a78;
+  border-color: #2a5a78;
+  color: #fff;
+}
+
+:host ::ng-deep .p-dialog .btn-primary:hover {
+  background-color: #1e485e;
+  border-color: #1e485e;
+}
+
+:host ::ng-deep .p-dialog .btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: #fff;
+}
+
+:host ::ng-deep .p-dialog .btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+:host ::ng-deep .p-dialog .btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+:host ::ng-deep .p-dialog .btn-danger:hover {
+  background-color: #bd2130;
+  border-color: #b21f2d;
+}
+
+:host ::ng-deep .p-dialog .form-control:focus {
+  border-color: #2a5a78;
+  box-shadow: 0 0 0 0.2rem rgba(42, 90, 120, 0.25);
+}
+
+:host ::ng-deep .p-dialog .fine-row {
+  background-color: #ffffff;
+}
+
+:host ::ng-deep .p-dialog h5 {
+  color: #2a5a78;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+::ng-deep .normal-font {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+}

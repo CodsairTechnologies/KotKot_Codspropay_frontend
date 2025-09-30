@@ -1,0 +1,955 @@
+<div class="main" id="main">
+    <div class="row first-row">
+        <!-- breadcrumbs -->
+        <div class="col">
+            <div class="breadcrumb">
+                <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
+                <a href="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a href="/superadmin/employeelist" class="breadcrumb-item">Employees</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a href="/superadmin/addemployees" class="breadcrumb-item">View Employee</a>
+            </div>
+        </div>
+        <!-- breadcrumbs -->
+    </div>
+
+    <form [formGroup]="EmployeeForm">
+
+
+        <div *ngIf="showFirstForm">
+            <div class="box">
+                <label for="" class="title">Employee details</label>
+
+                <div class="details-box">
+                    <div class="row">
+
+                        <div class="col-4">
+
+                            <!-- Employee Image -->
+
+                            <div class="img-card card ">
+
+                                <div *ngIf="showIconupload">
+                                    <i class="upload bi bi-upload" (click)="selectfile.click()"></i>
+
+                                    <label for="" class="emp-text">Select employee image</label>
+                                </div>
+                                <div>
+                                    <input type="file" style="display: none;" #selectfile>
+                                    <img [src]="imagePreview" class="img-preview" *ngIf="showImageBox">
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-8 custom-break">
+
+                            <div class="row mt-4 ms-2">
+
+                                <div class="col-6 ">
+
+                                    <!--  Name -->
+
+                                    <div class="mb-3 f1">
+                                        <label for="Name" class="form-label">Name</label>
+                                        <input type="text" class="form-control " id="Name" formControlName="Name"
+                                            readonly>
+                                    </div>
+
+                                    <div class="mb-3 f1">
+                                        <label for="kotkotid" class="form-label">KotKot ID </label>
+                                        <input type="text" class="form-control" id="kotkotid" formControlName="kotkotid"
+                                            readonly>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-6">
+
+                                    <!-- Employee ID -->
+
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <label for="employeeid" class="form-label">Employee ID </label>
+                                            <input type="text" class="form-control" id="employeeid"
+                                                formControlName="EmployeeID" readonly>
+
+                                        </div>
+
+
+                                        <div class="col-6 mb-3">
+                                            <label for="employeeid" class="form-label">Role </label>
+                                            <input type="text" class="form-control" id="EmpType"
+                                                formControlName="EmpType" readonly>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- Contact Number -->
+
+                                    <div class="mb-3">
+                                        <label for="contactno" class="form-label">Contact No </label>
+                                        <input type="number" class="form-control" id="contactno"
+                                            formControlName="ContactNo" readonly>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-3">
+
+                            <div class="mb-3 dob">
+                                <!-- Gender -->
+
+                                <label for="Gender" class="form-label">Gender </label>
+
+                                <input type="text" class="form-control" id="Gender" formControlName="Gender" readonly>
+
+                            </div>
+                        </div>
+
+
+                        <!-- Date of Birth -->
+
+                        <div class="col-3">
+                            <div class="mb-3 dob">
+                                <label for="DOB" class="form-label">DOB </label>
+                                <input type="text" class="form-control" id="DOB" formControlName="DOB" readonly>
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- Age -->
+
+
+                        <div class="col-2">
+                            <div class="mb-3 age">
+                                <label for="Age" class="form-label">Age</label>
+                                <input type="text" class="form-control" id="Age" formControlName="Age" readonly>
+                            </div>
+
+
+                        </div>
+
+                        <!-- Email -->
+
+                        <div class="col-4">
+                            <div class="mb-3 email">
+                                <label for="email" class="form-label">
+                                    Email
+                                </label>
+                                <input type="email" class="form-control" id="email" formControlName="Email" readonly />
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <!-- father name -->
+
+                        <div class="col-4">
+                            <div class="mb-3 fname">
+                                <label for="FatherName" class="form-label">Father Name</label>
+                                <input type="text" class="form-control" id="FatherName" readonly
+                                    formControlName="FatherName">
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="mb-3 group">
+
+                                <!-- blood group -->
+
+                                <label for="BloodGroup" class="form-label">Blood Group</label>
+
+                                <input type="text" class="form-control" id="BloodGroup" formControlName="BloodGroup"
+                                    readonly>
+
+                            </div>
+                        </div>
+
+
+                        <!-- qualification -->
+
+                        <div class="col-4">
+                            <div class="mb-3 email">
+                                <label for="Qualification" class="form-label">Qualification</label>
+                                <input type="email" class="form-control" id="Qualification" readonly
+                                    formControlName="Qualification">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mt-3">
+                        <div class="col-12 col-md-4">
+                            <div class="mb-3">
+                                <label for="Location" class="form-label">Country</label>
+
+                                <input type="text" class="form-control" id="country" formControlName="country" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="mb-3">
+                                <label for="State" class="form-label">State</label>
+                                <input type="text" class="form-control" id="state" formControlName="state" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="mb-3">
+                                <label for="Designation" class="form-label">City</label>
+
+                                <input type="text" class="form-control" id="district" formControlName="district"
+                                    readonly>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+
+                        <!-- address -->
+
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea class="form-control" id="address" formControlName="Address"
+                                    readonly></textarea>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-6 selects">
+
+                            <!-- department -->
+
+                            <div class="mb-3">
+
+                                <label for="MaritalStatus" class="form-label">Marital Status</label>
+
+                                <input type="text" class="form-control" id="MaritalStatus"
+                                    formControlName="MaritalStatus" readonly>
+
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="SpouceName" class="form-label">Spouce Name</label>
+                                <input type="text" class="form-control" placeholder="Enter spouse name here"
+                                    formControlName="SpouceName" readonly>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <label for="" class="title">Job details</label>
+
+                <div class="details-box">
+                    <div class="row">
+
+                        <div class="col-6">
+
+                            <!-- marital status -->
+
+                            <div class="mb-3 status">
+                                <label for="Department" class="form-label">Department </label>
+
+                                <input type="text" class="form-control" id="Department" formControlName="Department"
+                                    readonly>
+
+                            </div>
+                        </div>
+
+                        <!-- spouse name -->
+
+                        <div class="col-6">
+
+                            <div class="mb-3 spouse">
+
+                                <label for="Designation" class="form-label ">Designation </label>
+                                <input type="text" class="form-control" id="Designation" formControlName="Designation"
+                                    readonly>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="mb-3 ">
+
+                                <label for="Location" class="form-label">Work Location </label>
+
+                                <input type="text" class="form-control" id="Location" formControlName="Location"
+                                    readonly>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-4">
+
+
+                            <label for="restaurant" class="form-label">Restaurant</label>
+                            <input type="text" class="form-control" id="restaurant" formControlName="restaurant"
+                                readonly>
+
+
+
+                        </div>
+
+                        <div class="col-4">
+
+                            <div class="mb-3">
+                                <label for="ContractDetails" class="form-label">
+                                    Contract Details
+                                </label>
+
+                                <div class="file-upload card position-relative">
+                                    <div class="upload-container d-flex align-items-center">
+                                        <!-- <label for="fileUpload" class="custom-file-upload mb-0">
+                                            Update
+                                            <input type="file" id="fileUpload" accept=".pdf,image/*" />
+                                        </label> -->
+
+                                        <!-- Show existing OR newly selected file name -->
+                                        <span class="file-name-contract">
+                                            {{ contractFileName || 'No file selected' }}
+                                        </span>
+
+                                        <!-- 👁 Eye Icon -->
+                                        <i *ngIf="contractFileUrl" class="bi bi-eye ms-2"
+                                            style="cursor: pointer; font-size: 1.2rem; color: #000;"
+                                            (click)="openFile(baladyFileUrl)"></i>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+
+                    <!-- Row for PF Number, UAN, and IP Number -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="age">
+                                <label for="PFNumber" class="form-label">PF Number</label>
+                                <input type="text" class="form-control" id="PFNumber" formControlName="PFNumber"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class=" age">
+                                <label for="UAN" class="form-label">UAN</label>
+                                <input type="text" class="form-control" id="UAN" formControlName="UAN" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class=" email">
+                                <label for="IPNumber" class="form-label">IP Number</label>
+                                <input type="text" class="form-control" id="IPNumber" formControlName="IPNumber"
+                                    readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3 mb-3">
+                            <div class="mb-3 family">
+                                <label for="JoiningDate" class="form-label">Joining Date </label>
+                                <input type="date" class="form-control" id="BaJoiningDatenkName" readonly
+                                    formControlName="JoiningDate">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="family position-relative">
+                                <label for="salaryDate" class="form-label">Salary Date </label>
+
+                                <input type="text" class="form-control" id="salaryDate" formControlName="salaryDate"
+                                    readonly>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3">
+
+                            <label for="Shift" class="form-label ">Shift </label>
+
+                            <input type="text" class="form-control" id="Shift" formControlName="Shift" readonly>
+
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="family position-relative">
+                                <label for="OT" class="form-label">Is ot? </label>
+
+                                <input type="text" class="form-control" id="OT" formControlName="OT" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  leave -->
+                    <div class="row mb-3">
+                        <!-- Casual Leave -->
+                        <div class="col-md-4 d-flex align-items-center">
+                            <input type="checkbox" id="CasualLeaveCheck" class="form-check-input me-2"
+                                formControlName="CasualLeaveEnabled">
+                            <label for="CasualLeaveCheck" class="form-label mb-0 me-2">Casual Leave</label>
+
+                            <!-- Input only if checkbox ticked -->
+                            <input *ngIf="EmployeeForm.get('CasualLeaveEnabled')?.value" type="number" readonly
+                                class="form-control w-50" id="CasualLeave" formControlName="CasualLeave" min="0">
+                        </div>
+
+                        <!-- Medical Leave -->
+                        <div class="col-md-4 d-flex align-items-center">
+                            <input type="checkbox" id="MedicalLeaveCheck" class="form-check-input me-2"
+                                formControlName="MedicalLeaveEnabled">
+                            <label for="MedicalLeaveCheck" class="form-label mb-0 me-2">Medical Leave</label>
+
+                            <!-- Input only if checkbox ticked -->
+                            <input *ngIf="EmployeeForm.get('MedicalLeaveEnabled')?.value" type="number" readonly
+                                class="form-control w-50" id="MedicalLeave" formControlName="MedicalLeave" min="0">
+                        </div>
+
+                        <!-- Punch In Toggle -->
+                        <div class="col-md-4 d-flex align-items-center">
+                            <label class="form-label me-2 mb-0">Enable Punch</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="punchSwitch"
+                                    formControlName="punchStatus">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="row text-end ">
+
+                    <div class="col ">
+                        <button type="button" class="bttn ms-4" (click)="showNextForm()"> Next</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <!-- second form -->
+
+        <div *ngIf="!showFirstForm" class="nextform">
+
+            <!-- <label for="" class="title">Employee details</label> -->
+            <div class="box">
+
+                <label for="" class="fam-title mb-1">Documents Details</label>
+
+                <!-- <label class="job-title">Documents details</label> -->
+                <div class="details-box">
+
+                    <div class="row">
+                        <div class="col-3">
+
+                            <div class="mb-3 ">
+                                <label for="PassportNumber" class="form-label file-label">Passport No</label>
+                                <input type="text" class="form-control  Passport" readonly
+                                    formControlName="PassportNumber">
+                            </div>
+
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="PassportImage" class="form-label" id="f2">Passport Image</label>
+
+                            <div class="file-upload card" id="f1">
+                                <div class="upload-container d-flex align-items-center">
+                                    <!-- File Upload -->
+                                    <!-- <label for="passportFileUpload" class="custom-file-upload"
+                                        title="Only PDF and image files (JPG, PNG) are allowed.">
+                                        Update
+                                        <input type="file" id="passportFileUpload" accept=".pdf, image/*">
+                                    </label> -->
+
+                                    <!-- File name -->
+                                    <span class="file-name-passport">{{ passportFileName || 'No file selected' }}</span>
+
+                                    <!-- 👁 Eye icon only if file is selected -->
+                                    <i *ngIf="passportFileUrl" class="bi bi-eye ms-2"
+                                        style="cursor: pointer; font-size: 1.2rem;"
+                                        (click)="openFile(baladyFileUrl)"></i>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-3 mb-3">
+                            <div class="mb-3 ">
+                                <label for="PassportNumber" class="form-label file-label">Passport Expiry</label>
+                                <input type="date" class="form-control Passport" readonly
+                                    formControlName="Passportexpiry">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3 mb-3">
+                            <div class="mb-3 ">
+                                <label for="PassportNumber" class="form-label file-label">Balady/Health
+                                    Certificate</label>
+                                <input type="text" class="form-control  Passport" readonly formControlName="Baladyno">
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 mb-3">
+                            <label for="BaladyImage" class="form-label" id="f2">Balady Image</label>
+                            <div class="file-upload card" id="f1">
+                                <div class="upload-container d-flex align-items-center">
+
+                                    <!-- File Upload -->
+                                    <!-- <label for="baladyFileUpload" class="custom-file-upload"
+                                        title="Only PDF and image files (JPG, PNG) are allowed.">
+                                        Update
+                                        <input type="file" id="baladyFileUpload" accept=".pdf, image/*">
+                                    </label> -->
+
+                                    <!-- File name -->
+                                    <span class="file-name-balady">{{ baladyFileName || 'No file selected' }}</span>
+
+                                    <!-- 👁 Eye icon only if file is selected -->
+                                    <i *ngIf="baladyFileUrl" class="bi bi-eye ms-2"
+                                        style="cursor: pointer; font-size: 1.2rem;"
+                                        (click)="openFile(baladyFileUrl)"></i>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-3 mb-3">
+                            <div class="mb-3 ">
+                                <label for="BaladyExpiry" class="form-label file-label">Balady Expiry</label>
+                                <input type="date" class="form-control Passport" formControlName="BaladyExpiry"
+                                    readonly>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3 mb-3">
+
+                            <div class="mb-3 ">
+                                <label for="IkkamaNo" class="form-label file-label">Ikkama No</label>
+                                <input type="text" class="form-control  Passport" formControlName="IkkamaNo" readonly>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-6 mb-3">
+                            <label for="IkkamaImage" class="form-label" id="f2">Ikkama Image</label>
+
+                            <div class="file-upload card" id="f1">
+                                <div class="upload-container d-flex align-items-center">
+
+                                    <!-- Left side: Update button + File name -->
+                                    <div class="d-flex align-items-center">
+
+
+                                        <span class="file-name-ikkama">{{ ikkamaFileName || 'No file selected' }}</span>
+                                    </div>
+
+                                    <!-- Right side: 👁 Eye icon -->
+                                    <i *ngIf="ikkamaFileUrl" class="bi bi-eye ms-auto"
+                                        style="cursor: pointer; font-size: 1.2rem;"
+                                        (click)="openFile(baladyFileUrl)"></i>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-3 mb-3">
+
+                            <div class="mb-3 ">
+                                <label for="IkkamaExpiry" class="form-label file-label">Ikkama Expiry</label>
+                                <input type="date" class="form-control Passport" readonly
+                                    formControlName="IkkamaExpiry">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+
+                        <div class="col-6">
+                            <div class="mb-3 adhaarno">
+                                <label for="validid" class="form-label health-label">Other valid id if any</label>
+                                <input type="text" class="form-control" readonly formControlName="validid">
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="mb-3 health">
+                                <label for="DIssueExp" class="form-label">ID No / Date of issue and expiry</label>
+                                <input type="text" class="form-control" readonly formControlName="DIssueExp">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                <!-- salary details -->
+
+                <label for="" class="fam-title mb-1">Salary Details</label>
+
+                <!-- Radio Buttons for Salary Type -->
+                <div class="mb-3 custom-radio-container d-flex align-items-center">
+                    <!-- Monthly Salary -->
+                    <div *ngIf="EmployeeForm.get('salaryType')?.value === 'monthly'"
+                        class="form-check custom-radio me-4">
+                        <input class="form-check-input" type="radio" id="MonthlySalary" value="monthly" checked
+                            disabled>
+                        <label class="form-check-label" for="MonthlySalary">Monthly Salary</label>
+                    </div>
+
+                    <!-- Daily Wages -->
+                    <div *ngIf="EmployeeForm.get('salaryType')?.value === 'daily'" class="form-check custom-radio">
+                        <input class="form-check-input" type="radio" id="DailyWages" value="daily" checked disabled>
+                        <label class="form-check-label" for="DailyWages">Daily Wages</label>
+                    </div>
+                </div>
+
+
+
+                <!-- Monthly Salary Fields -->
+                <div *ngIf="isMonthlySalary" class="details-box">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="bs">
+                                <label for="BasicSalary" class="form-label">Basic Salary </label>
+                                <input type="text" class="form-control" id="BasicSalary" readonly
+                                    formControlName="BasicSalary">
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pfpercentage">
+                                <div class="d-flex align-items-center">
+                                    <label for="PFCheckbox" class="form-check-label me-3">PF</label>
+                                    <div class="form-check me-3 custom-checkbox">
+                                        <input class="form-check-input" type="checkbox" id="PFCheckbox"
+                                            formControlName="PFCheckbox">
+                                    </div>
+                                    <input type="text" class="form-control readonly-input" id="PFpercentage" readonly
+                                        formControlName="PFpercentage" [attr.disabled]="isMonthlySalary ? null : true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pfpercentage">
+                                <div class="d-flex align-items-center">
+                                    <label for="ESICheckbox" class="form-check-label me-3">ESI</label>
+                                    <div class="form-check me-3 custom-checkbox">
+                                        <input class="form-check-input" type="checkbox" id="ESICheckbox"
+                                            formControlName="ESICheckbox">
+                                    </div>
+                                    <input type="number" class="form-control" id="ESIpercentage" readonly
+                                        formControlName="ESIpercentage"
+                                        [readonly]="!EmployeeForm.get('ESICheckbox')?.value" min="0" max="100">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Additional fields for Monthly Salary -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class=" ta">
+                                <label for="DA" class="form-label">DA</label>
+                                <input type="text" class="form-control" id="DA" readonly formControlName="DA">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="ta">
+                                <label for="HRA" class="form-label">HRA</label>
+                                <input type="text" class="form-control" id="HRA" readonly formControlName="HRA">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="ta">
+                                <label for="TA" class="form-label">TA</label>
+                                <input type="text" class="form-control" id="TA" readonly formControlName="TA">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="ta">
+                                <label for="FoodAllowance" class="form-label">Food Allowance</label>
+                                <input type="text" class="form-control" id="FoodAllowance" readonly
+                                    formControlName="FoodAllowance">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="ta">
+                                <label for="ExtraAllowance" class="form-label">Extra Allowance</label>
+                                <input type="text" class="form-control" id="ExtraAllowance" readonly
+                                    formControlName="ExtraAllowance">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="ta">
+                                <label for="monthlyworkingdays" class="form-label">Monthly Working Days </label>
+                                <input type="text" class="form-control" id="monthlyworkingdays" readonly
+                                    formControlName="monthlyworkingdays">
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Daily Wages Fields -->
+                <div *ngIf="isDailyWages" class="details-box">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="bs">
+                                <label for="BasicSalaryDaily" class="form-label">Daily Wages </label>
+                                <input type="text" class="form-control" id="BasicSalaryDaily" readonly
+                                    formControlName="BasicSalary">
+                            </div>
+
+                        </div>
+                        <div class="col-md-4 ps-5">
+                            <div class="pfpercentage">
+                                <div class="d-flex align-items-center pf">
+                                    <label for="PFCheckboxDaily" class="form-check-label me-3">PF</label>
+                                    <div class="form-check me-3 custom-checkbox">
+                                        <input class="form-check-input" type="checkbox" id="PFCheckboxDaily"
+                                            formControlName="PFCheckbox">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pfpercentage">
+                                <div class="d-flex align-items-center">
+                                    <label for="ESICheckbox" class="form-check-label me-3">ESI</label>
+                                    <div class="form-check me-3 custom-checkbox">
+                                        <input class="form-check-input" type="checkbox" id="ESICheckbox"
+                                            formControlName="ESICheckbox">
+                                    </div>
+                                    <input type="number" class="form-control" id="ESIpercentage" placeholder="ESI in %"
+                                        formControlName="ESIpercentage"
+                                        [readonly]="!EmployeeForm.get('ESICheckbox')?.value" min="0" max="100">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Additional fields for Daily Wages -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class=" ta">
+                                <label for="DA" class="form-label">DA</label>
+                                <input type="text" class="form-control" id="DA" readonly formControlName="DA">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class=" ta">
+                                <label for="HRA" class="form-label">HRA</label>
+                                <input type="text" class="form-control" id="HRA" readonly formControlName="HRA">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class=" ta">
+                                <label for="TA" class="form-label">TA</label>
+                                <input type="text" class="form-control" id="TA" readonly formControlName="TA">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="ta">
+                                <label for="FoodAllowance" class="form-label">Food Allowance</label>
+                                <input type="text" class="form-control" id="FoodAllowance" readonly
+                                    formControlName="FoodAllowance">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="ta">
+                                <label for="ExtraAllowance" class="form-label">Extra Allowance</label>
+                                <input type="text" class="form-control" id="ExtraAllowance" readonly
+                                    formControlName="ExtraAllowance">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="ta">
+                                <label for="monthlyworkingdays" class="form-label">Monthly Working Days </label>
+                                <input type="text" class="form-control" id="monthlyworkingdays" readonly
+                                    formControlName="monthlyworkingdays">
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+                <!-- bank details -->
+
+                <label for="" class="fam-title mb-1">Bank Details</label>
+                <div class="details-box">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="family">
+                                <label for="BankName" class="form-label">Bank Name</label>
+                                <input type="text" class="form-control" id="BankName" readonly
+                                    formControlName="BankName">
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6">
+                            <div class="family1">
+                                <label for="AccNumber" class="form-label">Account Number</label>
+                                <input type="text" class="form-control" id="AccNumber" readonly
+                                    formControlName="AccNumber">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="family1">
+                                <label for="IFSCcode" class="form-label">IFSC Code</label>
+                                <input type="text" class="form-control" id="IFSCcode" readonly
+                                    formControlName="IFSCcode">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="family1">
+                                <label for="Branch" class="form-label">Branch</label>
+                                <input type="text" class="form-control" id="Branch" readonly formControlName="Branch">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mt-3">
+
+                    <div class="col-4 mb-3">
+
+                        <label for="Type" class="form-label">Type </label>
+
+                        <input type="text" class="form-control" id="Type" formControlName="Type" readonly>
+
+                    </div>
+                    <div class="col-4">
+
+                        <div class="mb-3 dol">
+                            <label for="Username" class="form-label ">Username </label>
+                            <input type="text" class="form-control" readonly formControlName="username">
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-4">
+                        <div class="mb-3 dor position-relative">
+                            <label for="Password" class="form-label">Password </label>
+
+                            <input [type]="showPassword ? 'text' : 'password'" class="form-control pe-5"
+                                placeholder="**************" formControlName="password" readonly />
+
+                            <!-- Eye Icon -->
+                            <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+                                (click)="togglePassword()"
+                                style="position: absolute; top: 70%; right: 10px; transform: translateY(-50%); cursor: pointer;">
+                            </i>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+                <div class="row button-add d-flex justify-content-end mt-3">
+                    <button class="bttn" (click)="goToFirstForm()"> Back</button> &nbsp; &nbsp;
+                    <!-- <button type="submit" class="bttn" (click)="editEmployee()"> close</button> -->
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<div *ngIf="Loader" class="spinner-container">
+    <div class="spinner"></div>
+</div>

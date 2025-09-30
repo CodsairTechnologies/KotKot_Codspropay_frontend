@@ -1,0 +1,758 @@
+/* breadcrums start */
+
+.breadcrumb {
+    list-style: none;
+    padding: 10px;
+    margin-left: 40px;
+}
+
+.breadcrumbs {
+    position: relative;
+    display: inline-block;
+}
+
+.breadcrumbs:not(:last-child)::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 10px;
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"%3E%3Cpath fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"%3E%3C/path%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: 5px;
+}
+
+.bi-house-door-fill {
+    color: rgb(0, 0, 0);
+    font-size: 18px;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+
+
+.home-icon {
+    margin-right: 5px;
+}
+
+.arrow-icon {
+    margin: 0 5px;
+}
+
+.bi-chevron-right {
+
+    font-size: 15px;
+    vertical-align: middle;
+
+}
+
+.bi-chevron-right::before {
+    font-weight: bolder !important;
+    font-size: 15px;
+
+}
+
+
+/* breadcrums end */
+
+
+
+/* filter */
+
+
+.filter-btn {
+    background-color: #e3e3e3;
+    /* Change to desired background color */
+    color: #000;
+    /* Change to desired text color */
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    width: 200px;
+    margin-right: 50px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+
+.filter-btn:focus,
+.filter-btn:hover {
+    background-color: #bcbcbc;
+    /* Change to desired background color on hover/focus */
+    border: none;
+}
+
+
+.filter-body {
+    width: 93%;
+    margin: 34px 50px 8px 55px;
+    padding: 20px;
+    background-color: #fdfdfd;
+    height: 200px;
+    border-radius: 5px;
+    border: 0.1px solid rgb(179, 177, 177);
+}
+
+
+
+.filter-search1{
+    background-color: #132742;
+    border: none;
+    width: 54px;
+    height: 42px;
+    border-radius: 6px;
+    color: #fff;
+    margin-left: 10px;
+    margin-top: 92px;
+  }
+
+/* .form-label {
+    margin-left: 27px;
+    font-weight: bold;
+} */
+
+
+.search .form-control {
+    height: 46px;
+    /* width: 367px; */
+    /* margin-left: 20px; */
+}
+
+.form-control::placeholder {
+    font-size: 13px;
+    color: #d4d3d3;
+
+}
+
+ 
+  
+  .filter-body .form-label{
+    font-weight: 500;
+    }
+  
+  
+    .form-check-label{
+      font-size: 14px;
+    }
+  
+    .filter{
+        margin-top: 55px;
+    }
+.filter .form-select{
+    height: 46px;
+    /* width: 367px; */
+    font-size: 14px;
+
+}
+
+
+
+
+
+/* table */
+
+.box {
+    /* border: 0.5px solid #b0b0b0; */
+    height: auto;
+    margin: 34px 40px 8px 40px;
+    padding: 40px 0; 
+    border-radius: 5px;
+}
+
+
+.button {
+    border: none;
+}
+
+.bi {
+    font-size: 19px;
+}
+
+
+
+/* .button i.bi-chevron-down {
+    font-size: 15px;
+    font-weight: bold !important;
+} */
+
+
+/* button */
+
+.button-group{
+    margin-left: -40px;
+  }
+  
+  .bttn {
+    background-color: #132742;
+    color: #fff;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    max-width: 100px;
+    border: none;
+    height: 42px;
+    border-radius: 5px;
+    margin-top: 15px;
+    width: 100px;
+    }
+
+.bttn:hover {
+    background-color: #3e5472;
+}
+
+.btn-delete {
+
+    background: rgb(234, 70, 70);
+    color: #fff;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    width: 25%;
+    height: 42px;
+    border: none;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+
+}
+
+.close-btn {
+    background-color: #b8b5b5;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    width: 25%;
+    height: 42px;
+    border: none;
+    color: #000;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+
+
+
+.close-btn:hover {
+    background-color: #9c9595;
+}
+
+.btn-delete:hover {
+    background: rgb(206, 39, 39);
+}
+
+/* button end */
+
+
+
+
+
+
+/* modal */
+
+.modal-content {
+    margin-top: 168px;
+}
+
+
+.modal-footer {
+    border-top: none;
+}
+
+
+::ng-deep .p-button-label {
+    color: #fff;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+
+
+.country-add {
+    width: 90%;
+    margin-left: 22px;
+    height: 51px;
+}
+
+.country-label {
+    margin-left: 22px;
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.bi-exclamation-triangle-fill {
+    color: red;
+    font-size: 30px;
+    margin-left: 0px;
+}
+
+.delete-title {
+    text-align: center;
+    margin-left: -13rem;
+    margin-top: 9px;
+    font-size: 18px;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    color: rgb(234, 70, 70);
+}
+
+
+
+.body-row {
+    margin-top: -50px;
+    z-index: 0;
+    position: absolute;
+}
+
+
+::ng-deep .p-dialog .p-dialog-header {
+    border: 1px solid rgb(247, 247, 247);
+    padding: 10px;
+}
+
+.modal-header {
+    border: 1px solid rgb(246, 244, 244);
+    padding: 5px;
+}
+
+.modal-dialog {
+    margin-top: -100px;
+}
+
+.button-model {
+    padding-top: 25px;
+    padding-bottom: 30px;
+}
+
+/* modal */
+
+
+
+
+
+/* General Table Styling */
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 10; 
+  /* background-color: #343a40;  */
+  color: #ffffff;
+}
+
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0; /* No gaps between rows */
+    background-color: #ffffff; /* Clean background */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Ensures rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+  
+  /* Header */
+  .table th {
+    padding: 0.8rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: black;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    text-align: center;
+    border-bottom: 2px solid #e6e4e4;
+    border-top: none;
+    text-transform: uppercase;
+    /* white-space: nowrap;  */
+
+  }
+  
+  .table tbody tr:hover {
+    background-color: rgba(19, 39, 66, 0.1); 
+    transition: background-color 0.3s ease; 
+  }
+  
+  
+  .table-content:hover {
+    background-color: rgba(19, 39, 66, 0.1) !important; /* Hover effect */
+    transition: background-color 0.3s ease;
+  }
+  
+  
+  /* Striped Rows - Add Specificity */
+   .table-content:nth-child(odd) {
+    background-color: #f9f9f9; /* Light gray for odd rows */
+  }
+  
+  .table-content:nth-child(even) {
+    background-color: #ffffff; /* White for even rows */
+  }
+  
+  /* Hover Effect */
+  .table-content:hover {
+    background-color: rgba(19, 39, 66, 0.1); /* Hover effect */
+    transition: background-color 0.3s ease;
+  }
+  
+  
+  /* Cells */
+  .table td {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #333333;
+    text-align: center;
+    padding: 0.7rem;
+    border: none;
+    vertical-align: middle;
+    /* white-space: nowrap;  */
+
+  }
+  
+  /* Row and Cell Effects */
+  td {
+    height: 55px;
+    border: none !important;
+  }
+  
+  tr {
+    transition: all 0.3s ease-in-out;
+  }
+  
+
+  .table-responsive {
+    overflow-x: auto; /* Enables horizontal scrolling */
+    width: 100%; /* Ensures it takes the full width of the parent */
+  }  
+  
+
+  
+/* Main Table Responsiveness */
+.table-container {
+  overflow-x: auto; /* Allows horizontal scrolling on small screens */
+  max-width: 100%;
+}
+
+.table-scrollable {
+  overflow-y: auto; /* Enables vertical scrolling if needed */
+  overflow-x: auto; /* Enables horizontal scrolling if content exceeds the width */
+  max-width: 100%;
+}
+
+.table {
+  table-layout: auto; /* Allows cells to adjust width based on content */
+  width: 100%;
+}
+
+/* Responsive Inner Table */
+.inner-table-container {
+  overflow-x: auto; /* Ensures inner table can scroll horizontally on small screens */
+  max-width: 100%;
+}
+
+.inner-table {
+  table-layout: auto;
+  width: 100%; /* Ensures table takes full width inside the container */
+}
+
+.inner-table th,
+.inner-table td {
+  font-size: 10px; /* Adjusted font size for better display on smaller screens */
+  padding: 4px; /* Reduced padding for compact display */
+  text-align: center;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .table-custom-spacing th,
+  .table-custom-spacing td,
+  .inner-table th,
+  .inner-table td {
+      padding: 8px; /* Further reduce padding on small screens */
+      font-size: 12px; /* Increase font size slightly for readability */
+  }
+  
+  /* Adjust header and button sizes */
+  .sticky-header,
+  .button {
+      font-size: 14px;
+  }
+}
+
+
+  
+  /* Paginator - Right Align */
+  ::ng-deep .p-paginator {
+    justify-content: flex-end !important; /* Right-align paginator */
+    margin-top: 16px;
+  }
+  
+  ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+    min-width: 2rem !important;
+    border-radius: 4px;
+    height: 32px;
+    background-color: #e6e4e4;
+    color: #333333;
+    margin: 0 4px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page:hover {
+    background-color: #132742;
+    color: white;
+  }
+  
+  ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background-color: #132742;
+    color: white;
+    font-weight: bold;
+  }
+
+  
+  /* Add CSS to rotate the chevron icon when expanded */
+.rotated {
+  transform: rotate(180deg);
+}
+.inner-table {
+  width: 100%;
+  
+}
+.inner-table th, .inner-table td {
+  text-align: center;
+}
+
+.nested-table-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #f8f9fa;
+  /* padding: 5px; */
+
+}
+
+.nested-table-container h6 {
+  font-weight: 600;
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.inner-table {
+  width: 100%;
+}
+
+.inner-table th, .inner-table td {
+  text-align: center;
+}
+.seperator{
+  margin-top: 30px;
+}
+
+.table-head{
+  text-decoration: underline;
+}
+
+.bold-field {
+  font-weight: bold;
+}
+
+
+
+/* table */
+
+
+
+
+.form-check-input:checked {
+    background-color: #132742;
+    border-color: #132742;
+  }
+  
+  .form-check-input:checked:focus {
+    border-color: #132742;
+    box-shadow: 0 0 0 0.25rem rgba(238, 162, 81, 0.25);
+  }
+  
+  .form-check-input:checked + .form-check-label::before {
+    background-color: #132742;
+    border-color: #132742;
+  }
+
+
+  
+  /* Loader styles */
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: for overlay effect */
+    z-index: 9999;
+}
+
+.spinner {
+    border: 8px solid #132742; 
+    border-top: 8px solid #fff; 
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+
+
+/*start - searchable dropdown */
+
+
+.searchable-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-input {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.dropdown-input input {
+  width: 100%;
+  height: 46px;
+  padding: 8px;
+  box-sizing: border-box;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.dropdown-icon {
+  position: absolute;
+  right: 30px;
+  cursor: pointer;
+}
+
+.close-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.searchable-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  z-index: 1;
+}
+
+.searchable-dropdown li {
+  padding: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.searchable-dropdown li:hover {
+  background-color: #f0f0f0;
+}
+
+.no-data-message {
+  padding: 8px;
+  font-size: 13px;
+  color: #888;
+}
+
+
+/*end - searchable dropdown */
+
+
+
+
+.form-label{
+  /* margin-left: 22px; */
+  font-weight: 500;
+}
+
+.form-select{
+/* 
+  margin-left: 22px;
+  width: 90%; */
+  height: 46px;
+  margin-bottom: 1rem;
+  font-size: 14px;
+
+
+}
+
+.required {
+color: red;
+}
+.form-control{
+
+/* margin-left: 22px;
+width: 90%; */
+height: 46px;
+margin-bottom: 1rem;
+font-size: 14px;
+
+
+}
+
+
+.upload-bttn{
+  background-color: #132742;
+  color: #fff;
+  width: 120px;
+  height: 42px;
+  font-size: 18px;
+  font-style: normal;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.upload-bttn:hover {
+  background: #294468;
+}
+
+
+
+.error-msg {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
