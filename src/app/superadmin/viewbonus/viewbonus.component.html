@@ -4,9 +4,11 @@
         <div class="col-md-10 col-12">
             <div class="breadcrumb">
                 <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
-                <a href="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp; <i
-                    class="bi bi-chevron-right"></i> &nbsp;
-                <a href="" class="breadcrumb-item">View Details</a>
+                <a href="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp;
+                <i class="bi bi-chevron-right"></i> &nbsp;
+                <a routerLink="/superadmin/bonus" class="breadcrumb-item">Bonus</a> &nbsp;
+                <i class="bi bi-chevron-right"></i> &nbsp;
+                <a class="breadcrumb-item">View Details</a>
             </div>
         </div>
         <!-- breadcrumbs -->
@@ -19,9 +21,8 @@
     </div>
 
     <div class="box">
-        <app-table [arrList]="arrList" [arrColumns]="arrColumns" [blnForDelete]="blnForDelete"
-            [blnNoEdit]="blnNoEdit" [blnHasSingleview]="blnHasSingleview"
-            (objPresentationEvent)="eventFromTable($event)">
+        <app-table [arrList]="arrList" [arrColumns]="arrColumns" [blnForDelete]="blnForDelete" [blnNoEdit]="blnNoEdit"
+            [blnHasSingleview]="blnHasSingleview" (objPresentationEvent)="eventFromTable($event)">
         </app-table>
     </div>
 </div>

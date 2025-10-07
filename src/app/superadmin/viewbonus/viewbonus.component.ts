@@ -20,8 +20,8 @@ export class ViewbonusComponent {
   deleteModal: boolean | undefined;
   EditModal: boolean | undefined;
   blnHasSingleview: boolean = false;
-  blnForDelete: boolean = true;
-  blnNoEdit: boolean = true;
+  blnForDelete: boolean = false;
+  blnNoEdit: boolean = false;
 
 
   addCompanyForm!: FormGroup;
@@ -48,70 +48,58 @@ export class ViewbonusComponent {
     this.getCompanyTableFn(this.incentiveid)
   }
 
-  arrColumns: any = [
-    { strHeader: "SlNo", strAlign: "center", strKey: "slNo" },
-    { strHeader: "Company", strAlign: "center", strKey: "unitname" },
-    { strHeader: "Actions", strAlign: "center", strKey: "strActions" },
+arrColumns: any = [
+  { strHeader: "SlNo", strAlign: "center", strKey: "slNo" },
+  { strHeader: "Month", strAlign: "center", strKey: "month" },
+  { strHeader: "Employee", strAlign: "center", strKey: "name" },
+  { strHeader: "Bonus", strAlign: "center", strKey: "bonus" },
+  { strHeader: "Cutting", strAlign: "center", strKey: "cutting" },
+];
 
-  ]
+arrList: any = [];
 
-  arrList: any = []
+getCompanyTableFn(incentiveid: any) {
+  const reqHeader = new HttpHeaders({
+    'Authorization': 'Bearer ' + this.token
+  });
 
+  this.Loader = true;
+  this.http.post(environment.apiUrl + 'codspropay/api/viewincentivebyid/', 
+    { incentiveid }, { headers: reqHeader }
+  ).subscribe({
+    next: (response: any) => {
+      this.Loader = false;
 
+      if (response.response === 'Success') {
+        this.arrList = response.incentive.map((obj: any, index: number) => ({
+          slNo: index + 1,
+          month: `${obj.month || ''} ${obj.year || ''}`.trim(),
+          name: `${obj.name || ''} (${obj.employeeid || ''})`.trim(),
+          bonus: obj.bonus,
+          cutting: obj.cutting
+        }));
+      } else {
+        this.showMessage(response);
+      }
+    },
+    error: (error) => this.handleError(error)
+  });
+}
 
+private showMessage(response: any) {
+  if (response.response === 'Error') this.showError(response.message);
+  else this.showWarning(response.message);
+}
 
-  /**get Company table */
-  getCompanyTableFn(incentiveid: any) {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
-    this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/viewincentivebyid/', { incentiveid: incentiveid }, { headers: reqHeader })
-      .subscribe(
-        (response: any) => {
-          if (response['response'] === 'Success') {
-            response.unitlist.forEach((obj: { [x: string]: any; }, index: number) => {
-              obj['slNo'] = index + 1;
-            });
-            this.arrList = response.unitlist;
-            console.log(this.arrList);
-            this.Loader = false;
-
-          } else if (response['response'] === 'Error') {
-            this.showError(response.message);
-            setTimeout(() => {
-              this.Loader = false;
-            }, 12000);
-
-          } else {
-            this.showWarning(response.message);
-            this.Loader = false;
-          }
-        },
-        (error) => {
-          this.Loader = false;
-
-          if (error.status === 401) {
-            // Unauthorized error (invalid token)
-            this.showError('Invalid token. Please log in again.');
-            setTimeout(() => {
-              this.Loader = false;
-              this.router.navigateByUrl('login');
-            }, 1500);
-
-          } else {
-            // Other server errors
-            this.showError('Unable to process your request at the moment. Please try again later.');
-            setTimeout(() => {
-              this.Loader = false;
-            }, 12000);
-          }
-        }
-      );
+private handleError(error: any) {
+  this.Loader = false;
+  if (error.status === 401) {
+    this.showError('Invalid token. Please log in again.');
+    setTimeout(() => this.router.navigateByUrl('login'), 1500);
+  } else {
+    this.showError('Unable to process your request at the moment. Please try again later.');
   }
-  /**get Company table */
-
+}
 
 
   showDeleteDialog() {
