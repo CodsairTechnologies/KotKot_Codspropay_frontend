@@ -23,6 +23,7 @@
     "@fullcalendar/daygrid": "^6.1.19",
     "@fullcalendar/interaction": "^6.1.19",
     "@ng-select/ng-select": "^13.9.1",
+    "@primeng/themes": "^19.0.6",
     "bootstrap": "^5.3.7",
     "chart.js": "^4.5.0",
     "docx": "^9.5.1",

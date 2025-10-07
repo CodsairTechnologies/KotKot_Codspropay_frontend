@@ -1,0 +1,210 @@
+<div class="main" id="main">
+    <div class="row  first-row">
+        <!-- breadcrumbs -->
+        <div class="col">
+            <div class="breadcrumb">
+                <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
+                <a href="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a href="/superadmin/loanview" class="breadcrumb-item">Loan</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a class="breadcrumb-item"> {{ isEditMode ? 'Edit Loan' : 'Add
+                    Loan' }}</a>
+
+            </div>
+        </div>
+        <!-- breadcrumbs -->
+
+
+    </div>
+
+
+
+    <form [formGroup]="addLoanForm">
+        <div class="mt-3">
+            <div class="box">
+                <label for="" class="title">Employee Loan details</label>
+                <div class="emp-box">
+                    <div class="row g-3">
+
+                        <!-- date -->
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3 date">
+                                <label for="Date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="Date" formControlName="Date"
+                                    placeholder="Enter Date">
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3 f1">
+
+                                <!-- Employee Name -->
+
+                                <label for="Name" class="form-label">Employee Name <span class="required">*</span></label>
+                                <div class="searchable-dropdown" #dropdownContainer>
+                                    <div class="dropdown-input">
+                                        <input type="text" placeholder="Select Employee" formControlName="Name"
+                                            (input)="filterEmployees($event)" (click)="toggleDropdown($event)"
+                                            [value]="selectedEmployee?.employeename || ''"
+                                            (input)="onInputChange($event)">
+                                        <span class="dropdown-icon" (click)="toggleDropdown($event)"><i
+                                                class="bi bi-chevron-down"></i></span>
+                                        <span *ngIf="showCloseIcon" class="close-icon" (click)="clearSelection()"><i
+                                                class="bi bi-x fs-5"></i></span>
+                                    </div>
+                                    <ul *ngIf="showDropdown">
+                                        <li *ngIf="filteredEmployees.length === 0" class="no-data">
+                                            No data found
+                                        </li>
+                                        <li *ngFor="let employee of filteredEmployees"
+                                            (click)="selectEmployee(employee)">
+                                            {{ employee.employeename }}
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- error message -->
+
+                                <div class="error-msg"
+                                    *ngIf="addLoanForm.get('Name')?.errors && addLoanForm.get('Name')?.touched">
+                                    <p> Name is required!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+
+
+                        <!-- amount -->
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3 f1">
+                                <div class="mb-3 date">
+                                    <label for="Amount" class="form-label">Amount</label>
+                                    <input type="text" class="form-control" id="Amount" formControlName="Amount"
+                                        placeholder="Enter Amount">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- EMI -->
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3 f1">
+                                <div class="mb-3 date">
+                                    <label for="Emi" class="form-label">EMI</label>
+                                    <input type="text" class="form-control" id="Emi" formControlName="Emi"
+                                        placeholder="Enter Emi">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+
+
+                        <!-- Repayment -->
+
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3 date">
+                                <label for="Repayment" class="form-label">Repayment Date</label>
+                                <input type="date" class="form-control" id="Repayment" formControlName="Repayment"
+                                    placeholder="Enter Repayment">
+                            </div>
+
+                        </div>
+
+                        <!-- Closure Date-->
+
+                        <div class="col-md-6 col-12">
+
+                            <div class="mb-3 date">
+                                <label for="Closuredate" class="form-label">Closure Date</label>
+                                <input type="date" class="form-control" id="Closuredate" formControlName="Closuredate"
+                                    placeholder="Enter Closuredate">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <!-- employee ID -->
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3 f1">
+
+                                <label for="EmpId" class="form-label">Employee ID</label>
+                                <input type="text" class="form-control" id="EmpId" formControlName="EmpId" readonly>
+
+
+                            </div>
+                        </div>
+
+                        <!-- Salary -->
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3 f1">
+                                <div class="mb-3 date">
+                                    <label for="Salary" class="form-label">Salary</label>
+                                    <input type="text" class="form-control" id="Salary" formControlName="Salary"
+                                        readonly>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+
+                        <!-- department -->
+    
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3 f1">
+    
+                                <label for="Department" class="form-label">Department</label>
+                                <input type="text" class="form-control" id="Department" formControlName="Department"
+                                    readonly>
+    
+                            </div>
+                        </div>
+    
+                        <!-- unit -->
+    
+                        <!-- <div class="col-md-6 col-12">
+                            <div class="mb-3 f1">
+                                <label for="Unit" class="form-label">Unit</label>
+                                <input type="text" class="form-control" id="Unit" formControlName="Unit" readonly>
+    
+    
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="row text-end ">
+                    <div class="col ">
+                        <button class="bttn" (click)="clearForm()"> Clear</button>
+                        <button class="bttn ms-4" (click)="addLoanFn()"> Save</button>
+                    </div>
+                </div>
+            </div>
+
+
+           
+
+        </div>
+    </form>
+</div>
+
+
+
+<div *ngIf="Loader" class="spinner-container">
+    <div class="spinner"></div>
+</div>

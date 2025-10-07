@@ -65,7 +65,7 @@ export class LayoutComponent {
     setTimeout(() => {
       this.router.navigate(['/login']);
 
-      this.toastrService.showError('Logged Out Successfully');
+      this.toastrService.showSuccess('Logged Out Successfully');
 
       this.display = false;
       this.Loader = false;

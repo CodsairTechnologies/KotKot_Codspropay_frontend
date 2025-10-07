@@ -455,7 +455,7 @@ export class EmpSalaryComponent {
 
     this.http.post(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
       if (response['response'] == 'Success') {
-        this.Department_ArrayList = response['unitlist']
+        this.Department_ArrayList = response['departmentlist']
         this.Loader = false;
       }
 

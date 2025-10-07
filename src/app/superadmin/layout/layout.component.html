@@ -45,7 +45,7 @@
 
 
         </li>
-        <!-- <li class="line">
+        <li class="line">
             <div class="icon-link" (click)="toggleCollapse(5)">
                 <a>
                     <i class="bi bi-cash-stack"></i>
@@ -56,26 +56,28 @@
             <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[5] }">
                 <li><a class="link_name">Loans & Advance</a></li>
 
-                <li><a href="superadmin/advance-salary">Advance Salary</a></li>
+                <li><a href="superadmin/advancesalary">Advance Salary</a></li>
 
-                <li><a href="superadmin/loan-view">Loan</a></li>
+                <li><a href="superadmin/loanview">Loan</a></li>
 
             </ul>
-        </li> -->
+        </li>
 
         <li class="line">
             <div class="icon-link" (click)="toggleCollapse(10)">
                 <a>
                     <i class="bi bi-cloud-arrow-up-fill"></i>
-                    <span class="link_name">Attendance</span>
+                    <span class="link_name">Uploads</span>
                 </a>
                 <i class='bx bxs-chevron-down arrow'></i>
             </div>
             <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[10] }">
                 <li><a class="link_name">Attendance</a></li>
-<!-- 
-                <li><a href="superadmin/ot-punch">OT Punch</a></li>
-                <li><a href="superadmin/employee-punch">Employee Punch</a></li> -->
+
+                 <li><a href="superadmin/ot-punch">OT Punch</a></li>
+                <li><a href="superadmin/employee-punch">Employee Punch</a></li>
+                <li><a href="superadmin/bonus">Bonus</a></li>
+                <!-- <li><a href="superadmin/employee-punch">Employee Punch</a></li> -->
 
 
                 <li><a href="/superadmin/attendance">Upload Attendance</a></li>
@@ -239,10 +241,10 @@
         </div> -->
 
         <div class="dropdown mr-4">
-            <div class="profile-content d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true"
+            <div class="profile-content d-flex align-items-center me-4" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-                <img src="\assets\images\Ellipse 5.png" alt="" style="width: 32px; height: 32px; border-radius: 50%;">
-                <span class="profile ml-2 mr-2">Super Admin</span>
+                <img src="\assets\images\profile.png" alt="" style="width: 32px; height: 32px; border-radius: 50%;"> &nbsp;
+                <span class="profile ml-2 mr-2"> Super Admin &nbsp; </span>
                 <!-- Down arrow icon -->
                 <i class="bi bi-chevron-down"></i>
             </div>

@@ -66,9 +66,9 @@
 
 .box {
   /* border: 0.5px solid #b0b0b0; */
-  height: auto;
-  margin: 34px 50px 8px 44px;
-  padding: 40px 0;
+   height: auto;
+    margin: 34px 50px 8px 44px;
+    padding: 40px 50px 50px 50px;
 }
 
 
@@ -159,7 +159,7 @@
 
 .bttn {
   /* margin-right: 40px; */
-  width: 250px;
+  width: 100px;
 }
 
 /* General responsiveness */

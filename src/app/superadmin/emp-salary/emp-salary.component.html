@@ -36,7 +36,7 @@
               <select class="form-select" (change)="selected_Deparment($event,'add')" formControlName="Department">
                 <option value="" disabled selected>Select Department</option>
                 <option [value]="item.id" *ngFor="let item of Department_ArrayList">
-                  {{ item.departmentname }}
+                  {{ item.department_name }}
                 </option>
               </select>
             </div>

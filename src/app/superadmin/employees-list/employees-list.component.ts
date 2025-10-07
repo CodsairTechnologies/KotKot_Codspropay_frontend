@@ -9,11 +9,12 @@ import { environment } from '../../../environments/environment';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../commoncomponents/table/table.component';
 import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-employees-list',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, TableComponent, DialogModule, RouterModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, TableComponent, DialogModule, RouterModule, ButtonModule],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.css'
 })
@@ -217,7 +218,7 @@ export class EmployeesListComponent {
     });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/employeesearch/', payload, { headers: reqHeader })
+    this.http.post(environment.apiUrl + 'codspropay/api/employeesearch/', payload, { headers: reqHeader })
       .subscribe(
         (response: any) => {
           this.Loader = false; // Hide loader initially
@@ -257,7 +258,7 @@ export class EmployeesListComponent {
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/employeefilter/', filters, { headers: reqHeader }).subscribe(
+    this.http.post(environment.apiUrl + 'codspropay/api/employeefilter/', filters, { headers: reqHeader }).subscribe(
       (response: any) => {
         this.Loader = false; // Hide loader initially
         if (response.response === 'Success') {
@@ -299,7 +300,7 @@ export class EmployeesListComponent {
     });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/expiryemployeefilter/', payload, { headers: reqHeader })
+    this.http.post(environment.apiUrl + 'codspropay/api/expiryemployeefilter/', payload, { headers: reqHeader })
       .subscribe(
         (response: any) => {
           this.Loader = false; // Hide loader initially
@@ -328,7 +329,7 @@ export class EmployeesListComponent {
     });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/deleteemployee/', { id: item , employeeid : item1}, { headers: reqHeader }).subscribe(
+    this.http.post(environment.apiUrl + 'codspropay/api/deleteemployee/', { id: item , employeeid : item1}, { headers: reqHeader }).subscribe(
       (response: any) => {
         this.Loader = false; // Hide loader immediately upon response
         if (response['response'] === 'Success') {
@@ -368,7 +369,7 @@ export class EmployeesListComponent {
     });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/statusemployee/', payload, { headers: reqHeader }).subscribe(
+    this.http.post(environment.apiUrl + 'codspropay/api/statusemployee/', payload, { headers: reqHeader }).subscribe(
       (response: any) => {
         this.Loader = false; // Turn off loader after receiving the response
         if (response['response'] === 'Success') {
@@ -475,7 +476,7 @@ export class EmployeesListComponent {
     });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/employeeupload/', formData, { headers: reqHeader })
+    this.http.post(environment.apiUrl + 'codspropay/api/employeeupload/', formData, { headers: reqHeader })
       .subscribe(
         (response: any) => {
           this.Loader = false;

@@ -16,13 +16,6 @@
                 Filter <i class="bi bi-funnel-fill"></i>
             </button>
             <div class="but2">
-                <a class="btn-link">
-                    <button class="bttn1" type="button" (click)="openUploadModal()">
-                        <i class="bi bi-plus"></i>Upload
-                    </button>
-                </a>
-            </div>
-            <div class="but2">
                 <a routerLink="/superadmin/addemployees" class="btn-link">
                     <button class="bttn1" type="button"><i class="bi bi-plus"></i>Add</button>
                 </a>
@@ -31,94 +24,97 @@
 
 
 
-        <div class="row" *ngIf="showInputRow">
-            <div class="mb-3 filter-body">
-                <form [formGroup]="EmployeefilterForm">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <label for="Company" class="form-label">Company</label>
-                            <select class="form-select" aria-label="Default select example" formControlName="Company"
-                                (change)="selectCompany($event, 'add')">
-                                <option value="" disabled selected>Select Company</option>
-                                <option [value]="Company['id']" *ngFor="let Company of Companylist">{{
-                                    Company['unitname'] }}
-                                </option>
-                            </select>
-                        </div>
 
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <label for="Department" class="form-label">Department</label>
-                            <select class="form-select" aria-label="Default select example" formControlName="Department"
-                                (change)="selectByDepartment($event, 'add')">
-                                <option value="" disabled selected>Select Department</option>
-                                <option [value]="dept['id']" *ngFor="let dept of departments">{{ dept['departmentname']
-                                    }}</option>
-                            </select>
-                        </div>
-
-                        <div class="col-lg-2 col-md-6 mb-3">
-                            <label for="Shift" class="form-label">Status</label>
-                            <select class="form-select" aria-label="Default select example" formControlName="Status">
-                                <option value="" disabled selected>Select Status</option>
-                                <option value="Active">Active</option>
-                                <option value="Inactive">InActive</option>
-
-                            </select>
-                        </div>
-
-                        <div class="col-lg-2 col-md-6 mb-3">
-                            <label for="Role" class="form-label">Role</label>
-                            <select class="form-select" aria-label="Default select example" formControlName="Role">
-                                <option value="" disabled selected>Select Role</option>
-                                <option value="Staff">Staff</option>
-                                <option value="OfficeStaff">Office Staff</option>
-
-                            </select>
-                        </div>
-
-                        <div class="col-lg-2 col-md-6 mb-3 d-flex align-items-end">
-                            <button class="filter-search" (click)="getFilterEmpTableFn()"><i
-                                    class="bi bi-funnel-fill"></i></button>
-                        </div>
+    </div>
 
 
+    <div class="row" *ngIf="showInputRow">
+        <div class="mb-3 filter-body">
+            <form [formGroup]="EmployeefilterForm">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <label for="Company" class="form-label">Company</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="Company"
+                            (change)="selectCompany($event, 'add')">
+                            <option value="" disabled selected>Select Company</option>
+                            <option [value]="Company['id']" *ngFor="let Company of Companylist">{{
+                                Company['unitname'] }}
+                            </option>
+                        </select>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-5 col-md-6 mb-3">
-                            <label for="Search" class="form-label">Search</label>
-                            <div class="d-flex align-items-center">
-                                <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" formControlName="searchOption"
-                                        id="flexRadioDefault1" value="name" (change)="resetInputField()">
-                                    <label class="form-check-label" for="flexRadioDefault1">Name</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" formControlName="searchOption"
-                                        id="flexRadioDefault2" value="employeeid" (change)="resetInputField()">
-                                    <label class="form-check-label" for="flexRadioDefault2">Employee ID</label>
-                                </div>
-                            </div>
-                            <div *ngIf="EmployeefilterForm.get('searchOption')?.value === 'name'">
-                                <input type="text" class="form-control mt-2" id="SearchName"
-                                    placeholder="Enter employee name" formControlName="searchKeyword"
-                                    (input)="onInputChange()">
-                            </div>
-                            <div *ngIf="EmployeefilterForm.get('searchOption')?.value === 'employeeid'">
-                                <input type="text" class="form-control mt-2" id="SearchID"
-                                    placeholder="Enter employee ID" formControlName="searchKeyword"
-                                    (input)="onInputChange()">
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-6 mb-3 d-flex align-items-end">
-                            <button class="filter-search1" (click)="searchEmpFn()"><i class="bi bi-search"></i></button>
-                        </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <label for="Department" class="form-label">Department</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="Department"
+                            (change)="selectByDepartment($event, 'add')">
+                            <option value="" disabled selected>Select Department</option>
+                            <option [value]="dept['id']" *ngFor="let dept of departments">{{ dept['departmentname']
+                                }}</option>
+                        </select>
+                    </div>
 
-                        <div class="col-lg-5 col-md-6 mb-3 d-flex align-items-end">
-                            <button class="filter-search3" (click)="clearfilter()">Clear Filter</button>
-                        </div>
+                    <div class="col-lg-2 col-md-6 mb-3">
+                        <label for="Shift" class="form-label">Status</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="Status">
+                            <option value="" disabled selected>Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">InActive</option>
 
-                        <!-- <div class="col-lg-4 col-md-6 mb-3 document-expiry">
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 mb-3">
+                        <label for="Role" class="form-label">Role</label>
+                        <select class="form-select" aria-label="Default select example" formControlName="Role">
+                            <option value="" disabled selected>Select Role</option>
+                            <option value="Staff">Staff</option>
+                            <option value="OfficeStaff">Office Staff</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 mb-3 d-flex align-items-end">
+                        <button class="filter-search" (click)="getFilterEmpTableFn()"><i
+                                class="bi bi-funnel-fill"></i></button>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-5 col-md-6 mb-3">
+                        <label for="Search" class="form-label">Search</label>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check me-3">
+                                <input class="form-check-input" type="radio" formControlName="searchOption"
+                                    id="flexRadioDefault1" value="name" (change)="resetInputField()">
+                                <label class="form-check-label" for="flexRadioDefault1">Name</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" formControlName="searchOption"
+                                    id="flexRadioDefault2" value="employeeid" (change)="resetInputField()">
+                                <label class="form-check-label" for="flexRadioDefault2">Employee ID</label>
+                            </div>
+                        </div>
+                        <div *ngIf="EmployeefilterForm.get('searchOption')?.value === 'name'">
+                            <input type="text" class="form-control mt-2" id="SearchName"
+                                placeholder="Enter employee name" formControlName="searchKeyword"
+                                (input)="onInputChange()">
+                        </div>
+                        <div *ngIf="EmployeefilterForm.get('searchOption')?.value === 'employeeid'">
+                            <input type="text" class="form-control mt-2" id="SearchID" placeholder="Enter employee ID"
+                                formControlName="searchKeyword" (input)="onInputChange()">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 mb-3 d-flex align-items-end">
+                        <button class="filter-search1" (click)="searchEmpFn()"><i class="bi bi-search"></i></button>
+                    </div>
+
+                    <div class="col-lg-5 col-md-6 mb-3 d-flex align-items-end">
+                        <button class="filter-search3" (click)="clearfilter()">Clear Filter</button>
+                    </div>
+
+                    <!-- <div class="col-lg-4 col-md-6 mb-3 document-expiry">
                             <label for="Shift" class="form-label">Document Expiry Status</label>
                             <select class="form-select" aria-label="Default select example" formControlName="Status"
                                 (change)="selectexpiryStatus($event, 'add')">
@@ -128,12 +124,10 @@
 
                             </select>
                         </div> -->
-                    </div>
-                </form>
+                </div>
+            </form>
 
-            </div>
         </div>
-
     </div>
 
     <div class="box">
@@ -187,7 +181,6 @@
 
 
 
-
 <!-- Modal for delete  -->
 <p-dialog [(visible)]="deleteCountryModal" [modal]="true" [style]="{width: '35vw'}" [baseZIndex]="10000"
     [draggable]="false" [resizable]="false">
@@ -200,9 +193,12 @@
     </div>
     <ng-template pTemplate="footer">
         <div class=" justify-content-center d-flex mt-5">
-            <button type="button" pButton class=" close-btn "
-                (click)="deleteCountryModal = false">Close</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="button" pButton class=" btn-delete" (click)="deleteVehicle()">Delete</button>
+            <button type="button" class="btn btn-secondary" (click)="deleteCountryModal = false">Close</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                (click)="deleteVehicle()">Delete</button>
+
+
         </div>
     </ng-template>
 </p-dialog>

@@ -1,0 +1,205 @@
+<div class="main" id="main">
+    <div class="row  first-row">
+        <!-- breadcrumbs -->
+        <div class="col">
+            <div class="breadcrumb">
+                <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
+                <a href="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a href="/superadmin/loanview" class="breadcrumb-item">Loan</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a class="breadcrumb-item">View Loan</a>
+
+            </div>
+        </div>
+        <!-- breadcrumbs -->
+
+
+    </div>
+
+
+
+    <form [formGroup]="viewLoanForm">
+        <div class="mt-3">
+            <div class="box">
+
+                <div class="row">
+                    <div class="col-lg-8 col-12">
+                        <label class="title">Employee details</label>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="emp-box">
+                                    <div class="row">
+                                        <div class="col-md-4 col-12">
+                                            <div>
+                                                <img src="{{apiurl + this.Promage}}" class="img-fluid img-preview">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-12">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12 mb-3">
+                                                    <label for="Name" class="form-label">Name</label>
+                                                    <input type="text" class="form-control" id="Name" formControlName="Name" readonly>
+                                                </div>
+                                                <div class="col-md-3 col-12 mb-3">
+                                                    <label for="EmpId" class="form-label">ID</label>
+                                                    <input type="text" class="form-control" id="EmpId" formControlName="EmpId" readonly>
+                                                </div>
+                                                <div class="col-md-3 col-12 mb-3">
+                                                    <label for="Salary" class="form-label">Salary</label>
+                                                    <input type="text" class="form-control" id="Salary" formControlName="Salary" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-12 mb-3">
+                                                    <label for="Department" class="form-label">Department</label>
+                                                    <input type="text" class="form-control" id="Department" formControlName="Department" readonly>
+                                                </div>
+                                                <!-- <div class="col-md-6 col-12 mb-3">
+                                                    <label for="Unit" class="form-label">Unit</label>
+                                                    <input type="text" class="form-control" id="Unit" formControlName="Unit" readonly>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <label class="title">Loan details</label>
+                        <div class="emp-box">
+                            <div class="row">
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="loanno" class="form-label">Loan NO</label>
+                                    <input type="text" class="form-control" id="loanno" formControlName="loanno" readonly>
+                                </div>
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="Date" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="Date" formControlName="Date" readonly>
+                                </div>
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="Amount" class="form-label">Amount</label>
+                                    <input type="text" class="form-control" id="Amount" formControlName="Amount" readonly>
+                                </div>
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="Emi" class="form-label">Monthly EMI</label>
+                                    <input type="text" class="form-control" id="Emi" formControlName="Emi" readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="totalemi" class="form-label">Total EMI</label>
+                                    <input type="text" class="form-control" id="totalemi" formControlName="totalemi" readonly>
+                                </div>
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label for="remainingemi" class="form-label">Remaining EMI</label>
+                                    <input type="text" class="form-control" id="remainingemi" formControlName="remainingemi" readonly>
+                                </div>
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="balanceamount" class="form-label">Balance Amount</label>
+                                    <input type="text" class="form-control" id="balanceamount" formControlName="balanceamount" readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="Repayment" class="form-label">Repayment Date</label>
+                                    <input type="text" class="form-control" id="Repayment" formControlName="Repayment" readonly>
+                                </div>
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="Closuredate" class="form-label">Closure Date</label>
+                                    <input type="date" class="form-control" id="Closuredate" formControlName="Closuredate" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-lg-4 col-12">
+                        <div class="btn-box" *ngIf="loanstatus === 'Active'">
+                            <button class="emp-bttn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" #makePaymentBtn (click)="setAction('makePayment','Make Payment')">Make Payment</button>
+                            <button class="emp-bttn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" #skipPaymentBtn (click)="setAction('skipPayment','Skip Payment')">Skip Payment</button>
+                            <button class="emp-bttn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" #forceCloseLoanBtn (click)="setAction('forceCloseLoan','Force Close Loan')">Force Close Loan</button>
+                        </div>
+                
+                        <label class="title">Loan History</label>
+                        <div class="table-box">
+                            <div class="row m-1">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Loan No</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let items of loanhistory; let i = index">
+                                            <td>{{items.loanNo}}</td>
+                                            <td>{{items.date}}</td>
+                                            <td>{{items.amount}}</td>
+                                            <td>{{items.status}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="row">
+
+                    <div class="col-12">
+                        <label for="" class="title">Payment History</label>
+
+                        <div class="emp-box">
+                            <app-table [arrList]="arrList" [arrColumns]="arrColumns">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">{{this.modalName}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" [formGroup]="LoanForm">
+                    <div class="mb-3 email">
+                        <label for="EMI" class="form-label">Amount</label>
+                        <input type="text" class="form-control" id="EMI" formControlName="EMI">
+                    </div>
+
+                    <div class="mb-3 ">
+                        <label for="month" class="form-label">Month<span class="required">*</span></label>
+                        <input type="month" class="form-control" id="month" placeholder="Enter month" formControlName="month" (change)="onMonthChange($event)">
+                    </div>
+
+                    <div class="error-msg" *ngIf="LoanForm.get('month')?.errors && LoanForm.get('month')?.touched">
+                        <p>Month is required!</p>
+                    </div>
+                </form>
+
+                <div class="text-end pe-3 pb-2">
+                    <button type="submit" class="bttn" (click)="performAction()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="Loader" class="spinner-container">
+    <div class="spinner"></div>
+  </div>

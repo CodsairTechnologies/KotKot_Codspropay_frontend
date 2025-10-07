@@ -11,6 +11,16 @@ import { ViewEmpsalaryComponent } from './view-empsalary/view-empsalary.componen
 import { SalaryviewMonthlyComponent } from './salaryview-monthly/salaryview-monthly.component';
 import { AttendanceListComponent } from './attendance-list/attendance-list.component';
 import { ViewAttendanceComponent } from './view-attendance/view-attendance.component';
+import { ViewLoanComponent } from './view-loan/view-loan.component';
+import { AddoreditLoanComponent } from './addoredit-loan/addoredit-loan.component';
+import { SingleviewLoanComponent } from './singleview-loan/singleview-loan.component';
+import { SingleviewAdvancesalaryComponent } from './singleview-advancesalary/singleview-advancesalary.component';
+import { AddoreditAdvancesalaryComponent } from './addoredit-advancesalary/addoredit-advancesalary.component';
+import { ViewAdvancesalaryComponent } from './view-advancesalary/view-advancesalary.component';
+import { BonusuploadComponent } from './bonusupload/bonusupload.component';
+import { ViewbonusComponent } from './viewbonus/viewbonus.component';
+import { OtPunchComponent } from './ot-punch/ot-punch.component';
+import { EmployeePunchComponent } from './employee-punch/employee-punch.component';
 
 
 const routes: Routes = [
@@ -33,17 +43,41 @@ const routes: Routes = [
       { path: 'employee-profile', component: EmployeesProfileComponent },
 
 
-       // Attendance
+      // Loan
+
+      { path: 'loanview', component: ViewLoanComponent },
+      { path: 'addeditloan', component: AddoreditLoanComponent },
+      { path: 'singleview-loan', component: SingleviewLoanComponent },
+
+      // Advance Salary
+
+      { path: 'advancesalary', component: ViewAdvancesalaryComponent },
+      { path: 'addeditadvancesalary', component: AddoreditAdvancesalaryComponent },
+      { path: 'singleview-advancesalary', component: SingleviewAdvancesalaryComponent },
+
+
+      // Attendance
 
       { path: 'attendance', component: AttendanceListComponent },
       { path: 'view-attendance', component: ViewAttendanceComponent },
 
 
-       //  salary
+      //  salary
 
       { path: 'emp-salary', component: EmpSalaryComponent },
       { path: 'view-empsalary', component: ViewEmpsalaryComponent },
       { path: 'view-monthlysalary', component: SalaryviewMonthlyComponent },
+
+      // bonus
+
+      { path: 'bonus', component: BonusuploadComponent },
+      { path: 'viewbonus', component: ViewbonusComponent },
+
+      // punch
+
+      { path: 'ot-punch', component: OtPunchComponent },
+      { path: 'employee-punch', component: EmployeePunchComponent },
+
 
     ]
   }

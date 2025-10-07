@@ -96,7 +96,7 @@
                                             <label for="employeeid" class="form-label">Employee ID <span
                                                     class="required">*</span></label>
                                             <input type="text" class="form-control" id="employeeid"
-                                                formControlName="EmployeeID" placeholder="Enter ID here">
+                                                formControlName="EmployeeID" placeholder="Enter ID here" >
                                             <div class="error-msg1 mt-2"
                                                 *ngIf="EmployeeForm.get('EmployeeID')?.errors && EmployeeForm.get('EmployeeID')?.touched">
                                                 <p>ID is required!</p>
@@ -637,7 +637,7 @@
                     </div>
 
                     <!-- salary date -->
-                    <div class="row mb-3">
+                    <div class="row mb-3 ms-2">
                         <!-- Casual Leave -->
                         <div class="col-md-4 d-flex align-items-center">
                             <input type="checkbox" id="CasualLeaveCheck" class="form-check-input me-2"

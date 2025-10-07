@@ -1,0 +1,276 @@
+<div class="main" id="main">
+
+    <div class="row first-row align-items-center">
+        <!-- breadcrumbs -->
+        <div class="col-md-10 col-12">
+            <div class="breadcrumb">
+                <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
+                <a href="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a class="breadcrumb-item">Employee Punch</a>
+            </div>
+        </div>
+        <!-- breadcrumbs -->
+
+        <div class="col-md-2 col-12 text-md-end text-end button-group">
+            <!-- <button class="bttn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <i class="bi bi-plus"></i> Add
+      </button> -->
+            <button class="bttn" type="button" (click)="toggleInputRow()">
+                Filter <i class="bi bi-funnel-fill"></i>
+            </button>
+        </div>
+
+
+
+
+    </div>
+
+
+
+    <div class="box">
+        <div class="row " *ngIf="showInputRow">
+            <div class="mb-4 filter-body p-4 bg-white rounded shadow-sm">
+                <form [formGroup]="EmployeefilterForm">
+                    <div class="row align-items-end">
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <label for="Department" class="form-label">Department</label>
+                            <select class="form-select form-select-lg " aria-label="Department select"
+                                formControlName="Department" (change)="selectByDepartment($event, 'add')">
+                                <option value="" disabled selected>Select Department</option>
+                                <option [value]="dept['id']" *ngFor="let dept of departments">{{ dept['departmentname']
+                                    }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <label for="startDate" class="form-label">From Date</label>
+                            <input type="date" class="form-control form-control-lg " formControlName="startDate">
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 mb-3 d-flex align-items-end gap-2">
+                            <button class="btn filter-search w-50" (click)="applyFilter()">
+                                <i class="bi bi-funnel-fill me-2"></i>Apply Filter
+                            </button>
+                            <button class="btn filter-search3 btn-outline-danger w-50" (click)="clearFilter()">
+                                <i class="bi bi-x-circle me-2"></i>Clear
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <form [formGroup]="employeeSearchForm">
+                    <div class="row align-items-end">
+
+                        <!-- Employee Name -->
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <label for="empName" class="form-label">Employee ID</label>
+                            <input type="text" id="empName" class="form-control form-control-lg"
+                                formControlName="empName" placeholder="Enter employee id">
+                        </div>
+
+                        <!-- Month -->
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <label for="month" class="form-label">Month</label>
+                            <input type="month" id="month" class="form-control form-control-lg" formControlName="month">
+                        </div>
+
+                        <!-- Search & Clear Buttons -->
+                        <div class="col-lg-4 col-md-6 mb-3 d-flex align-items-end gap-2">
+                            <button type="button" class="btn filter-search w-50" (click)="SearchFn()">
+                                <i class="bi bi-search me-2"></i>Search
+                            </button>
+                            <button type="button" class="btn filter-search3 btn-outline-danger w-50"
+                                (click)="clearSearch()">
+                                <i class="bi bi-x-circle me-2"></i>Clear
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+
+
+            </div>
+
+
+
+        </div>
+        <app-table [arrList]="arrList" [arrColumns]="arrColumns" [blnForDelete]="blnForDelete"
+            [blnNoEdit]="blnNoEdit" [blnHasSingleview]="blnHasSingleview"
+            (objPresentationEvent)="eventFromTable($event)">
+        </app-table>
+    </div>
+
+</div>
+
+
+
+
+
+<!-- Modal for add department -->
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true" (hidden.bs.modal)="onModalHidden()">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add department</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-3">
+
+                <form [formGroup]="addDepartmentForm" (ngSubmit)="addDepartment()">
+                    <div class="mb-3">
+
+                        <label for="Department" class="form-label ">Company</label>
+
+                        <select class="form-select" aria-label="Default select example" formControlName="Company"
+                            (change)="Selected_Company($event,'add')">
+                            <option value="">Select</option>
+                            <option [value]="item.id" *ngFor="let item of Company_ArrayList">{{item['unitname']}}
+                            </option>
+                        </select>
+
+                        <div class="error-msg1"
+                            *ngIf="addDepartmentForm.get('Company')?.errors && addDepartmentForm.get('Company')?.touched">
+                            <p>Company is required!</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 email">
+                        <label for="Department" class="form-label">Department</label>
+                        <input type="text" class="form-control" id="Department" placeholder="Enter Department"
+                            formControlName="department">
+                    </div>
+
+                    <div class="error-msg2"
+                        *ngIf="addDepartmentForm.get('department')?.errors && addDepartmentForm.get('department')?.touched">
+                        <p>Department is required!</p>
+                    </div>
+
+                    <div class="text-end pe-3 pb-2">
+                        <button type="submit" class="bttn">Save</button>
+                    </div>
+
+                </form>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- END - Modal for add department -->
+
+
+<!-- Modal for edit  department-->
+
+
+<p-dialog [(visible)]="EditModal" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="10000" [draggable]="false"
+    [resizable]="false">
+    <div class="row body-row">
+        <div class="col-12">
+            <h5 class="edit-unit">Edit Employee Punch</h5>
+
+        </div>
+        <div class="col-2">
+            <button type="button" class="p-dialog-titlebar-icon p-dialog-titlebar-close p-link"
+                (click)="EditModal = false" aria-label="Close">
+
+            </button>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="EditDepartmentForm">
+
+            <div class="row">
+                <div class="col">
+                    <!-- Employee Name -->
+                    <div class="mb-3">
+                        <label class="form-label">Employee Name</label>
+                        <input type="text" class="form-control" formControlName="EemployeeName" readonly>
+                    </div>
+                </div>
+                <div class="col">
+                    <!-- Department -->
+                    <div class="mb-3">
+                        <label class="form-label">Department</label>
+                        <input type="text" class="form-control" formControlName="Edepartment" readonly>
+                    </div>
+                </div>
+                <div class="col">
+                    <!-- Date -->
+                    <div class="mb-3">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-control" formControlName="Edate" readonly>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col">
+                    <!-- Punch In -->
+                    <div class="mb-3">
+                        <label class="form-label">Punch In</label>
+                        <input type="time" class="form-control" formControlName="Echeckin" step="1">
+                    </div>
+                </div>
+
+                <div class="col">
+                    <!-- Punch Out -->
+                    <div class="mb-3">
+                        <label class="form-label">Punch Out</label>
+                        <input type="time" class="form-control" formControlName="Echeckout" step="1">
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+        </form>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button type="submit" pButton (click)="editDepartment()" label="Update" class="bttn"></button>
+    </ng-template>
+</p-dialog>
+
+
+
+<!--END - Modal for edit -->
+
+
+<!-- Modal for delete Department -->
+
+<p-dialog [(visible)]="deleteCountryModal" [modal]="true" [style]="{width: '35vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+    <div class="row body-row p-1 ">
+        <div class="col-2"><i class="bi bi-exclamation-triangle-fill"></i></div>
+        <div class="col-10">
+            <h1 class="delete-title">Delete Department ?</h1>
+        </div>
+        <p class="justify-content-center d-flex mt-3">Are you sure you want to delete this Department ?</p>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class=" justify-content-center d-flex mt-5">
+            <button type="button" pButton class=" close-btn ">Close</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" pButton class=" delete-btn" (click)=deleteDepartment()>Delete</button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<!--END  Modal for delete -->
+
+
+
+<div *ngIf="Loader" class="spinner-container">
+    <div class="spinner"></div>
+</div>

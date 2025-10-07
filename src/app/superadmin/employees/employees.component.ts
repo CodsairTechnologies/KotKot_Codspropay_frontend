@@ -308,7 +308,7 @@ export class EmployeesComponent {
 
     this.route.queryParams.subscribe((params) => {
       const id = params['id'];
-      const empid = params['employeeid'];
+      const empid = params['empid'];
 
       this.isEditMode = !!(id);
       if (id) {
@@ -1071,7 +1071,7 @@ export class EmployeesComponent {
     });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeebyid/', { id: id, empid: this.adminId, employeeId: empid, language: this.storedLang },
+    this.http.post(environment.apiUrl + 'codspropay/api/getemployeebyid/', { id: id, employeeId: empid, language: this.storedLang },
       { headers: reqHeader }).subscribe((response: any) => {
         this.Loader = false;
         if (response.response === 'Success') {
@@ -1311,7 +1311,7 @@ export class EmployeesComponent {
 
     formdata.append('worklocationId', this.EmployeeForm.controls['Location'].value);
 
-    formdata.append('restaurantId', this.restaurantId || 'null');
+    formdata.append('restaurantId', this.restaurantId || '');
     formdata.append('profileimgurl', this.selectedfile);
     formdata.append('name', this.EmployeeForm.controls['Name'].value);
     formdata.append('gender', this.Gender);

@@ -21,8 +21,6 @@ import { PaginatorModule } from 'primeng/paginator';
 })
 export class AttendanceListComponent {
 
-
-
   token: any;
   adminid: any;
   userName: any;

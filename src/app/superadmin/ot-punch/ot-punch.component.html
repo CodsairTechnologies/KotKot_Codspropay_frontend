@@ -1,0 +1,81 @@
+<div class="main" id="main">
+
+    <div class="row first-row align-items-center">
+        <!-- breadcrumbs -->
+        <div class="col-md-10 col-12">
+            <div class="breadcrumb">
+                <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
+                <a href="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a class="breadcrumb-item">OT Punch</a>
+            </div>
+        </div>
+        <!-- breadcrumbs -->
+
+        <div class="col-md-2 col-12 text-md-end text-end button-group">
+            <!-- <button class="bttn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <i class="bi bi-plus"></i> Add
+      </button> -->
+            <button class="bttn" type="button" (click)="toggleInputRow()">
+                Filter <i class="bi bi-funnel-fill"></i>
+            </button>
+        </div>
+
+
+
+
+    </div>
+
+
+
+    <div class="box">
+        <div class="row " *ngIf="showInputRow">
+            <div class="mb-4 filter-body p-4 bg-white rounded shadow-sm">
+                <form [formGroup]="EmployeefilterForm">
+                    <div class="row align-items-end">
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <label for="Department" class="form-label fw-bold text-secondary">Department</label>
+                            <select class="form-select form-select-lg " aria-label="Department select"
+                                formControlName="Department" (change)="selectByDepartment($event, 'add')">
+                                <option value="" disabled selected>Select Department</option>
+                                <option [value]="dept['id']" *ngFor="let dept of departments">{{ dept['departmentname']
+                                    }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <label for="startDate" class="form-label fw-bold text-secondary">From Date</label>
+                            <input type="date" class="form-control form-control-lg " formControlName="startDate">
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 mb-3 d-flex align-items-end gap-2">
+                            <button class="btn filter-search btn-primary w-50" (click)="applyFilter()">
+                                <i class="bi bi-funnel-fill me-2"></i>Apply Filter
+                            </button>
+                            <button class="btn filter-search3 btn-outline-danger w-50" (click)="clearFilter()">
+                                <i class="bi bi-x-circle me-2"></i>Clear Filter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <app-table [arrList]="arrList" [arrColumns]="arrColumns" [blnForDelete]="blnForDelete"
+            [blnNoEdit]="blnNoEdit" [blnHasSingleview]="blnHasSingleview"
+            (objPresentationEvent)="eventFromTable($event)">
+        </app-table>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+<div *ngIf="Loader" class="spinner-container">
+    <div class="spinner"></div>
+</div>
