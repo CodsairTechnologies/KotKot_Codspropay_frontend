@@ -130,7 +130,7 @@ editModal: boolean = false;
 
 
   singleviewsalary(month: string, year: string) {
-    this.router.navigateByUrl('super-admin/view-empsalary');
+    this.router.navigateByUrl('superadmin/view-empsalary');
 
     sessionStorage.setItem("month", month);
     sessionStorage.setItem("year", year);
