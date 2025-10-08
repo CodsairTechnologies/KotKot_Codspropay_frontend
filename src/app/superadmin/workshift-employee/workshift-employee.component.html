@@ -1,0 +1,143 @@
+<div class="main" id="main">
+
+    <div class="row first-row align-items-center">
+        <!-- breadcrumbs -->
+        <div class="col-lg-8 col-md-7 col-12 mb-2 mb-md-0">
+            <div class="breadcrumb">
+                <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
+                <a routerLink="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a routerLink="/superadmin/workshift" class="breadcrumb-item">Employee Work Shift</a>
+            </div>
+        </div>
+        <!-- breadcrumbs -->
+
+        <div class="col-lg-2 col-md-3 col-6 mb-2 mb-md-0 d-flex justify-content-md-end justify-content-center">
+                <button class="bttn" type="button" (click)="toggleInputRow()">
+                    Filter <i class="bi bi-funnel-fill"></i> </button>
+            
+        </div>
+
+        <div class="but2 col-lg-2 col-md-2 col-6 d-flex justify-content-center">
+            <a routerLink="/superadmin/assign-workshift" class="btn-link">
+                <button class="bttn1"><i class="bi bi-plus"></i>Add</button>
+            </a>
+        </div>
+
+        <div class="row" *ngIf="showInputRow">
+            <div class="mb-3 filter-body">
+                <form [formGroup]="WorkShiftFilterForm">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <label for="Unit" class="form-label">Work Location</label>
+                             <select class="form-select" aria-label="Default select example"
+                                    formControlName="Location" (change)="selectWorkLocation($event)">
+                                    <option value="" disabled selected>Select Location</option>
+                                    <option *ngFor="let objdesig of worklocationlist" [value]="objdesig.id">{{
+                                        objdesig.worklocation_name }}</option>
+                                </select>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <label for="Department" class="form-label">Department</label>
+                            <select class="form-select" aria-label="Default select example" formControlName="Department"
+                                (change)="selectByDepartment($event, 'add')">
+                                <option value="" disabled selected>Select Department</option>
+                                <option [value]="dept['id']" *ngFor="let dept of departments">{{ dept['department_name']
+                                    }}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <label for="Shift" class="form-label">Shift</label>
+                            <select class="form-select" aria-label="Default select example" formControlName="Shift"
+                                (change)="selectByShift($event, 'add')">
+                                <option value="" disabled selected>Select Shift</option>
+                                <option [value]="Shift['id']" *ngFor="let Shift of shiftnameslist">{{ Shift['shift'] }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 mb-3 d-flex align-items-end">
+                            <button class="filter-search" (click)="getFilterShiftTableFn()"><i
+                                    class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-5 col-md-6 mb-3">
+                            <label for="Search" class="form-label">Search</label>
+                            <div class="d-flex align-items-center">
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="radio" formControlName="searchOption"
+                                        id="flexRadioDefault1" value="name" (change)="resetInputField()">
+                                    <label class="form-check-label" for="flexRadioDefault1">Name</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" formControlName="searchOption"
+                                        id="flexRadioDefault2" value="employeeid" (change)="resetInputField()">
+                                    <label class="form-check-label" for="flexRadioDefault2">Employee ID</label>
+                                </div>
+                            </div>
+                            <div *ngIf="WorkShiftFilterForm.get('searchOption')?.value === 'name'">
+                                <input type="text" class="form-control mt-2" id="SearchName"
+                                    placeholder="Enter employee name" formControlName="searchKeyword"
+                                    (input)="onInputChange()">
+                            </div>
+                            <div *ngIf="WorkShiftFilterForm.get('searchOption')?.value === 'employeeid'">
+                                <input type="text" class="form-control mt-2" id="SearchID"
+                                    placeholder="Enter employee ID" formControlName="searchKeyword"
+                                    (input)="onInputChange()">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6 mb-3 d-flex align-items-end">
+                            <button class="filter-search1" (click)="searchWorkShiftFn()"><i
+                                    class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+     <div class="box">
+        <app-table [arrList]="arrList" [arrColumns]="arrColumns" [blnHasSingleview]="blnHasSingleview"
+            [blnNoEdit]="blnNoEdit" [blnForDelete]="blnForDelete" 
+            (objPresentationEvent)="eventFromTable($event)" class="custom-table">
+        </app-table>
+    </div>
+
+</div>
+
+
+
+
+<!-- Modal for delete  -->
+<p-dialog [(visible)]="deleteCountryModal" [modal]="true" [style]="{width: '35vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+    <div class="row body-row p-1 ">
+        <div class="col-2"><i class="bi bi-exclamation-triangle-fill"></i></div>
+        <div class="col-10">
+            <h1 class="delete-title">Delete Work Shift?</h1>
+        </div>
+        <p class="justify-content-center d-flex mt-3">Are you sure you want to delete this Work Shift?</p>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class=" justify-content-center d-flex mt-5">
+            <button type="button" class="btn btn-secondary" (click)="deleteCountryModal = false">Close</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                (click)="dltWorkShiftFn()">Delete</button>
+
+
+        </div>
+    </ng-template>
+</p-dialog>
+<!-- Modal for delete -->
+
+
+<div *ngIf="Loader" class="spinner-container">
+    <div class="spinner"></div>
+</div>

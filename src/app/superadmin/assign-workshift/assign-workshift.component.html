@@ -1,0 +1,247 @@
+<div class="main" id="main">
+
+    <div class="row  first-row">
+        <!-- breadcrumbs -->
+        <div class="col-8">
+            <div class="breadcrumb">
+                <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
+                <a routerLink="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a routerLink="/superadmin/workshift" class="breadcrumb-item"> Employee Work Shift</a> &nbsp; <i
+                    class="bi bi-chevron-right"></i> &nbsp;
+                <a routerLink="/superadmin/workshift" class="breadcrumb-item">Assign Employee Work Shift</a>
+
+            </div>
+        </div>
+        <!-- breadcrumbs -->
+
+
+        <div class="row">
+            <div class="container mb-3 filter-body">
+                <form [formGroup]="WorkShiftFilterForm">
+                    <div class="row">
+                        <div class="col-md-7 col-12">
+                            <div class="row pt-4">
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="Unit" class="form-label">WorkLocation</label>
+                                    <select class="form-select" aria-label="Default select example"
+                                        formControlName="Location" (change)="selectWorkLocation($event)">
+                                        <option value="" disabled selected>Select Location</option>
+                                        <option *ngFor="let objdesig of worklocationlist" [value]="objdesig.id">{{
+                                            objdesig.worklocation_name }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 col-12 mb-3">
+                                    <label for="Department" class="form-label">Department</label>
+                                    <select class="form-select" aria-label="Default select example"
+                                        formControlName="Department" (change)="selectByDepartment($event, 'add')">
+                                        <option value="" disabled selected>Select Department</option>
+                                        <option [value]="dept['id']" *ngFor="let dept of departments">{{
+                                            dept['department_name'] }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-12 mb-3 search">
+                                    <label for="Search" class="form-label">Search</label>
+                                    <div class="d-flex align-items-center mt-1">
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" formControlName="searchOption"
+                                                id="flexRadioDefault1" value="name" (change)="resetInputField()">
+                                            <label class="form-check-label" for="flexRadioDefault1">Name</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" formControlName="searchOption"
+                                                id="flexRadioDefault2" value="employeeid" (change)="resetInputField()">
+                                            <label class="form-check-label" for="flexRadioDefault2">Employee ID</label>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="WorkShiftFilterForm.get('searchOption')?.value === 'name'">
+                                        <input type="text" class="form-control mt-2" id="SearchName"
+                                            placeholder="Enter employee name" formControlName="searchKeyword">
+                                    </div>
+                                    <div *ngIf="WorkShiftFilterForm.get('searchOption')?.value === 'employeeid'">
+                                        <input type="text" class="form-control mt-2" id="SearchID"
+                                            placeholder="Enter employee ID" formControlName="searchKeyword">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-12">
+                                    <button class="filter-search1" (click)="searchWorkShiftFn()"><i
+                                            class="bi bi-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 d-none d-md-block">
+                            <div class="vertical-line-border"></div>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <div class="row pt-4">
+                                <div class="col-md-12 col-12 mb-3">
+                                    <label for="Shift" class="form-label">Shift</label>
+                                    <select class="form-select" aria-label="Default select example"
+                                        formControlName="Shift" (change)="selectShift($event)">
+                                        <option value="" disabled selected>Select Shift</option>
+                                        <option [value]="Shift['id']" *ngFor="let Shift of shiftnameslist">{{
+                                            Shift['shift'] }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-end">
+                                    <button class="filter-search" (click)="assignWorkshift()"> Save </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <div class="box">
+
+
+        <!-- filtered table -->
+
+
+        <div class="table-container">
+            <div class="table-scrollable table-responsive">
+                <table class="table table-striped table-custom-spacing">
+                    <thead class="sticky-header">
+                        <tr class="text-center">
+                            <th scope="col">
+                                <div class="th-container">
+                                    &nbsp; &nbsp;
+                                    <span class="ms-1">Select</span>
+                                    <span class="chevron-container">
+                                        <i class="bi bi-chevron-up" (click)="checkSortFn('ticked')"></i>
+                                        <i class="bi bi-chevron-down" (click)="checkSortFn('unticked')"></i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th scope="col">SlNo</th>
+
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">
+                                <div class="th-container"> &nbsp;
+                                    <span class="ms-5">Name</span>
+                                    <span class="chevron-container">
+                                        <i class="bi bi-chevron-up" (click)="nameSortFn('asc')"></i>
+                                        <i class="bi bi-chevron-down" (click)="nameSortFn('desc')"></i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th scope="col">Shift</th>
+                            <th scope="col">Work Location</th>
+                            <th scope="col">Department</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of paginatedPaymentList; let i = index" class="text-center">
+
+                            <td class="text-center">
+                                <div class="form-check" *ngIf="item.isShift=='Yes'">
+                                    <input class="form-check-input table-check" type="checkbox" value="True" checked
+                                        (change)="Checked($event, 'del', { id: item.id, worklocationid: item.worklocationid, departmentid: item.departmentid, shiftid: item.shiftid, empid: item.empid, employeeid: item.employeeId })" />
+                                </div>
+                                <div class="form-check" *ngIf="item.isShift=='No'">
+                                    <input class="form-check-input table-check" type="checkbox" value="True"
+                                        (change)="Checked($event, 'add', { id: '', worklocationid: item.worklocationid, departmentid: item.departmentid, shiftid: item.shiftid, empid: item.empid, employeeid: item.employeeId })" />
+                                </div>
+                            </td>
+                            <td class="text-center">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+
+                            <td>{{ item.employeeId }}</td>
+                            <td>{{ item.name }}</td>
+                            <td class="shift-cell">
+
+                                <!-- shift of single employee and update shift from here -->
+
+                                <select *ngIf="item.isShift == 'Yes'" class="form-select custom-select small-text"
+                                    aria-label="Select shift" (change)="updateShift($event, item)">
+
+                                    <!-- Show current shift as selected -->
+                                    <option [value]="item.shiftid" selected>{{ item.shiftname }}</option>
+
+                                    <!-- Use ng-container to filter remaining shifts -->
+                                    <ng-container *ngFor="let shift of shiftnameslist">
+                                        <option *ngIf="shift.shift !== item.shiftname"
+                                            [value]="shift.id + '+' + item.workshiftid">
+                                            {{ shift.shift }}
+                                        </option>
+                                    </ng-container>
+                                </select>
+
+
+
+                                <p *ngIf="item.isShift=='No'">Shift not assigned</p>
+                            </td>
+                            <td>{{ item.worklocation }}</td>
+                            <td>{{ item.departmentname }}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+        <div style="text-align: right;">
+            <p-paginator [rows]="itemsPerPage" [totalRecords]="shiftlist.length"
+                [rowsPerPageOptions]="itemsPerPageOptions" (onPageChange)="onPageChange($event)"
+                [dropdownAppendTo]="'body'"></p-paginator>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+<!-- modal for delete work shift -->
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger"> <i class="bi bi-exclamation-triangle-fill fs-1 ms-3"></i> &nbsp;
+                    Delete Work Shift</h5>
+                <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="col-12">
+                        <h6 class="text-center">Are you sure want to delete this Work Shift? </h6>
+                    </div>
+                    <div class="text-center button-model">
+
+                        <button type="button" class="btn btn-secondary w-25" data-bs-dismiss="modal"
+                            aria-label="Close">Close</button> &nbsp;&nbsp;
+
+                        <button type="button" class="btn btn-danger w-25" data-bs-dismiss="modal">Delete</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="Loader" class="spinner-container">
+    <div class="spinner"></div>
+</div>

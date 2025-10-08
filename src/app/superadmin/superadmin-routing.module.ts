@@ -21,6 +21,10 @@ import { BonusuploadComponent } from './bonusupload/bonusupload.component';
 import { ViewbonusComponent } from './viewbonus/viewbonus.component';
 import { OtPunchComponent } from './ot-punch/ot-punch.component';
 import { EmployeePunchComponent } from './employee-punch/employee-punch.component';
+import { WorkshiftEmployeeComponent } from './workshift-employee/workshift-employee.component';
+import { ShiftListComponent } from './shift-list/shift-list.component';
+import { AssignWorkshiftComponent } from './assign-workshift/assign-workshift.component';
+import { EditWorkshiftComponent } from './edit-workshift/edit-workshift.component';
 
 
 const routes: Routes = [
@@ -77,6 +81,15 @@ const routes: Routes = [
 
       { path: 'ot-punch', component: OtPunchComponent },
       { path: 'employee-punch', component: EmployeePunchComponent },
+
+      // Work Shift
+
+      { path: 'workshift', component: WorkshiftEmployeeComponent },
+      { path: 'assign-workshift', component: AssignWorkshiftComponent },
+      { path: 'edit-workshift', component: EditWorkshiftComponent },
+
+      { path: 'shiftlist', component: ShiftListComponent },
+
 
 
     ]
