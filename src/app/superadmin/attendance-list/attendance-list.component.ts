@@ -9,6 +9,8 @@ import { TableComponent } from '../../commoncomponents/table/table.component';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PaginatorModule } from 'primeng/paginator';
+import { ToastService } from '../../core/services/toast.service';
+import { ErrorHandlingService } from '../../core/services/error-handling.service';
 
 @Component({
   selector: 'app-attendance-list',
@@ -85,7 +87,7 @@ export class AttendanceListComponent {
 
   employeeid: any;
   currentDate: string = '';
-  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService)  { }
 
   ngOnInit(): void {
 
@@ -207,7 +209,7 @@ export class AttendanceListComponent {
       },
         (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         })
   }
   /**END get empname for dropdown */
@@ -263,7 +265,7 @@ export class AttendanceListComponent {
         this.selectedDailyAttendanceFile = file;
         this.selectedDailyAttendanceFileName = file.name;
       } else {
-        this.showError('Please upload a valid Excel file (.xls or .xlsx).');
+        this.toastrService.showError('Please upload a valid Excel file (.xls or .xlsx).');
         event.target.value = ''; // Clear the file input
         this.selectedDailyAttendanceFileName = 'No file selected';
         this.selectedDailyAttendanceFile = null;
@@ -281,7 +283,7 @@ export class AttendanceListComponent {
         this.selectedAttendanceFile = file;
         this.selectedAttendanceFileName = file.name;
       } else {
-        this.showError('Please upload a valid Excel file (.xls or .xlsx).');
+        this.toastrService.showError('Please upload a valid Excel file (.xls or .xlsx).');
         event.target.value = ''; // Clear the file input
         this.selectedAttendanceFileName = 'No file selected';
         this.selectedAttendanceFile = null;
@@ -299,7 +301,7 @@ export class AttendanceListComponent {
         this.selectedotFileName = file.name;
         console.log("Selected overtime file:", this.selectedOvertimeFile);
       } else {
-        this.showError('Please upload a valid Excel file (.xls or .xlsx).');
+        this.toastrService.showError('Please upload a valid Excel file (.xls or .xlsx).');
         event.target.value = ''; // Clear the file input
         this.selectedotFileName = 'No file selected';
         this.selectedOvertimeFile = null;
@@ -317,7 +319,7 @@ export class AttendanceListComponent {
         this.selectedIncentiveFileName = file.name;
         console.log("Selected incentive file:", this.selectedIncentiveFile);
       } else {
-        this.showError('Please upload a valid Excel file (.xls or .xlsx).');
+        this.toastrService.showError('Please upload a valid Excel file (.xls or .xlsx).');
         event.target.value = ''; // Clear the file input
         this.selectedIncentiveFileName = 'No file selected';
         this.selectedIncentiveFile = null;
@@ -359,7 +361,7 @@ export class AttendanceListComponent {
       },
         (error) => {
           this.Loader = false; // Hide loader on error
-          this.handleHttpError(error); // Handle HTTP errors
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
         })
   }
 
@@ -386,7 +388,7 @@ export class AttendanceListComponent {
       },
         (error) => {
           this.Loader = false; // Hide loader on error
-          this.handleHttpError(error); // Handle HTTP errors
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
         })
   }
 
@@ -396,7 +398,7 @@ export class AttendanceListComponent {
   addAttendanceFileFn() {
 
     if (!this.selectedAttendanceFile) {
-      this.showError('Please select attendance file before submitting')
+      this.toastrService.showError('Please select attendance file before submitting')
     }
 
     const reqHeader = new HttpHeaders({
@@ -432,7 +434,7 @@ export class AttendanceListComponent {
 
         if (response['response'] === 'Success') {
 
-          this.showSuccess(response.message);
+          this.toastrService.showSuccess(response.message);
           // this.getAttendanceTableFn();
           setTimeout(() => {
             this.reloadCurrentPage();
@@ -444,7 +446,7 @@ export class AttendanceListComponent {
       },
         (error) => {
           this.Loader = false; // Hide loader on error
-          this.handleHttpError(error); // Handle HTTP errors
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
         })
   }
 
@@ -499,7 +501,7 @@ export class AttendanceListComponent {
         },
         (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
@@ -579,7 +581,7 @@ export class AttendanceListComponent {
         (response: any) => {
           this.Loader = false;
           if (response['response'] === 'Success') {
-            this.showSuccess(response.message);
+            this.toastrService.showSuccess(response.message);
             setTimeout(() => {
               this.reloadCurrentPage();
             }, 1000);
@@ -589,7 +591,7 @@ export class AttendanceListComponent {
         },
         (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
@@ -634,7 +636,7 @@ export class AttendanceListComponent {
       this.Loader = false;
 
       if (response['response'] === 'Success') {
-        this.showSuccess(response.message);
+        this.toastrService.showSuccess(response.message);
         this.reloadCurrentPage();
       } else {
         this.handleErrorResponse(response); // Handle non-success responses
@@ -642,7 +644,7 @@ export class AttendanceListComponent {
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -663,7 +665,7 @@ export class AttendanceListComponent {
       this.Loader = false;
 
       if (response['response'] === 'Success') {
-        this.showSuccess(response.message);
+        this.toastrService.showSuccess(response.message);
         this.reloadCurrentPage();
       } else {
         this.handleErrorResponse(response); // Handle non-success responses
@@ -671,7 +673,7 @@ export class AttendanceListComponent {
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -706,7 +708,7 @@ export class AttendanceListComponent {
   addDailyAttendanceFileFn() {
 
     if (!this.selectedDailyAttendanceFile) {
-      this.showError('Please select attendance file before submitting.....')
+      this.toastrService.showError('Please select attendance file before submitting.....')
     }
 
     const reqHeader = new HttpHeaders({
@@ -734,7 +736,7 @@ export class AttendanceListComponent {
 
         if (response['response'] === 'Success') {
 
-          this.showSuccess(response.message);
+          this.toastrService.showSuccess(response.message);
           // this.getAttendanceTableFn();
           setTimeout(() => {
             this.reloadCurrentPage();
@@ -746,7 +748,7 @@ export class AttendanceListComponent {
       },
         (error) => {
           this.Loader = false; // Hide loader on error
-          this.handleHttpError(error); // Handle HTTP errors
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
         })
   }
 
@@ -754,24 +756,24 @@ export class AttendanceListComponent {
   // Error handling methods remain unchanged
   private handleErrorResponse(response: any) {
     if (response['response'] === 'Error') {
-      this.showError(response.message);
+      this.toastrService.showError(response.message);
       setTimeout(() => {
         this.Loader = false; // Hide loader after 1.5 seconds
       }, 1500);
     } else {
-      this.showWarning(response.message);
+      this.toastrService.showWarning(response.message);
       this.Loader = false;
     }
   }
 
   private handleHttpError(error: any) {
     if (error.status === 401) {
-      this.showError('Invalid token. Please log in again.');
+      this.toastrService.showError('Invalid token. Please log in again.');
       setTimeout(() => {
         this.router.navigateByUrl('login');
       }, 1500);
     } else {
-      this.showError('Unable to process your request at the moment. Please try again later.');
+      this.toastrService.showError('Unable to process your request at the moment. Please try again later.');
       setTimeout(() => {
         this.Loader = false; // Hide loader after 12 seconds
       }, 12000);
@@ -779,63 +781,6 @@ export class AttendanceListComponent {
   }
 
 
-
-  // success- error message
-
-
-  showSuccess(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'success',
-      title: message
-    });
-  }
-
-  showError(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'error',
-      title: message
-    });
-  }
-
-  showWarning(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'warning',
-      title: message
-    });
-  }
 
 
   onModalHidden() {

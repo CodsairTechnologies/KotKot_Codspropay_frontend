@@ -9,6 +9,8 @@ import { TableComponent } from '../../commoncomponents/table/table.component';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PaginatorModule } from 'primeng/paginator';
+import { ToastService } from '../../core/services/toast.service';
+import { ErrorHandlingService } from '../../core/services/error-handling.service';
 
 @Component({
   selector: 'app-view-loan',
@@ -45,7 +47,7 @@ export class ViewLoanComponent {
 
   arrList: any = [];
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
     this.token = sessionStorage.getItem("token");
@@ -94,7 +96,7 @@ export class ViewLoanComponent {
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
   /**get loan table data */
@@ -111,7 +113,7 @@ export class ViewLoanComponent {
       (response: any) => {
         this.Loader = false;
         if (response['response'] === 'Success') {
-          this.showSuccess(response.message);
+          this.toastrService.showSuccess(response.message);
           this.getLoanTableFn();
           setTimeout(() => {
             this.reloadCurrentPage();
@@ -122,7 +124,7 @@ export class ViewLoanComponent {
       },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -200,84 +202,28 @@ export class ViewLoanComponent {
   // Error handling methods remain unchanged
   private handleErrorResponse(response: any) {
     if (response['response'] === 'Error') {
-      this.showError(response.message);
+      this.toastrService.showError(response.message);
       setTimeout(() => {
         this.Loader = false; // Hide loader after 1.5 seconds
       }, 1500);
     } else {
-      this.showWarning(response.message);
+      this.toastrService.showWarning(response.message);
       this.Loader = false;
     }
   }
 
   private handleHttpError(error: any) {
     if (error.status === 401) {
-      this.showError('Invalid token. Please log in again.');
+      this.toastrService.showError('Invalid token. Please log in again.');
       setTimeout(() => {
         this.router.navigateByUrl('login');
       }, 1500);
     } else {
-      this.showError('Unable to process your request at the moment. Please try again later.');
+      this.toastrService.showError('Unable to process your request at the moment. Please try again later.');
       setTimeout(() => {
         this.Loader = false; // Hide loader after 12 seconds
       }, 12000);
     }
   }
-
-  showSuccess(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'success',
-      title: message
-    });
-  }
-
-  showError(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'error',
-      title: message
-    });
-  }
-
-  showWarning(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'warning',
-      title: message
-    });
-  }
-
-
 
 }

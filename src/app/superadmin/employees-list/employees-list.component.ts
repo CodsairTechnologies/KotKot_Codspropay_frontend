@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../commoncomponents/table/table.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { ErrorHandlingService } from '../../core/services/error-handling.service';
 
 @Component({
   selector: 'app-employees-list',
@@ -48,7 +49,7 @@ export class EmployeesListComponent {
   isExpiry: any;
 
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
     this.token = sessionStorage.getItem("token");
@@ -110,7 +111,7 @@ export class EmployeesListComponent {
       },
       (error) => {
         this.Loader = false; // Turn off loader in case of HTTP error
-        this.handleHttpError(error); // Use common HTTP error handling
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Use common HTTP error handling
       }
     );
   }
@@ -149,7 +150,7 @@ export class EmployeesListComponent {
         }
       }, error => {
         this.Loader = false; // Hide loader in case of error
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       });
   }
 
@@ -176,7 +177,7 @@ export class EmployeesListComponent {
         }
       }, error => {
         this.Loader = false; // Hide loader in case of error
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       });
   }
 
@@ -235,7 +236,7 @@ export class EmployeesListComponent {
         },
         error => {
           this.Loader = false; // Hide loader in case of error
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
@@ -274,7 +275,7 @@ export class EmployeesListComponent {
       },
       (error) => {
         this.Loader = false; // Hide loader in case of error
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
     );
   }
@@ -317,7 +318,7 @@ export class EmployeesListComponent {
         },
         error => {
           this.Loader = false; // Hide loader in case of error
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
@@ -341,7 +342,7 @@ export class EmployeesListComponent {
       },
       (error) => {
         this.Loader = false; // Hide loader in case of error
-        this.handleHttpError(error); // Handle HTTP error
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP error
       }
     );
   }
@@ -381,7 +382,7 @@ export class EmployeesListComponent {
       },
       (error) => {
         this.Loader = false; // Turn off loader in case of error
-        this.handleHttpError(error); // Handle HTTP error using common error function
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP error using common error function
       }
     );
   }
@@ -513,7 +514,7 @@ export class EmployeesListComponent {
         },
         error => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }

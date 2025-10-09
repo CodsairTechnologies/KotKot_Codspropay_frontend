@@ -11,6 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TableComponent } from '../../commoncomponents/table/table.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ErrorHandlingService } from '../../core/services/error-handling.service';
 
 @Component({
   selector: 'app-employees',
@@ -153,7 +154,7 @@ export class EmployeesComponent {
 
 
 
-  constructor(private sanitizer: DomSanitizer, private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+  constructor(private sanitizer: DomSanitizer, private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) {
 
   }
 
@@ -341,7 +342,7 @@ export class EmployeesComponent {
     } else {
       this.selectedFilepassport = null;
       console.log('Unsupported file format for passport. Please select a PDF or image file.');
-      this.showWarning('Only PDF and image files (JPG, PNG) are supported for passport. Please select a valid file.');
+      this.toastrService.showWarning('Only PDF and image files (JPG, PNG) are supported for passport. Please select a valid file.');
     }
   }
 
@@ -356,7 +357,7 @@ export class EmployeesComponent {
     } else {
       this.selectedFilebaladyurl = null;
       console.log('Unsupported file format for Balady. Please select a PDF or image file.');
-      this.showWarning('Only PDF and image files (JPG, PNG) are supported for Balady. Please select a valid file.');
+      this.toastrService.showWarning('Only PDF and image files (JPG, PNG) are supported for Balady. Please select a valid file.');
     }
   }
 
@@ -371,7 +372,7 @@ export class EmployeesComponent {
     } else {
       this.ikkamaurl = null;
       console.log('Unsupported file format for Ikkama. Please select a PDF or image file.');
-      this.showWarning('Only PDF and image files (JPG, PNG) are supported for Ikkama. Please select a valid file.');
+      this.toastrService.showWarning('Only PDF and image files (JPG, PNG) are supported for Ikkama. Please select a valid file.');
     }
   }
 
@@ -464,12 +465,12 @@ export class EmployeesComponent {
           if (response.response === 'Success') {
             this.worklocationlist = response.worklocationlist;
           } else {
-            this.showError(response.message);
+            this.toastrService.showError(response.message);
           }
         },
         error: (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       });
   }
@@ -504,12 +505,12 @@ export class EmployeesComponent {
           if (response.response === 'Success') {
             this.RestaurantList = response.restaurantactivelist;
           } else {
-            this.showError(response.message);
+            this.toastrService.showError(response.message);
           }
         },
         error: (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       });
   }
@@ -527,7 +528,7 @@ export class EmployeesComponent {
     } else {
       this.selectedFilecontract = null;
       console.log('Unsupported file format. Please select a PDF or image file.');
-      this.showWarning('Only PDF and image files (JPG, PNG) are supported. Please select a valid file.');
+      this.toastrService.showWarning('Only PDF and image files (JPG, PNG) are supported. Please select a valid file.');
     }
   }
 
@@ -640,7 +641,7 @@ export class EmployeesComponent {
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -737,7 +738,7 @@ export class EmployeesComponent {
         };
         reader.readAsDataURL(this.selectedfile);
       } else {
-        this.showWarning('Please select an image in JPEG, JPG, or PNG format.');
+        this.toastrService.showWarning('Please select an image in JPEG, JPG, or PNG format.');
       }
     }
   }
@@ -864,12 +865,12 @@ export class EmployeesComponent {
             if (this.countryId) {
             }
           } else {
-            this.showError(response.message);
+            this.toastrService.showError(response.message);
           }
         },
         error: (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       });
   }
@@ -902,11 +903,11 @@ export class EmployeesComponent {
           this.statelist = response.statelist;
           if (callback) callback();
         } else {
-          this.showError(response.message);
+          this.toastrService.showError(response.message);
         }
       }, (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -939,11 +940,11 @@ export class EmployeesComponent {
           this.districtlist = response.districtlist;
           if (callback) callback();  // ✅ run after loading
         } else {
-          this.showError(response.message);
+          this.toastrService.showError(response.message);
         }
       }, (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 
@@ -966,11 +967,11 @@ export class EmployeesComponent {
         if (response.response === 'Success') {
           this.Department_ArrayList = response.departmentlist;
         } else {
-          this.showError(response.message);
+          this.toastrService.showError(response.message);
         }
       }, (error) => {
         // Pass Loader reference to common service
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
       );
   }
@@ -997,11 +998,11 @@ export class EmployeesComponent {
         if (response.response === 'Success') {
           this.Designation_List = response.designationlist;
         } else {
-          this.showError(response.message);
+          this.toastrService.showError(response.message);
         }
       }, (error) => {
         // Pass Loader reference to common service
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
       );
   }
@@ -1030,7 +1031,7 @@ export class EmployeesComponent {
       },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
     );
   }
@@ -1255,11 +1256,11 @@ export class EmployeesComponent {
 
 
         } else {
-          this.showError(response.message);
+          this.toastrService.showError(response.message);
         }
       }, (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -1277,7 +1278,7 @@ export class EmployeesComponent {
 
     if (this.EmployeeForm.invalid) {
       this.EmployeeForm.markAllAsTouched();
-      this.showError('Please fill out all required fields before submitting your registration.')
+      this.toastrService.showError('Please fill out all required fields before submitting your registration.')
       return
     }
 
@@ -1485,7 +1486,7 @@ export class EmployeesComponent {
     // if (salaryDateValue === '5' || salaryDateValue === '10') {
     //   formdata.append('salarydate', salaryDateValue);
     // } else {
-    //   this.showError('Invalid salary date selected.');
+    //   this.toastrService.showError('Invalid salary date selected.');
     //   return;
     // }
     formdata.append('createdId', this.adminId);
@@ -1504,7 +1505,7 @@ export class EmployeesComponent {
         this.Loader = false;
 
         if (response['response'] == 'Success') {
-          this.showSuccess(response.message)
+          this.toastrService.showSuccess(response.message)
           this.router.navigateByUrl('/superadmin/employeelist')
         }
         else {
@@ -1513,7 +1514,7 @@ export class EmployeesComponent {
       },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -1672,24 +1673,24 @@ export class EmployeesComponent {
   // Error handling methods
   private handleErrorResponse(response: any) {
     if (response['response'] === 'Error') {
-      this.showError(response.message);
+      this.toastrService.showError(response.message);
       setTimeout(() => {
         this.Loader = false; // Hide loader after 12 seconds
       }, 1500);
     } else {
-      this.showWarning(response.message);
+      this.toastrService.showWarning(response.message);
       this.Loader = false;
     }
   }
 
   private handleHttpError(error: any) {
     if (error.status === 401) {
-      this.showError('Invalid token. Please log in again.');
+      this.toastrService.showError('Invalid token. Please log in again.');
       setTimeout(() => {
         this.router.navigateByUrl('login');
       }, 1500);
     } else {
-      this.showError('Unable to process your request at the moment. Please try again later.');
+      this.toastrService.showError('Unable to process your request at the moment. Please try again later.');
       setTimeout(() => {
         this.Loader = false; // Hide loader after 12 seconds
       }, 12000);
@@ -1727,61 +1728,5 @@ export class EmployeesComponent {
   //   }
   // }
 
-
-
-
-  showSuccess(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'success',
-      title: message
-    });
-  }
-
-
-  showWarning(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'warning',
-      title: message
-    });
-  }
-  showError(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'error',
-      title: message
-    });
-  }
 
 }

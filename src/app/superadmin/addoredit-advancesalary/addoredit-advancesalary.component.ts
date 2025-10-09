@@ -2,19 +2,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import Swal from 'sweetalert2';
 import { environment } from '../../../environments/environment';
 import { DialogModule } from 'primeng/dialog';
-import { TableComponent } from '../../commoncomponents/table/table.component';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { PaginatorModule } from 'primeng/paginator';
+import { ToastService } from '../../core/services/toast.service';
+import { ErrorHandlingService } from '../../core/services/error-handling.service';
 
 @Component({
   selector: 'app-addoredit-advancesalary',
   standalone: true,
-  imports: [ReactiveFormsModule, DialogModule, TableComponent,
-    CommonModule, NgSelectModule, PaginatorModule,
+  imports: [ReactiveFormsModule, DialogModule,
+    CommonModule, NgSelectModule,
     FormsModule],
   templateUrl: './addoredit-advancesalary.component.html',
   styleUrl: './addoredit-advancesalary.component.css'
@@ -54,8 +53,8 @@ export class AddoreditAdvancesalaryComponent {
   salarybyidList: any = [];
   EMPID: any;
   salaryhistory: any[] = [];
-id: any;
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
+  id: any;
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -65,7 +64,7 @@ id: any;
     this.status = sessionStorage.getItem("status");
 
     if (!this.token) {
-      this.showError('Token not available. Please log in again.');
+      this.toastrService.showError('Token not available. Please log in again.');
       this.router.navigateByUrl('/login');
       return;
     }
@@ -166,7 +165,7 @@ id: any;
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 
@@ -256,7 +255,7 @@ id: any;
       },
         (error) => {
           this.Loader = false; // Hide loader on error
-          this.handleHttpError(error); // Handle HTTP errors
+          this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
         })
   }
   /**END get empname for dropdown */
@@ -309,7 +308,7 @@ id: any;
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
   /**get Employee By ID */
@@ -375,7 +374,7 @@ id: any;
 
     const formdata = new FormData();
 
-     if (this.isEditMode && this.id) {
+    if (this.isEditMode && this.id) {
       formdata.append('id', this.id);
     }
 
@@ -391,15 +390,15 @@ id: any;
     this.Loader = true;
 
     const apiUrl = this.isEditMode
-  ? environment.apiUrl + 'codspropay/api/editadvancesalary/'
-  : environment.apiUrl + 'codspropay/api/addadvancesalary/';
+      ? environment.apiUrl + 'codspropay/api/editadvancesalary/'
+      : environment.apiUrl + 'codspropay/api/addadvancesalary/';
 
 
     this.http.post(apiUrl, formdata, { headers: reqHeader }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response.response === 'Success') {
-        this.showSuccess(response.message);
+        this.toastrService.showSuccess(response.message);
         this.addadSalaryForm.reset();
         this.router.navigateByUrl('superadmin/advancesalary');
       } else {
@@ -408,7 +407,7 @@ id: any;
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
   /**END add Loan function */
@@ -424,89 +423,19 @@ id: any;
   /**Error handling */
   private handleErrorResponse(response: any) {
     if (response['response'] === 'Error') {
-      this.showError(response.message);
+      this.toastrService.showError(response.message);
       setTimeout(() => {
-        this.Loader = false; // Hide loader after 1.5 seconds
+        this.Loader = false;
       }, 1500);
-    } else {
-      this.showWarning(response.message);
+    } else if (response['response'] === 'Warning') {
+      this.toastrService.showWarning(response.message);
       this.Loader = false;
-    }
-  }
-
-
-  private handleHttpError(error: any) {
-    if (error.status === 401) {
-      this.showError('Invalid token. Please log in again.');
-      setTimeout(() => {
-        this.router.navigateByUrl('login');
-      }, 1500);
     } else {
-      this.showError('Unable to process your request at the moment. Please try again later.');
-      setTimeout(() => {
-        this.Loader = false; // Hide loader after 12 seconds
-      }, 12000);
+      this.toastrService.showError(response.message);
     }
   }
-  /**Error handling*/
 
 
-
-  /**Success, Error and Warning Messages */
-  showSuccess(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'success',
-      title: message
-    });
-  }
-
-  showError(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'error',
-      title: message
-    });
-  }
-
-  showWarning(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'warning',
-      title: message
-    });
-  }
-  /**END Success, Error and Warningb Messages */
 
 
 }

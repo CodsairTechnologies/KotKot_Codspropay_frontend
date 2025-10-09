@@ -25,6 +25,7 @@ import { environment } from '../../../environments/environment';
 import { DialogModule } from 'primeng/dialog';
 import { TableComponent } from '../../commoncomponents/table/table.component';
 import { PaginatorModule } from 'primeng/paginator';
+import { ErrorHandlingService } from '../../core/services/error-handling.service';
 
 
 
@@ -138,7 +139,7 @@ export class EmployeesProfileComponent {
   expiryList: any = [];
   resignationForm !: FormGroup
 
-  constructor(private rout: ActivatedRoute, private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private datePipe: DatePipe, private toastrService: ToastService) { }
+  constructor(private rout: ActivatedRoute, private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private datePipe: DatePipe, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -316,7 +317,7 @@ export class EmployeesProfileComponent {
       },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 

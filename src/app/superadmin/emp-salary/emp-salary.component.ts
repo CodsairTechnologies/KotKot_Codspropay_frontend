@@ -74,6 +74,8 @@ import { TableComponent } from '../../commoncomponents/table/table.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
+import { ToastService } from '../../core/services/toast.service';
+import { ErrorHandlingService } from '../../core/services/error-handling.service';
 
 
 @Component({
@@ -134,7 +136,7 @@ export class EmpSalaryComponent {
 
 
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) {
     this.initializeDeductionForm();
 
   }
@@ -465,7 +467,7 @@ export class EmpSalaryComponent {
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -476,7 +478,7 @@ export class EmpSalaryComponent {
 
   DeptFilterFn() {
     // if (!this.Dept_ID) {
-    //   this.showError('Please Select a Department.');
+    //   this.toastrService.showError('Please Select a Department.');
     //   return;
     // }
 
@@ -486,12 +488,12 @@ export class EmpSalaryComponent {
     // const totWorkingDays = this.filterform.get('TotWorkingDays')?.value;
 
     // if (!month) {
-    //   this.showError('Please Select a Month.');
+    //   this.toastrService.showError('Please Select a Month.');
     //   return;
     // }
 
     // if (!salaryDate || !totWorkingDays) {
-    //   this.showError('Total Working Days and Salary Date are required.');
+    //   this.toastrService.showError('Total Working Days and Salary Date are required.');
     //   return;
     // }
 
@@ -514,13 +516,13 @@ export class EmpSalaryComponent {
           this.salaryList = response.details;
         } else {
           this.salaryList = [];
-          this.showError(response.message);
+          this.toastrService.showError(response.message);
         }
         this.Loader = false;
       },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
     );
   }
@@ -534,12 +536,12 @@ export class EmpSalaryComponent {
     // const workingDays = this.filterform.get('searchWorkingDays')?.value;
 
     // if (!employeeID) {
-    //   this.showError('Please enter an Employee ID.');
+    //   this.toastrService.showError('Please enter an Employee ID.');
     //   return;
     // }
 
     // if (!salaryDate || !workingDays) {
-    //   this.showError('Salary Date and Total Working Days in search section are required.');
+    //   this.toastrService.showError('Salary Date and Total Working Days in search section are required.');
     //   return;
     // }
 
@@ -560,13 +562,13 @@ export class EmpSalaryComponent {
           this.salaryList = response.details;
         } else {
           this.salaryList = [];
-          this.showError(response.message);
+          this.toastrService.showError(response.message);
         }
         this.Loader = false;
       },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
     );
   }
@@ -691,7 +693,7 @@ export class EmpSalaryComponent {
 
     // Validation check
     // if (!salaryDate || !totalWorkingDays) {
-    //   this.showError('Salary Date and Total Working Days are required before proceeding.');
+    //   this.toastrService.showError('Salary Date and Total Working Days are required before proceeding.');
     //   return;
     // }
     // Map selected employees to include LOP and fine details
@@ -719,13 +721,13 @@ export class EmpSalaryComponent {
       (response: any) => {
         if (response.response === 'Success') {
           this.Loader = false;
-          this.showSuccess(response.message);
+          this.toastrService.showSuccess(response.message);
           setTimeout(() => {
             this.reloadCurrentPage();
           }, 1000);
         } else if (response.response === 'Warning') {
           this.Loader = false;
-          this.showWarning(response.message);
+          this.toastrService.showWarning(response.message);
         }
         else {
           this.handleErrorResponse(response);
@@ -733,7 +735,7 @@ export class EmpSalaryComponent {
       },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 
@@ -747,83 +749,28 @@ export class EmpSalaryComponent {
   // Error handling methods remain unchanged
   private handleErrorResponse(response: any) {
     if (response['response'] === 'Error') {
-      this.showError(response.message);
+      this.toastrService.showError(response.message);
       setTimeout(() => {
         this.Loader = false; // Hide loader after 1.5 seconds
       }, 1500);
     } else {
-      this.showWarning(response.message);
+      this.toastrService.showWarning(response.message);
       this.Loader = false;
     }
   }
 
   private handleHttpError(error: any) {
     if (error.status === 401) {
-      this.showError('Invalid token. Please log in again.');
+      this.toastrService.showError('Invalid token. Please log in again.');
       setTimeout(() => {
         this.router.navigateByUrl('login');
       }, 1500);
     } else {
-      this.showError('Unable to process your request at the moment. Please try again later.');
+      this.toastrService.showError('Unable to process your request at the moment. Please try again later.');
       setTimeout(() => {
         this.Loader = false; // Hide loader after 12 seconds
       }, 12000);
     }
   }
 
-
-  showSuccess(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'success',
-      title: message
-    });
-  }
-
-  showError(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'error',
-      title: message
-    });
-  }
-
-
-  showWarning(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'warning',
-      title: message
-    });
-  }
 }

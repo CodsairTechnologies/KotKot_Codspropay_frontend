@@ -41,6 +41,7 @@ import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast.service';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
+import { ErrorHandlingService } from '../../core/services/error-handling.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -103,7 +104,7 @@ export class DashboardComponent {
 
   private hasShownWarning: boolean = false;
 
-  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router, private toastrService: ToastService) {
+  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) {
 
     this.calendarOptions = {
       initialView: 'dayGridMonth',
@@ -280,7 +281,7 @@ export class DashboardComponent {
       },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 
@@ -303,7 +304,7 @@ export class DashboardComponent {
       },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
     );
   }
@@ -329,7 +330,7 @@ export class DashboardComponent {
       },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
     );
   }
@@ -467,7 +468,7 @@ export class DashboardComponent {
       },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 
@@ -491,7 +492,7 @@ export class DashboardComponent {
       },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 
@@ -520,7 +521,7 @@ export class DashboardComponent {
       },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 
@@ -549,7 +550,7 @@ export class DashboardComponent {
     },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 
@@ -594,7 +595,7 @@ export class DashboardComponent {
     },
       (error) => {
         this.Loader = false;
-        this.handleHttpError(error);
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 
@@ -636,7 +637,7 @@ export class DashboardComponent {
       },
         (error) => {
           this.Loader = false; // Hide loader on error
-          this.handleHttpError(error); // Handle HTTP errors
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
         })
 
   }
@@ -692,7 +693,7 @@ export class DashboardComponent {
       },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -718,7 +719,7 @@ export class DashboardComponent {
       },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -768,7 +769,7 @@ export class DashboardComponent {
       },
         (error) => {
           this.Loader = false; // Hide loader on error
-          this.handleHttpError(error); // Handle HTTP errors
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
         })
   }
 
@@ -798,7 +799,7 @@ export class DashboardComponent {
       },
         (error) => {
           this.Loader = false; // Hide loader on error
-          this.handleHttpError(error); // Handle HTTP errors
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
         })
   }
 
@@ -883,7 +884,7 @@ export class DashboardComponent {
       },
         (error) => {
           this.Loader = false; // Hide loader on error
-          this.handleHttpError(error); // Handle HTTP errors
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
         })
   }
 
@@ -921,7 +922,7 @@ export class DashboardComponent {
 
         (error) => {
           this.Loader = false; // Hide loader on error
-          this.handleHttpError(error); // Handle HTTP errors
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
         })
   }
 
@@ -965,7 +966,7 @@ export class DashboardComponent {
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-        this.handleHttpError(error); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
   /**get loan table data */

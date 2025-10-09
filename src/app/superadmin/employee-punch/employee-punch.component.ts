@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../commoncomponents/table/table.component';
 import { DialogModule } from 'primeng/dialog';
+import { ToastService } from '../../core/services/toast.service';
+import { ErrorHandlingService } from '../../core/services/error-handling.service';
 
 @Component({
   selector: 'app-employee-punch',
@@ -33,7 +35,7 @@ export class EmployeePunchComponent {
   DeptId_List: any = [];
   Delete_DeptID: any;
   CompanyId: any;
-  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router) { }
+  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
     this.token = sessionStorage.getItem("token");
@@ -125,7 +127,7 @@ export class EmployeePunchComponent {
         },
         (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
@@ -151,7 +153,7 @@ export class EmployeePunchComponent {
         (response: any) => {
           this.Loader = false;
           if (response['response'] === 'Success') {
-            this.showSuccess(response.message);
+            this.toastrService.showSuccess(response.message);
             setTimeout(() => this.reloadCurrentPage(), 1000);
           } else {
             this.handleErrorResponse(response);
@@ -159,7 +161,7 @@ export class EmployeePunchComponent {
         },
         (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
@@ -186,13 +188,13 @@ export class EmployeePunchComponent {
           if (response.response === 'Success') {
             this.EditModal = false;
             this.get_Employees();
-            this.showSuccess(response.message);
+            this.toastrService.showSuccess(response.message);
           } else {
             this.handleErrorResponse(response);
           }
         },
         (error) => {
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
@@ -225,7 +227,7 @@ export class EmployeePunchComponent {
         },
         (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
@@ -243,7 +245,7 @@ export class EmployeePunchComponent {
         (response: any) => {
           this.Loader = false;
           if (response['response'] === 'Success') {
-            this.showSuccess(response.message);
+            this.toastrService.showSuccess(response.message);
             setTimeout(() => {
               this.reloadCurrentPage();
             }, 1000);
@@ -253,7 +255,7 @@ export class EmployeePunchComponent {
         },
         (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
@@ -282,7 +284,7 @@ export class EmployeePunchComponent {
         },
         error: (error) => {
           this.Loader = false;
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       });
   }
@@ -318,11 +320,11 @@ export class EmployeePunchComponent {
 
           } else if (response.response === 'Warning') {
             this.arrList = [];
-            this.showWarning(response.message || 'No data found');
+            this.toastrService.showWarning(response.message || 'No data found');
 
           } else {
             this.arrList = [];
-            this.showError(response.message || 'Something went wrong');
+            this.toastrService.showError(response.message || 'Something went wrong');
             this.handleErrorResponse(response.message);
           }
 
@@ -330,7 +332,7 @@ export class EmployeePunchComponent {
         error: (error) => {
           this.Loader = false;
           this.arrList = [];
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       });
   }
@@ -355,7 +357,7 @@ export class EmployeePunchComponent {
 
     // Validation: both Employee Name and Month are required
     if (!filterValues.empName || !filterValues.month) {
-      this.showError('Please enter both Employee Name and Month to search.');
+      this.toastrService.showError('Please enter both Employee Name and Month to search.');
       return;
     }
 
@@ -383,11 +385,11 @@ export class EmployeePunchComponent {
 
           } else if (response.response === 'Warning') {
             this.arrList = [];
-            this.showWarning(response.message || 'No data found');
+            this.toastrService.showWarning(response.message || 'No data found');
 
           } else {
             this.arrList = [];
-            this.showError(response.message || 'Something went wrong');
+            this.toastrService.showError(response.message || 'Something went wrong');
             this.handleErrorResponse(response.message);
           }
 
@@ -395,7 +397,7 @@ export class EmployeePunchComponent {
         error: (error) => {
           this.Loader = false;
           this.arrList = [];
-          this.handleHttpError(error);
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       });
   }
@@ -420,19 +422,19 @@ export class EmployeePunchComponent {
 
           } else if (response.response === 'Warning') {
             this.arrList = [];
-            this.showWarning(response.message || 'No data found');
+            this.toastrService.showWarning(response.message || 'No data found');
 
           } else {
             this.arrList = [];
-            this.showError(response.message || 'Something went wrong');
+            this.toastrService.showError(response.message || 'Something went wrong');
             this.handleErrorResponse(response.message);
           }
         },
         error: (error) => {
           this.Loader = false;
           this.arrList = [];
-          this.showError('Server error. Please try again.');
-          this.handleHttpError(error);
+          this.toastrService.showError('Server error. Please try again.');
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       });
   }
@@ -444,24 +446,24 @@ export class EmployeePunchComponent {
   // Error handling methods
   private handleErrorResponse(response: any) {
     if (response['response'] === 'Error') {
-      this.showError(response.message);
+      this.toastrService.showError(response.message);
       setTimeout(() => {
         this.Loader = false; // Hide loader after 12 seconds
       }, 1500);
     } else {
-      this.showWarning(response.message);
+      this.toastrService.showWarning(response.message);
       this.Loader = false;
     }
   }
 
   private handleHttpError(error: any) {
     if (error.status === 401) {
-      this.showError('Invalid token. Please log in again.');
+      this.toastrService.showError('Invalid token. Please log in again.');
       setTimeout(() => {
         this.router.navigateByUrl('login');
       }, 1500);
     } else {
-      this.showError('Unable to process your request at the moment. Please try again later.');
+      this.toastrService.showError('Unable to process your request at the moment. Please try again later.');
       setTimeout(() => {
         this.Loader = false; // Hide loader after 12 seconds
       }, 12000);
@@ -508,62 +510,6 @@ export class EmployeePunchComponent {
       default:
         break;
     }
-  }
-
-
-
-  showSuccess(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'success',
-      title: message
-    });
-  }
-
-  showError(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'error',
-      title: message
-    });
-  }
-
-  showWarning(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    Toast.fire({
-      icon: 'warning',
-      title: message
-    });
   }
 
 }
