@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -35,7 +35,7 @@ export class EmployeePunchComponent {
   DeptId_List: any = [];
   Delete_DeptID: any;
   CompanyId: any;
-  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private formbuilder: FormBuilder, private apiService: ApiService, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
     this.token = sessionStorage.getItem("token");
@@ -109,13 +109,9 @@ export class EmployeePunchComponent {
   }
 
   get_AllCompanys() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + 'codspropay/api/getunit/', { id: 'sample' }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getunit/', { id: 'sample' })
       .subscribe(
         (response: any) => {
           this.Loader = false;
@@ -133,9 +129,7 @@ export class EmployeePunchComponent {
   }
 
   addDepartment() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+
 
     if (this.addDepartmentForm.invalid) {
       this.addDepartmentForm.markAllAsTouched();
@@ -148,7 +142,7 @@ export class EmployeePunchComponent {
 
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + 'codspropay/api/adddepartment/', formdata, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/adddepartment/', formdata)
       .subscribe(
         (response: any) => {
           this.Loader = false;
@@ -172,17 +166,13 @@ export class EmployeePunchComponent {
       return;
     }
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     const payload = {
       id: this.DeptID,
       checkin: this.EditDepartmentForm.get('Echeckin')?.value,
       checkout: this.EditDepartmentForm.get('Echeckout')?.value
     };
 
-    this.http.post(environment.apiUrl + 'codspropay/api/editemployeepunch/', payload, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/editemployeepunch/', payload)
       .subscribe(
         (response: any) => {
           if (response.response === 'Success') {
@@ -201,13 +191,10 @@ export class EmployeePunchComponent {
 
 
   getById() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + 'codspropay/api/viewemployeepunchbyid/', { id: this.DeptID }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/viewemployeepunchbyid/', { id: this.DeptID })
       .subscribe(
         (response: any) => {
           this.Loader = false;
@@ -234,13 +221,9 @@ export class EmployeePunchComponent {
 
 
   deleteDepartment() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + 'codspropay/api/deletedepartment/', { id: this.Delete_DeptID }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/deletedepartment/', { id: this.Delete_DeptID })
       .subscribe(
         (response: any) => {
           this.Loader = false;
@@ -267,12 +250,9 @@ export class EmployeePunchComponent {
   deptId: any;
 
   fetchDepartment() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' })
       .subscribe({
         next: (response: any) => {
           this.Loader = false;
@@ -302,12 +282,9 @@ export class EmployeePunchComponent {
       date: filterValues.startDate || null
     };
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
+  
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeepunch/', payload, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeepunch/', payload)
       .subscribe({
         next: (response: any) => {
           this.Loader = false;
@@ -366,12 +343,9 @@ export class EmployeePunchComponent {
       empname: filterValues.empName
     };
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/searchemployeepunch/', payload, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/searchemployeepunch/', payload)
       .subscribe({
         next: (response: any) => {
           this.Loader = false;
@@ -403,12 +377,9 @@ export class EmployeePunchComponent {
   }
 
   get_Employees() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeepunch/', {}, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeepunch/', {})
       .subscribe({
         next: (response: any) => {
           this.Loader = false;

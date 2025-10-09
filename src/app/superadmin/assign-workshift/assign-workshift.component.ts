@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -59,7 +59,7 @@ export class AssignWorkshiftComponent {
   shiftArray: any = []
   Workshift_Id: any;
   shiftValue: any;
-  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   // Array declaration
   shiftArr = [
@@ -121,13 +121,9 @@ export class AssignWorkshiftComponent {
   }
 
   getWorklocationByStatusFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
 
-    this.http.post<any>(environment.apiUrl + '/api/getactiveworklocation/', { id: 'sample' }, { headers: reqHeader })
+    this.apiService.postData(environment.apiUrl + '/api/getactiveworklocation/', { id: 'sample' })
       .subscribe({
         next: (response) => {
           this.Loader = false;
@@ -151,11 +147,9 @@ export class AssignWorkshiftComponent {
   }
 
   getDepartmentByStatusFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' }, { headers: reqHeader })
+    this.apiService.postData(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' })
       .subscribe((response: any) => {
         this.Loader = false;
         if (response.response === 'Success') {
@@ -180,12 +174,8 @@ export class AssignWorkshiftComponent {
   // Fetch shift names from API
 
   fetchShiftNames() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getworkshift/', { id: 'sample' }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getworkshift/', { id: 'sample' }).subscribe(
       (response: any) => {
         if (response['response'] == 'Success') {
           this.shiftnameslist = response.workshiftlist;
@@ -201,9 +191,6 @@ export class AssignWorkshiftComponent {
   }
 
   getShiftTableFn() {
-    var reqHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.token
-    });
 
     const filters = {
       worklocationid: null,
@@ -212,7 +199,7 @@ export class AssignWorkshiftComponent {
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/filteremployeewithoutshift/', filters, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/filteremployeewithoutshift/', filters).subscribe(
       (response: any) => {
         if (response.response == 'Success') {
           this.shiftlist = response.employees;
@@ -235,10 +222,6 @@ export class AssignWorkshiftComponent {
 
 
   getFilterShiftTableFn() {
-    var reqHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.token
-    });
-
     const filters = {
       worklocationid: this.WorkShiftFilterForm.get('Location')!.value,
       departmentid: this.WorkShiftFilterForm.get('Department')!.value,
@@ -246,7 +229,7 @@ export class AssignWorkshiftComponent {
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/filteremployeewithoutshift/', filters, { headers: reqHeader }).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/filteremployeewithoutshift/', filters).subscribe(
       (response: any) => {
         if (response.response == 'Success') {
           this.shiftlist = response.employees;
@@ -275,12 +258,8 @@ export class AssignWorkshiftComponent {
       word: searchKeyword
     };
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeesbyshiftbyid/', payload, { headers: reqHeader }).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeesbyshiftbyid/', payload).subscribe(
       (response: any) => {
         if (response['response'] == 'Success') {
           this.Loader = false;
@@ -322,17 +301,13 @@ export class AssignWorkshiftComponent {
       return;
     }
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     const updateData = {
       shiftid: selectedShiftId,
       workshiftid: selectedWorkShiftId
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/editemployeeshift/', updateData, { headers: reqHeader }).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/editemployeeshift/', updateData).subscribe(
       (response: any) => {
         if (response['response'] === 'Success') {
           this.reloadCurrentPage()
@@ -435,9 +410,6 @@ export class AssignWorkshiftComponent {
 
 
   assignWorkshift() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
     var formdata = new FormData();
 
     this.shiftArr = this.shiftArr.map(item => ({
@@ -456,7 +428,7 @@ export class AssignWorkshiftComponent {
     console.log(this.shiftArr)
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/addemployeesbyshift/', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/addemployeesbyshift/', formdata).subscribe((response: any) => {
       this.Loader = false;
       if (response.response === 'Success') {
         this.toastrService.showSuccess(response.message);
@@ -477,10 +449,6 @@ export class AssignWorkshiftComponent {
   // name sort
 
   nameSortFn(sortOrder: string) {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     const payload = {
       word: sortOrder,
       worklocationid: this.workId,
@@ -489,7 +457,7 @@ export class AssignWorkshiftComponent {
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/employeenamesort/', payload, { headers: reqHeader }).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/employeenamesort/', payload).subscribe(
       (response: any) => {
         if (response['response'] === 'Success') {
           this.shiftlist = response['employees'];
@@ -510,9 +478,6 @@ export class AssignWorkshiftComponent {
   // checked sort
 
   checkSortFn(sortOrder: string) {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     const payload = {
       word: sortOrder,
@@ -522,7 +487,7 @@ export class AssignWorkshiftComponent {
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/employeechecksort/', payload, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/employeechecksort/', payload).subscribe(
       (response: any) => {
         if (response['response'] === 'Success') {
           this.shiftlist = response['employees'];

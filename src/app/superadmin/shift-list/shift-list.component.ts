@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -40,7 +40,7 @@ export class ShiftListComponent {
   departments: any = [];
   shiftList: any = [];
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -98,12 +98,9 @@ export class ShiftListComponent {
   /**get Shift table */
 
   getShiftTableFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getworkshift/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getworkshift/', { id: 'sample' }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] === 'Success') {
@@ -133,9 +130,7 @@ export class ShiftListComponent {
   /**add shift  */
 
   addShiftFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+
     if (this.addShiftForm.invalid) {
       this.addShiftForm.markAllAsTouched();
       return;
@@ -148,7 +143,7 @@ export class ShiftListComponent {
     formdata.append('break_duration', this.addShiftForm.controls['Breaktime'].value);
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/addworkshift/', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/addworkshift/', formdata).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] === 'Success') {
@@ -173,12 +168,9 @@ export class ShiftListComponent {
   getShiftById(id: any) {
     this.shiftId = id.toString();
 
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getworkshiftbyid/', { id: this.shiftId }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getworkshiftbyid/', { id: this.shiftId }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] === 'Success') {
@@ -214,13 +206,7 @@ export class ShiftListComponent {
 
 
   editShift() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-    // if (this.EditShiftForm.invalid) {
-    //   this.EditShiftForm.markAllAsTouched();
-    //   return;
-    // }
+
     var formdata = new FormData();
 
     formdata.append('shift', this.EditShiftForm.controls['shift'].value);
@@ -233,7 +219,7 @@ export class ShiftListComponent {
 
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/editworkshift/', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/editworkshift/', formdata).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] === 'Success') {
@@ -253,12 +239,8 @@ export class ShiftListComponent {
 
   deleteShiftFn() {
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/deleteworkshift/', { id: this.shiftId }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/deleteworkshift/', { id: this.shiftId }).subscribe(
       (response: any) => {
         this.Loader = false;
         if (response['response'] === 'Success') {
@@ -290,12 +272,8 @@ export class ShiftListComponent {
       status: newStatus
     };
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/statusworkshift/', payload, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/statusworkshift/', payload).subscribe(
       (response: any) => {
         this.Loader = false;
         if (response['response'] === 'Success') {

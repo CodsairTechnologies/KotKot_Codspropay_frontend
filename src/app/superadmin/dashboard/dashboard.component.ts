@@ -25,7 +25,7 @@ interface EmpExpiryData {
 
 
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -104,7 +104,7 @@ export class DashboardComponent {
 
   private hasShownWarning: boolean = false;
 
-  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) {
+  constructor(private formbuilder: FormBuilder, private apiService: ApiService, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) {
 
     this.calendarOptions = {
       initialView: 'dayGridMonth',
@@ -258,12 +258,9 @@ export class DashboardComponent {
 
 
   getCountsFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/countfordashboard/', { id: 'sample' }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + '/api/countfordashboard/', { id: 'sample' }).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -286,12 +283,10 @@ export class DashboardComponent {
   }
 
   getvehicleexpiryFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+ 
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getexpiryfields/', { id: 'sample' }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + '/api/getexpiryfields/', { id: 'sample' }).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -310,12 +305,9 @@ export class DashboardComponent {
   }
 
   getstaffexpiryFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/employeeexpiryfields/', { id: 'sample' }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + '/api/employeeexpiryfields/', { id: 'sample' }).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -438,9 +430,6 @@ export class DashboardComponent {
 
 
   addTodo() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     if (this.todoForm.invalid) {
       this.todoForm.markAllAsTouched();
@@ -453,7 +442,7 @@ export class DashboardComponent {
 
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/addtodo/', formdata, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + '/api/addtodo/', formdata).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -474,12 +463,9 @@ export class DashboardComponent {
 
 
   getToDoFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/gettodo/', { id: 'sample' }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + '/api/gettodo/', { id: 'sample' }).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -503,12 +489,9 @@ export class DashboardComponent {
 
 
   getInvoiceFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/invoicefordashboard/', { id: 'sample' }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + '/api/invoicefordashboard/', { id: 'sample' }).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -527,12 +510,9 @@ export class DashboardComponent {
 
   getToDoById(id: any) {
     this.todoid = id.toString();
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/viewtodobyid/', { todo_id: this.todoid }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/viewtodobyid/', { todo_id: this.todoid }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] == 'Success') {
@@ -566,10 +546,6 @@ export class DashboardComponent {
   }
 
   editTodoFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     if (this.edittodoForm.invalid) {
       return;
     }
@@ -579,7 +555,7 @@ export class DashboardComponent {
     formdata.append('todo_id', this.todoid);
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + '/api/edittodo/', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/edittodo/', formdata).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] === 'Success') {
@@ -613,13 +589,8 @@ export class DashboardComponent {
     if (this.selectedTodoId === null) {
       return; // No ID selected
     }
-
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/deletetodo/', { todo_id: this.selectedTodoId }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/deletetodo/', { todo_id: this.selectedTodoId })
       .subscribe((response: any) => {
         this.Loader = false;
 
@@ -657,9 +628,7 @@ export class DashboardComponent {
   // add event
 
   addEvents() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+   
 
     if (this.eventForm.invalid) {
       this.eventForm.markAllAsTouched();
@@ -673,7 +642,7 @@ export class DashboardComponent {
 
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/addevent/', formdata, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + '/api/addevent/', formdata).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -700,12 +669,9 @@ export class DashboardComponent {
   // get event
 
   getEventFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
+  
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/viewevents/', { id: 'sample' }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + '/api/viewevents/', { id: 'sample' }).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -740,16 +706,12 @@ export class DashboardComponent {
 
     const title = this.editeventForm.get('title')?.value;
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     const formdata = new FormData();
     formdata.append('event', title);
     formdata.append('eventid', this.eventDetail.id.toString());
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/editevent/', formdata, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/editevent/', formdata)
       .subscribe((response: any) => {
         this.Loader = false;
 
@@ -775,13 +737,10 @@ export class DashboardComponent {
 
   // Function to delete the event
   deleteEvent() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
+ 
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + '/api/deleteevent/', { eventid: this.eventDetail.id }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/deleteevent/', { eventid: this.eventDetail.id })
       .subscribe((response: any) => {
         this.Loader = false;
 
@@ -862,12 +821,9 @@ export class DashboardComponent {
 
   getEventById(id: any) {
     this.Eventid = id.toString();
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
+ 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/geteventbyid/', { eventid: this.Eventid }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/geteventbyid/', { eventid: this.Eventid })
       .subscribe((response: any) => {
         this.Loader = false;
         if (response['response'] === 'Success') {
@@ -890,12 +846,9 @@ export class DashboardComponent {
 
   getEventByDate(date: any) {
     this.Eventdateid = date.toString();
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/eventbydate/', { date: this.Eventdateid }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/eventbydate/', { date: this.Eventdateid })
       .subscribe((response: any) => {
         this.Loader = false;
         if (response['response'] === 'Success') {
@@ -947,12 +900,9 @@ export class DashboardComponent {
 
   /**get loan table data */
   getLoanTableFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/loanfordashboard/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/loanfordashboard/', { id: 'sample' }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] == 'Success') {

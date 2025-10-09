@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -35,7 +35,7 @@ export class OtPunchComponent {
   DeptId_List: any = [];
   Delete_DeptID: any;
   CompanyId: any;
-  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router,
+  constructor(private formbuilder: FormBuilder, private apiService: ApiService, private router: Router,
     private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
@@ -109,12 +109,9 @@ export class OtPunchComponent {
   deptId: any;
 
   fetchDepartment() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' })
       .subscribe({
         next: (response: any) => {
           this.Loader = false;
@@ -144,12 +141,8 @@ export class OtPunchComponent {
       date: filterValues.startDate || null
     };
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getotemployees/', payload, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getotemployees/', payload)
       .subscribe({
         next: (response: any) => {
           this.Loader = false;
@@ -184,12 +177,9 @@ export class OtPunchComponent {
   }
 
   get_Employees() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
+ 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getotemployees/', {}, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getotemployees/', {})
       .subscribe({
         next: (response: any) => {
           this.Loader = false;

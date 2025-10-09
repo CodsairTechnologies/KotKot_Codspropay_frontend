@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -47,7 +47,7 @@ export class ViewLoanComponent {
 
   arrList: any = [];
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
     this.token = sessionStorage.getItem("token");
@@ -74,12 +74,9 @@ export class ViewLoanComponent {
 
   /**get loan table data */
   getLoanTableFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getloan/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getloan/', { id: 'sample' }).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         response.loandetails.map((obj: { [x: string]: any; }, index: number) => {
           obj['slNo'] = index + 1
@@ -104,12 +101,9 @@ export class ViewLoanComponent {
 
   /**delete loan */
   deleteLoanFn(loanId: number, employeeId: string) {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/delete_loan/', { id: loanId, employeeid: employeeId }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/delete_loan/', { id: loanId, employeeid: employeeId }).subscribe(
       (response: any) => {
         this.Loader = false;
         if (response['response'] === 'Success') {

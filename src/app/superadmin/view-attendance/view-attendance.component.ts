@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -76,7 +76,7 @@ export class ViewAttendanceComponent {
   attendanceDetails: any = [];
   inDate: any;
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -189,15 +189,8 @@ export class ViewAttendanceComponent {
 
     this.date = this.AddManualForm.controls['attendanceDate'].value;
 
-    console.log(this.date);
-
-
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getmanualattendancebyid/', { empid: this.employeeid, currentdate: this.date }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getmanualattendancebyid/', { empid: this.employeeid, currentdate: this.date }).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -222,12 +215,6 @@ export class ViewAttendanceComponent {
 
   addManualAttendanceFn() {
 
-
-
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     if (this.AddManualForm.invalid) {
       this.AddManualForm.markAllAsTouched();
       return;
@@ -241,7 +228,7 @@ export class ViewAttendanceComponent {
 
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + 'codspropay/api/editmanualattendance/', formdata, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/editmanualattendance/', formdata)
       .subscribe(
         (response: any) => {
           this.Loader = false;
@@ -273,12 +260,9 @@ export class ViewAttendanceComponent {
   }
 
   fetchDeptFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getdepartment/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/getdepartment/', { id: 'sample' }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] == 'Success') {
@@ -298,9 +282,6 @@ export class ViewAttendanceComponent {
   // filter attendance by department
 
   getFilterAttendanceTableFn() {
-    var reqHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.token
-    });
 
     const filters = {
       departmentid: this.SearchForm.get('Department')!.value,
@@ -312,7 +293,7 @@ export class ViewAttendanceComponent {
     console.log('filter attendance', filters);
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/filterattendance/', filters, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/filterattendance/', filters).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -339,14 +320,9 @@ export class ViewAttendanceComponent {
 
   /**get Attendance table */
   getAttendanceTableFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/viewattendancelist/',
-      { attendancefileid: this.attendanceId },
-      { headers: reqHeader }
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/viewattendancelist/',
+      { attendancefileid: this.attendanceId }
     ).subscribe((response: any) => {
       this.Loader = false;
 
@@ -382,18 +358,13 @@ export class ViewAttendanceComponent {
   getNestedTableFn(empId: string) {
     this.EmpID = empId.toString();
     console.log('attendance id', this.EmpID);
-
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token.toString()
-    });
-
     const payload = {
       attendancefileid: this.attendanceId,
       empid: this.EmpID
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/attendancebyid/', payload, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/attendancebyid/', payload)
       .subscribe((response: any) => {
         this.Loader = false;
 
@@ -451,12 +422,9 @@ export class ViewAttendanceComponent {
       word: searchKeyword
     };
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/searchattendance/', payload, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/searchattendance/', payload).subscribe(
       (response: any) => {
         this.Loader = false;
 

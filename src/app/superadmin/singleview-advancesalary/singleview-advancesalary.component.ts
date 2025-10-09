@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -40,7 +40,7 @@ export class SingleviewAdvancesalaryComponent {
   isLoan: any;
 
   EMPID: any;
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -91,11 +91,7 @@ export class SingleviewAdvancesalaryComponent {
 
   getSalaryByIdFn() {
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
-    this.http.post(environment.apiUrl + 'codspropay/api/getadvancedetails/', { advanceid: this.salaryID, empid: this.EMPID }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getadvancedetails/', { advanceid: this.salaryID, empid: this.EMPID }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response.response === 'Success') {

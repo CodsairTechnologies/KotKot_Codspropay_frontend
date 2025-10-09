@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
@@ -154,7 +154,7 @@ export class EmployeesComponent {
 
 
 
-  constructor(private sanitizer: DomSanitizer, private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) {
+  constructor(private sanitizer: DomSanitizer, private formBuilder: FormBuilder, private apiService: ApiService, private router: Router, private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) {
 
   }
 
@@ -452,13 +452,10 @@ export class EmployeesComponent {
     this.workId = event.target.value;
   }
   getWorklocationByStatusFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
 
-    this.http.post<any>(environment.apiUrl + '/api/getactiveworklocation/', { empid: this.adminId, language: this.storedLang }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getactiveworklocation/', { empid: this.adminId, language: this.storedLang })
       .subscribe({
         next: (response) => {
           this.Loader = false;
@@ -488,16 +485,12 @@ export class EmployeesComponent {
 
 
   FetchRestuarantFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
 
-    this.http.post<any>(
+     this.apiService.postData(
       environment.apiUrl + '/api/getactive_restaurant/',
-      { empid: this.adminId, language: this.storedLang },
-      { headers: reqHeader }
+      { empid: this.adminId, language: this.storedLang }
     )
       .subscribe({
         next: (response) => {
@@ -622,12 +615,10 @@ export class EmployeesComponent {
 
 
   getESIValue() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/activepfandesi/', { empid: this.adminId, language: this.storedLang }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/activepfandesi/', { empid: this.adminId, language: this.storedLang }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] == 'Success') {
@@ -846,16 +837,13 @@ export class EmployeesComponent {
   getCountryByStatusFn() {
     console.log('tok', this.token);
 
-    const reqHeader = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`
-    });
 
     this.Loader = true;
 
-    this.http.post(
+     this.apiService.postData(
       environment.apiUrl + '/api/getactivecountry/',
       { empid: this.adminId, language: this.storedLang },
-      { headers: reqHeader }
+      
     )
       .subscribe({
         next: (response: any) => {
@@ -891,12 +879,10 @@ export class EmployeesComponent {
   }
 
   fetchstate(callback?: () => void) {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+    
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/viewstatebycountryid/', { countryid: this.countryId, empid: this.adminId, language: this.storedLang }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/viewstatebycountryid/', { countryid: this.countryId, empid: this.adminId, language: this.storedLang })
       .subscribe((response: any) => {
         this.Loader = false;
         if (response.response === 'Success') {
@@ -928,12 +914,10 @@ export class EmployeesComponent {
 
 
   fetchDistrict(callback?: () => void) {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+   
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getdistrictbystateid/', { stateid: this.statetId, language: this.storedLang, empid: this.adminId }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getdistrictbystateid/', { stateid: this.statetId, language: this.storedLang, empid: this.adminId })
       .subscribe((response: any) => {
         this.Loader = false;
         if (response.response === 'Success') {
@@ -957,11 +941,9 @@ export class EmployeesComponent {
   }
 
   getDepartmentByStatusFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getactivedepartment/', { empid: this.adminId, language: this.storedLang }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getactivedepartment/', { empid: this.adminId, language: this.storedLang })
       .subscribe((response: any) => {
         this.Loader = false;
         if (response.response === 'Success') {
@@ -988,11 +970,9 @@ export class EmployeesComponent {
   }
 
   getDesignationByStatusFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+   
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getactivedesignation/', { empid: this.adminId, language: this.storedLang }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getactivedesignation/', { empid: this.adminId, language: this.storedLang })
       .subscribe((response: any) => {
         this.Loader = false;
         if (response.response === 'Success') {
@@ -1013,12 +993,10 @@ export class EmployeesComponent {
   }
 
   get_shift() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + 'codspropay/api/getactiveworkshift/', { empid: this.adminId, language: this.storedLang }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getactiveworkshift/', { empid: this.adminId, language: this.storedLang }).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -1067,13 +1045,11 @@ export class EmployeesComponent {
   getEmployeeById(id: any, empid: any) {
 
     this.id = id
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeebyid/', { id: id, employeeId: empid, language: this.storedLang },
-      { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeebyid/', { id: id, employeeId: empid, language: this.storedLang },
+      ).subscribe((response: any) => {
         this.Loader = false;
         if (response.response === 'Success') {
           this.employeelist = response['employeelist'] // Assign the employee data to `this.emp`
@@ -1271,9 +1247,6 @@ export class EmployeesComponent {
   // add employee
 
   addEmployee() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
 
     if (this.EmployeeForm.invalid) {
@@ -1500,7 +1473,7 @@ export class EmployeesComponent {
       : environment.apiUrl + 'codspropay/api/addemployee/';
 
     this.Loader = true;
-    this.http.post(apiUrl, formdata, { headers: reqHeader }).subscribe(
+     this.apiService.postData(apiUrl, formdata).subscribe(
       (response: any) => {
         this.Loader = false;
 

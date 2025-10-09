@@ -6,7 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToastService } from '../../core/services/toast.service';
@@ -47,7 +47,7 @@ editModal: boolean = false;
 
   Vid: any;
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient, 
+  constructor(private router: Router, private formbuilder: FormBuilder, private apiService: ApiService, 
     private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
@@ -70,12 +70,9 @@ editModal: boolean = false;
 
   /**get Salary table data */
   getSalaryTableFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/givensalarylist/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/givensalarylist/', { id: 'sample' }).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         response.given_salarylist.map((obj: { [x: string]: any; }, index: number) => {
           obj['slNo'] = index + 1
@@ -99,12 +96,10 @@ editModal: boolean = false;
 
 
   deleteSalaryFn(month: number, year: number) {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+ 
   
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/deletesalary/', { month: month, year: year }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/deletesalary/', { month: month, year: year }).subscribe(
       (response: any) => {
         this.Loader = false;
         if (response['response'] === 'Success') {

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToastService } from '../../core/services/toast.service';
 import { ErrorHandlingService } from '../../core/services/error-handling.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-bonusupload',
@@ -86,7 +87,7 @@ export class BonusuploadComponent {
 
   employeeid: any;
   currentDate: string = '';
-  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient,private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -303,13 +304,9 @@ export class BonusuploadComponent {
   /**get Attendance table */
 
   getAttendanceTableFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + 'codspropay/api/getincentive/', { id: 'sample' }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getincentive/', { id: 'sample' })
       .subscribe((response: any) => {
         this.Loader = false;
 
@@ -336,13 +333,10 @@ export class BonusuploadComponent {
 
 
   getDailyAttendanceTableFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + 'codspropay/api/getdailyattendance/', { id: 'sample' }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getdailyattendance/', { id: 'sample' })
       .subscribe((response: any) => {
         this.Loader = false;
 
@@ -369,11 +363,6 @@ export class BonusuploadComponent {
     if (!this.selectedAttendanceFile) {
       this.toastrService.showError('Please select attendance file before submitting')
     }
-
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     if (this.AddForm.invalid) {
       this.AddForm.markAllAsTouched();
       return;
@@ -389,7 +378,7 @@ export class BonusuploadComponent {
     formdata.append('year', this.AddForm.controls['year'].value);
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/incentiveupload/', formdata, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/incentiveupload/', formdata)
       .subscribe((response: any) => {
         this.Loader = false;
 
@@ -423,13 +412,9 @@ export class BonusuploadComponent {
     this.month = month;
     this.year = year;
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + 'codspropay/api/viewincentivebyid/', { month: this.month, year: this.year }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/viewincentivebyid/', { month: this.month, year: this.year })
       .subscribe(
         (response: any) => {
           this.Loader = false;
@@ -484,10 +469,7 @@ export class BonusuploadComponent {
 
 
   async editAttendanceFileFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
+  
     const formdata = new FormData();
 
     // Attendance file
@@ -537,7 +519,7 @@ export class BonusuploadComponent {
     formdata.append('year', this.EditForm.controls['year'].value);
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/attendancefileedit/', formdata, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/attendancefileedit/', formdata)
       .subscribe(
         (response: any) => {
           this.Loader = false;
@@ -576,14 +558,10 @@ export class BonusuploadComponent {
       return;
     }
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/deleteincentive/', {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/deleteincentive/', {
       incentiveid: this.selectedIncentiveId,
-    }, { headers: reqHeader }).subscribe((response: any) => {
+    }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] === 'Success') {

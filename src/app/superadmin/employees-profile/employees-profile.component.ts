@@ -2,7 +2,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -139,7 +139,7 @@ export class EmployeesProfileComponent {
   expiryList: any = [];
   resignationForm !: FormGroup
 
-  constructor(private rout: ActivatedRoute, private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private datePipe: DatePipe, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private rout: ActivatedRoute, private formBuilder: FormBuilder, private apiService: ApiService, private router: Router, private datePipe: DatePipe, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -298,12 +298,10 @@ export class EmployeesProfileComponent {
 
 
   getDocumentexpiryFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getemployeeexpiryfields/', { employeeid: this.employeeId }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + '/api/getemployeeexpiryfields/', { employeeid: this.employeeId }).subscribe(
       (response: any) => {
         this.Loader = false; // Ensure loader is hidden in both success and error cases
 
@@ -457,10 +455,6 @@ export class EmployeesProfileComponent {
 
 
   confirmRejoin() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     if (!this.rejoinDate) {
       this.toastrService.showWarning('Please select a rejoin date.');
       return;
@@ -472,7 +466,7 @@ export class EmployeesProfileComponent {
       rejoiningdate: this.rejoinDate
     };
 
-    this.http.post(environment.apiUrl + '/api/addrejoin/', payload, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/addrejoin/', payload)
       .subscribe((response: any) => {
         this.Loader = false;
 
@@ -504,15 +498,11 @@ export class EmployeesProfileComponent {
 
   getEmpDetailsById() {
 
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     console.log(this.token);
 
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/employeesingleview/', { employeeid: this.employeeId }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/employeesingleview/', { employeeid: this.employeeId }).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.EmpDetailsList = response['employeesingleviewlist'];
@@ -644,12 +634,9 @@ export class EmployeesProfileComponent {
   /**get salary history table */
 
   getSalaryHistoryTableFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getsalaryhistory/', { employeeid: this.employeeId }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getsalaryhistory/', { employeeid: this.employeeId })
       .subscribe((response: any) => {
         if (response.response === 'Success') {
           this.Loader = false;
@@ -675,9 +662,6 @@ export class EmployeesProfileComponent {
   /** salary history filter by date */
 
   SalaryFilterByDateFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     const fromdate = this.FilterForm.get('fromDate')?.value;
     const todate = this.FilterForm.get('toDate')?.value;
@@ -689,7 +673,7 @@ export class EmployeesProfileComponent {
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getsalarybydate/', payload, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/getsalarybydate/', payload).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.salList = response.salarydetails;
@@ -714,12 +698,9 @@ export class EmployeesProfileComponent {
   /**get loan history table */
 
   getLoanHistoryTableFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
+  
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getloanhistory/', { employeeid: this.employeeId }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getloanhistory/', { employeeid: this.employeeId })
       .subscribe((response: any) => {
         if (response.response === 'Success') {
           this.Loader = false;
@@ -743,12 +724,9 @@ export class EmployeesProfileComponent {
 
   setSalaryValues() {
 
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/employeesingleview/', { employeeid: this.employeeId }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/employeesingleview/', { employeeid: this.employeeId }).subscribe((response: any) => {
       this.Loader = false;
       if (response['response'] == 'Success') {
 
@@ -790,9 +768,6 @@ export class EmployeesProfileComponent {
   // edit pf amount
 
   editPfFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     if (this.EditPFForm.invalid) {
       return;
@@ -805,7 +780,7 @@ export class EmployeesProfileComponent {
     formdata.append('employeeid', this.employeeId);
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/editpf/', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/editpf/', formdata).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.toastrService.showSuccess(response.message);
@@ -830,9 +805,7 @@ export class EmployeesProfileComponent {
 
   /**edit payment */
   editPaymentFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+ 
 
     if (this.editsalaryform.invalid) {
       return;
@@ -857,7 +830,7 @@ export class EmployeesProfileComponent {
     formdata.append('salarydetails', JSON.stringify(salaryDetails));
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/edit_salary/', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/edit_salary/', formdata).subscribe((response: any) => {
       this.Loader = false;
       if (response['response'] == 'Success') {
         this.Loader = false
@@ -883,10 +856,6 @@ export class EmployeesProfileComponent {
 
   /**edit PF */
   Editpf() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     if (this.EditPFForm.invalid) {
       return;
     }
@@ -896,7 +865,7 @@ export class EmployeesProfileComponent {
     formdata.append('Da', this.EditPFForm.controls['EmployerContribution'].value);
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '', formdata).subscribe((response: any) => {
       this.Loader = false;
       if (response['response'] == 'Success') {
         this.Loader = false;
@@ -922,9 +891,6 @@ export class EmployeesProfileComponent {
 
   /**edit ESI */
   EditESI() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     if (this.editESIForm.invalid) {
       return;
@@ -938,7 +904,7 @@ export class EmployeesProfileComponent {
 
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '', formdata).subscribe((response: any) => {
       this.Loader = false;
       if (response['response'] == 'Success') {
         this.Loader = false;
@@ -1258,10 +1224,6 @@ export class EmployeesProfileComponent {
     const month = this.payslipfilter.get('month')?.value;
     const year = this.payslipfilter.get('year')?.value;
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     const payload = {
       month: month,
       year: year,
@@ -1269,7 +1231,7 @@ export class EmployeesProfileComponent {
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/payslip/', payload, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/payslip/', payload).subscribe((response: any) => {
 
       if (response['response'] === 'Success') {
         this.Loader = false;
@@ -1306,18 +1268,13 @@ export class EmployeesProfileComponent {
     }
 
     const month = this.timesheetForm.get('month')?.value;
-
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     const payload = {
       monthyear: month,
       empid: this.employeeId
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/employeereport/', payload, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/employeereport/', payload).subscribe((response: any) => {
 
       if (response['response'] === 'Success') {
         this.Loader = false;
@@ -1627,13 +1584,9 @@ export class EmployeesProfileComponent {
       employeeid: this.employeeId,
     };
 
-    const reqHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.token,
-    });
 
     this.Loader = true;
-    this.http
-      .post(environment.apiUrl + '/api/resign/', payload, { headers: reqHeader })
+   this.apiService.postData(environment.apiUrl + '/api/resign/', payload)
       .subscribe(
         (response: any) => {
           this.Loader = false;

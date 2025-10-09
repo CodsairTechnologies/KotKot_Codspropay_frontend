@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -75,7 +75,7 @@ viewLoanForm!: FormGroup;
   arrList: any = [];
 
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -135,11 +135,9 @@ viewLoanForm!: FormGroup;
 
 
   getLoanByIdFn(loanID: string, loanNo: string, EmployeeID: string) {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+  
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getloanbyid/', { id: loanID, loanNo: loanNo, employeeid: EmployeeID }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getloanbyid/', { id: loanID, loanNo: loanNo, employeeid: EmployeeID }).subscribe((response: any) => {
       if (response.response === 'Success') {
         this.Loader = false;
         this.empbyidListlist = response['loanDetails'];
@@ -243,10 +241,6 @@ viewLoanForm!: FormGroup;
   // Make payment
 
   makePayment() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
 
     if (this.LoanForm.invalid) {
       this.LoanForm.markAllAsTouched();
@@ -260,7 +254,7 @@ viewLoanForm!: FormGroup;
     formdata.append('paymentmonth', this.selectedMonth);
     formdata.append('emiamount', this.emi);
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/addmakepayment/', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/addmakepayment/', formdata).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.toastrService.showSuccess(response.message);
@@ -281,9 +275,7 @@ viewLoanForm!: FormGroup;
   // Skip Payment
 
   skipPayment() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+   
     if (this.LoanForm.invalid) {
       this.LoanForm.markAllAsTouched();
       return
@@ -295,7 +287,7 @@ viewLoanForm!: FormGroup;
     formdata.append('paymentmonth', this.selectedMonth);
     formdata.append('emiamount', this.emi);
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/addskippedpayment/', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/addskippedpayment/', formdata).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.toastrService.showSuccess(response.message);
@@ -314,9 +306,7 @@ viewLoanForm!: FormGroup;
   // Force Close Loan
 
   forceCloseLoan() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+  
     if (this.LoanForm.invalid) {
       this.LoanForm.markAllAsTouched();
       return
@@ -328,7 +318,7 @@ viewLoanForm!: FormGroup;
     formdata.append('paymentmonth', this.selectedMonth);
     formdata.append('emiamount', this.LoanForm.get('EMI')?.value.toString());
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/foreclosure/', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/foreclosure/', formdata).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.toastrService.showSuccess(response.message);

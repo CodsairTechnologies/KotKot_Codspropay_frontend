@@ -63,7 +63,7 @@ interface EmployeeDetails {
 }
 
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -136,7 +136,7 @@ export class EmpSalaryComponent {
 
 
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) {
     this.initializeDeductionForm();
 
   }
@@ -450,12 +450,10 @@ export class EmpSalaryComponent {
   }
 
   get_Department() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+  
     this.Loader = true;
 
-    this.http.post(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' }).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Department_ArrayList = response['departmentlist']
         this.Loader = false;
@@ -505,12 +503,8 @@ export class EmpSalaryComponent {
       total_working_days: 0
     };
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/get_salarydetails/', payload, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/get_salarydetails/', payload).subscribe(
       (response: any) => {
         if (response.response === 'Success') {
           this.salaryList = response.details;
@@ -551,12 +545,8 @@ export class EmpSalaryComponent {
       total_working_days: '0'
     };
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeesalarydetails/', payload, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeesalarydetails/', payload).subscribe(
       (response: any) => {
         if (response.response === 'Success') {
           this.salaryList = response.details;
@@ -682,10 +672,7 @@ export class EmpSalaryComponent {
 
 
   payout() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
+ 
     const status = this.filterform.get('paymentType')?.value || 'Full';
     const amount = this.filterform.get('paidAmount')?.value;
     const salaryDate = this.filterform.get('salaryDate')?.value || this.filterform.get('searchSalaryDate')?.value;
@@ -717,7 +704,7 @@ export class EmpSalaryComponent {
     console.log('Final Payload:', payload);
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/add_salary/', payload, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/add_salary/', payload).subscribe(
       (response: any) => {
         if (response.response === 'Success') {
           this.Loader = false;

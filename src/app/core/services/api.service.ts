@@ -19,7 +19,7 @@ export class ApiService {
     const token = localStorage.getItem('authToken');
 
     console.log('token', token);
-    
+
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -27,5 +27,6 @@ export class ApiService {
 
   // POST request function
   postData(endpoint: string, payload: any): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/api/admin/${endpoint}/`, payload, { headers: this.getHeaders() });
-  }}
+    return this.http.post(endpoint, payload, { headers: this.getHeaders() });
+  }
+}

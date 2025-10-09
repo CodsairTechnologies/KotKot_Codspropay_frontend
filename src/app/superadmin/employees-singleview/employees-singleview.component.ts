@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -93,7 +93,7 @@ export class EmployeesSingleviewComponent {
   showPassword: boolean = false;
 
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router: Router,
     private sanitizer: DomSanitizer, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService
   ) { }
 
@@ -246,13 +246,8 @@ export class EmployeesSingleviewComponent {
   }
 
   getEmployeeById() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(`${this.apiurl}codspropay/api/getemployeebyid/`, { id: this.id, employeeId: this.employeeId, language: this.storedLang },
-      { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(`${this.apiurl}codspropay/api/getemployeebyid/`, { id: this.id, employeeId: this.employeeId, language: this.storedLang }).subscribe((response: any) => {
         this.Loader = false;
         if (response.response === 'Success') {
           this.employeelist = response['employeelist'] // Assign the employee data to `this.emp`

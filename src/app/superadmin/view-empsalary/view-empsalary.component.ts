@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import Swal from 'sweetalert2';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToastService } from '../../core/services/toast.service';
@@ -78,7 +78,7 @@ export class ViewEmpsalaryComponent {
   selectedIncentivesFile: File | null = null;
 
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
     this.token = sessionStorage.getItem("token");
@@ -117,11 +117,6 @@ export class ViewEmpsalaryComponent {
 
 
   editSalaryFn() {
-
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     if (this.editSalaryForm.invalid) {
       this.editSalaryForm.markAllAsTouched();
       return;
@@ -136,7 +131,7 @@ export class ViewEmpsalaryComponent {
 
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/editsalarybymonthbyid/', formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/editsalarybymonthbyid/', formdata).subscribe((response: any) => {
       this.Loader = false;
       if (response.response === 'Success') {
         this.toastrService.showSuccess(response.message);
@@ -155,15 +150,8 @@ export class ViewEmpsalaryComponent {
   SalarydetailsById(item: any) {
     this.salID = item;
 
-    console.log('id', this.salID);
-
-
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/salarybymonthbyid/', { salaryid: this.salID }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/salarybymonthbyid/', { salaryid: this.salID }).subscribe((response: any) => {
       if (response.response === 'Success') {
         this.Loader = false;
 
@@ -226,10 +214,6 @@ export class ViewEmpsalaryComponent {
       this.toastrService.showError('Please select incentive file before submitting')
     }
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     if (this.InventivesForm.invalid) {
       this.InventivesForm.markAllAsTouched();
       return;
@@ -242,7 +226,7 @@ export class ViewEmpsalaryComponent {
     }
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/incentiveupload/', formdata, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/incentiveupload/', formdata)
       .subscribe((response: any) => {
         if (response['response'] === 'Success') {
           this.toastrService.showSuccess(response.message);
@@ -282,12 +266,9 @@ export class ViewEmpsalaryComponent {
 
 
   fetdepartmentFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getdepartment/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + '/api/getdepartment/', { id: 'sample' }).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.departmentlist = response.unitlist
         this.Loader = false;
@@ -304,9 +285,6 @@ export class ViewEmpsalaryComponent {
 
 
   get_salarytableFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
 
@@ -322,7 +300,7 @@ export class ViewEmpsalaryComponent {
     };
 
 
-    this.http.post(environment.apiUrl + 'codspropay/api/givensalarybymonth/', objPayload, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/givensalarybymonth/', objPayload).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Salary_ArrayList = response['datas']
         this.Loader = false;
@@ -352,12 +330,8 @@ export class ViewEmpsalaryComponent {
 
   /**delete salary */
   deleteSalaryFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + '', { id: this.delID }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + '', { id: this.delID }).subscribe(
       (response: any) => {
         this.Loader = false;
         if (response['response'] === 'Success') {
@@ -415,12 +389,9 @@ export class ViewEmpsalaryComponent {
     }
 
     const payload = { id: this.selectedItem.salaryid };
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/editwithhelbymonth/', payload, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/editwithhelbymonth/', payload).subscribe(
       (response: any) => {
         this.Loader = false;
         if (response['response'] === 'Success') {
@@ -448,15 +419,8 @@ export class ViewEmpsalaryComponent {
       year: year,
       employeeid: empid
     };
-
-    console.log("Payload to send:", payload); // Log the payload to the console
-
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/delete_employee_attendance/', payload, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/delete_employee_attendance/', payload)
       .subscribe(
         (response: any) => {
           if (response['response'] === 'Success') {

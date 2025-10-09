@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -49,7 +49,7 @@ export class EmployeesListComponent {
   isExpiry: any;
 
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
     this.token = sessionStorage.getItem("token");
@@ -92,12 +92,9 @@ export class EmployeesListComponent {
   // get all employee
 
   get_AllStaff() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployee/', { id: 'sample' }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployee/', { id: 'sample' }).subscribe(
       (response: any) => {
         this.Loader = false; // Turn off loader after response
         if (response['response'] === 'Success') {
@@ -135,12 +132,9 @@ export class EmployeesListComponent {
 
 
   fetchCompanyFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getunit/', { id: 'sample' }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getunit/', { id: 'sample' })
       .subscribe((response: any) => {
         this.Loader = false; // Hide loader initially
         if (response['response'] === 'Success') {
@@ -161,12 +155,10 @@ export class EmployeesListComponent {
   }
 
   fetchDepartmentByCompanyId(callback?: () => void) {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+ 
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getdepartmentbyunit/', { unitid: this.CompanyID }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getdepartmentbyunit/', { unitid: this.CompanyID })
       .subscribe((response: any) => {
         this.Loader = false; // Hide loader initially
         if (response['response'] === 'Success') {
@@ -213,13 +205,8 @@ export class EmployeesListComponent {
       option: searchOption,
       word: searchKeyword
     };
-
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/employeesearch/', payload, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/employeesearch/', payload)
       .subscribe(
         (response: any) => {
           this.Loader = false; // Hide loader initially
@@ -246,10 +233,7 @@ export class EmployeesListComponent {
   /** Filter */
 
   getFilterEmpTableFn() {
-    const reqHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.token
-    });
-
+     
     const filters = {
       unit: this.EmployeefilterForm.get('Company')!.value,
       department: this.EmployeefilterForm.get('Department')!.value,
@@ -259,7 +243,7 @@ export class EmployeesListComponent {
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/employeefilter/', filters, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/employeefilter/', filters).subscribe(
       (response: any) => {
         this.Loader = false; // Hide loader initially
         if (response.response === 'Success') {
@@ -296,12 +280,9 @@ export class EmployeesListComponent {
       isexpiry: this.isExpiry,
     };
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/expiryemployeefilter/', payload, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/expiryemployeefilter/', payload)
       .subscribe(
         (response: any) => {
           this.Loader = false; // Hide loader initially
@@ -325,12 +306,9 @@ export class EmployeesListComponent {
 
 
   dltEmpFn(item: any, item1 :any) {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/deleteemployee/', { id: item , employeeid : item1}, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/deleteemployee/', { id: item , employeeid : item1}).subscribe(
       (response: any) => {
         this.Loader = false; // Hide loader immediately upon response
         if (response['response'] === 'Success') {
@@ -365,12 +343,9 @@ export class EmployeesListComponent {
 
   toggleActiveINactive(id: number, newStatus: string) {
     const payload = { id: id, status: newStatus };
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
+ 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/statusemployee/', payload, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/statusemployee/', payload).subscribe(
       (response: any) => {
         this.Loader = false; // Turn off loader after receiving the response
         if (response['response'] === 'Success') {
@@ -472,12 +447,8 @@ export class EmployeesListComponent {
     const formData = new FormData();
     formData.append('file', this.selectedFile);
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/employeeupload/', formData, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/employeeupload/', formData)
       .subscribe(
         (response: any) => {
           this.Loader = false;

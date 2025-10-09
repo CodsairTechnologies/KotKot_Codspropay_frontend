@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -38,7 +38,7 @@ export class ViewbonusComponent {
   CompanyId: any;
   Companylist: any = [];
 
-  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private formbuilder: FormBuilder, private apiService: ApiService, private router: Router, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -61,13 +61,10 @@ arrColumns: any = [
 arrList: any = [];
 
 getCompanyTableFn(incentiveid: any) {
-  const reqHeader = new HttpHeaders({
-    'Authorization': 'Bearer ' + this.token
-  });
 
   this.Loader = true;
-  this.http.post(environment.apiUrl + 'codspropay/api/viewincentivebyid/', 
-    { incentiveid }, { headers: reqHeader }
+   this.apiService.postData(environment.apiUrl + 'codspropay/api/viewincentivebyid/', 
+    { incentiveid }
   ).subscribe({
     next: (response: any) => {
       this.Loader = false;

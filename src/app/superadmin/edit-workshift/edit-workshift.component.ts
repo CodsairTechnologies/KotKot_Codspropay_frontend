@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -44,7 +44,7 @@ export class EditWorkshiftComponent {
 
   ];
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient, private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private apiService: ApiService, private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -97,12 +97,9 @@ export class EditWorkshiftComponent {
   // Fetch shift names from API
 
   fetchShiftNames() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
+ 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getworkshift/', { id: 'sample' }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getworkshift/', { id: 'sample' }).subscribe(
       (response: any) => {
         if (response['response'] == 'Success') {
           this.Loader = false;
@@ -119,14 +116,9 @@ export class EditWorkshiftComponent {
 
 
   getShiftbyIdTableFn(id: any) {
-    var reqHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.token
-    });
-
-
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/activeemployeeshiftbyid/', { shiftid: id }, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/activeemployeeshiftbyid/', { shiftid: id }).subscribe(
       (response: any) => {
         if (response.response == 'Success') {
           this.shiftlist = response.employee;
@@ -159,9 +151,7 @@ export class EditWorkshiftComponent {
     //   return;
     // }
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+ 
 
     const updateData = {
       shiftid: selectedShiftId,
@@ -172,7 +162,7 @@ export class EditWorkshiftComponent {
     console.log('Selected Workshift ID:', this.id);
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/editemployeeshift/', updateData, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/editemployeeshift/', updateData).subscribe(
       (response: any) => {
         if (response['response'] === 'Success') {
           this.toastrService.showSuccess(response.message);

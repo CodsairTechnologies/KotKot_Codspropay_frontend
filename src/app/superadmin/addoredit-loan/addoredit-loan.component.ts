@@ -1,8 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import Swal from 'sweetalert2';
 import { environment } from '../../../environments/environment';
 import { DialogModule } from 'primeng/dialog';
 import { TableComponent } from '../../commoncomponents/table/table.component';
@@ -51,7 +50,7 @@ export class AddoreditLoanComponent {
   loanNo: any;
 
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: ApiService, private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -131,14 +130,8 @@ export class AddoreditLoanComponent {
     this.id = loanID
     this.loanNo = loanNo;
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
-    console.log('header', reqHeader);
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getloanbyid/', { id: loanID, loanNo: loanNo, employeeid: EmployeeID }, { headers: reqHeader }).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getloanbyid/', { id: loanID, loanNo: loanNo, employeeid: EmployeeID }).subscribe((response: any) => {
       if (response.response === 'Success') {
         this.Loader = false;
         this.loanbyidList = response['loanDetails'];
@@ -244,12 +237,8 @@ export class AddoreditLoanComponent {
   }
 
   getEmployeeNameFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeedetails/', { id: 'sample' }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeedetails/', { id: 'sample' })
       .subscribe((response: any) => {
         if (response['response'] === 'Success') {
           this.Employeelist = response.employeelist;
@@ -272,12 +261,8 @@ export class AddoreditLoanComponent {
   getEmpDeatilsByIdFn(empid: any) {
 
     this.empID = empid.toString();
-
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeebyid/', { id: this.empID }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeebyid/', { id: this.empID }).subscribe((response: any) => {
       if (response.response === 'Success') {
         this.Loader = false;
         this.empbyidListlist = response['employeelist'];
@@ -309,11 +294,8 @@ export class AddoreditLoanComponent {
 
     this.empID = empid.toString();
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeebyid/', { id: this.empID }, { headers: reqHeader }).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeebyid/', { id: this.empID }).subscribe((response: any) => {
       if (response.response === 'Success') {
         this.Loader = false;
         this.empbyidListlist = response['employeelist'];
@@ -347,10 +329,7 @@ export class AddoreditLoanComponent {
   /**add Loan function */
 
   addLoanFn() {
-    console.log('inside')
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+
     if (this.addLoanForm.invalid) {
       this.addLoanForm.markAllAsTouched();
       return;
@@ -377,7 +356,7 @@ export class AddoreditLoanComponent {
       ? environment.apiUrl + 'codspropay/api/editloan/'
       : environment.apiUrl + 'codspropay/api/addloan/';
 
-    this.http.post(apiUrl, formdata, { headers: reqHeader }).subscribe((response: any) => {
+    this.apiService.postData(apiUrl, formdata).subscribe((response: any) => {
       this.Loader = false;
       if (response.response === 'Success') {
         this.toastrService.showSuccess(response.message);

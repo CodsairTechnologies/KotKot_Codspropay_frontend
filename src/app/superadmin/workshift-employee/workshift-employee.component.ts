@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -64,7 +64,7 @@ export class WorkshiftEmployeeComponent {
   worklocationlist: any = [];
 
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -111,13 +111,10 @@ export class WorkshiftEmployeeComponent {
   }
 
   getWorklocationByStatusFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
 
-    this.http.post<any>(environment.apiUrl + '/api/getactiveworklocation/', { id: 'sample' }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getactiveworklocation/', { id: 'sample' })
       .subscribe({
         next: (response) => {
           this.Loader = false;
@@ -142,11 +139,9 @@ export class WorkshiftEmployeeComponent {
   }
 
   getDepartmentByStatusFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+   
     this.Loader = true;
-    this.http.post(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' }, { headers: reqHeader })
+     this.apiService.postData(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' })
       .subscribe((response: any) => {
         this.Loader = false;
         if (response.response === 'Success') {
@@ -171,12 +166,8 @@ export class WorkshiftEmployeeComponent {
   }
 
   fetchShiftnamesFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getworkshift/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getworkshift/', { id: 'sample' }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] == 'Success') {
@@ -197,10 +188,6 @@ export class WorkshiftEmployeeComponent {
   /** Filter */
 
   getFilterShiftTableFn() {
-    var reqHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.token
-    });
-
     const filters = {
       worklocationid: this.WorkShiftFilterForm.get('Location')!.value,
       departmentid: this.WorkShiftFilterForm.get('Department')!.value,
@@ -208,7 +195,7 @@ export class WorkshiftEmployeeComponent {
     };
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/filteremployeewithshift/', filters, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/filteremployeewithshift/', filters).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -232,12 +219,9 @@ export class WorkshiftEmployeeComponent {
   /**get workshift table */
 
   getEmpWorkShiftTableFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getactiveemployeesbyshift/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getactiveemployeesbyshift/', { id: 'sample' }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] == 'Success') {
@@ -273,12 +257,8 @@ export class WorkshiftEmployeeComponent {
       word: searchKeyword
     };
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeesbyshiftbyid/', payload, { headers: reqHeader }).subscribe(
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeesbyshiftbyid/', payload).subscribe(
       (response: any) => {
         this.Loader = false;
 
@@ -313,11 +293,9 @@ export class WorkshiftEmployeeComponent {
   // delete workshift
 
   dltWorkShiftFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/deleteemployeeshift/', { workshiftid: this.WshiftID }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/deleteemployeeshift/', { workshiftid: this.WshiftID }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] == 'Success') {

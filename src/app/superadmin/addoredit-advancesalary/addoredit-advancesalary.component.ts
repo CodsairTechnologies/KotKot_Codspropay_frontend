@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,8 +21,7 @@ import { ErrorHandlingService } from '../../core/services/error-handling.service
 export class AddoreditAdvancesalaryComponent {
 
 
-  addadSalaryForm!: FormGroup;
-
+  advanceSalaryForm!: FormGroup;
   token: any;
   adminid: any;
   userName: any;
@@ -34,7 +33,6 @@ export class AddoreditAdvancesalaryComponent {
   rangeId: any;
   addKm: any
   empID: any
-  vehiclenamelist: any = [];
   empbyidListlist: any = [];
   historyList: any = [];
   selectedRange: any;
@@ -54,7 +52,9 @@ export class AddoreditAdvancesalaryComponent {
   EMPID: any;
   salaryhistory: any[] = [];
   id: any;
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router: Router,
+    private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
@@ -63,14 +63,7 @@ export class AddoreditAdvancesalaryComponent {
     this.userName = sessionStorage.getItem("username");
     this.status = sessionStorage.getItem("status");
 
-    if (!this.token) {
-      this.toastrService.showError('Token not available. Please log in again.');
-      this.router.navigateByUrl('/login');
-      return;
-    }
-
-
-    this.addadSalaryForm = this.formBuilder.group({
+    this.advanceSalaryForm = this.formBuilder.group({
       EmpId: [''],
       Name: ['', Validators.required],
       Salary: [''],
@@ -118,11 +111,8 @@ export class AddoreditAdvancesalaryComponent {
   getSalaryByIdFn(id: string, EmployeeID: string) {
     this.id = id
 
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getadvancedetails/', { advanceid: id, empid: EmployeeID }, { headers: reqHeader }).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getadvancedetails/', { advanceid: id, empid: EmployeeID }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response.response === 'Success') {
@@ -130,22 +120,22 @@ export class AddoreditAdvancesalaryComponent {
         if (this.salarybyidList && this.salarybyidList.length > 0) {
           const adSalalary = this.salarybyidList[0];
 
-          this.addadSalaryForm.controls['Name'].setValue(adSalalary.employeename);
-          this.addadSalaryForm.controls['EmpId'].setValue(adSalalary.employeeId);
-          this.addadSalaryForm.controls['Salary'].setValue(adSalalary.salary);
-          this.addadSalaryForm.controls['Department'].setValue(adSalalary.department_name);
-          this.addadSalaryForm.controls['Unit'].setValue(adSalalary.unitname);
-          this.addadSalaryForm.controls['Loan'].setValue(adSalalary.loan);
-          this.addadSalaryForm.controls['LoanAmount'].setValue(adSalalary.amount);
-          this.addadSalaryForm.controls['Emi'].setValue(adSalalary.emiamount);
-          this.addadSalaryForm.controls['balanceEmi'].setValue(adSalalary.balance_emi);
-          this.addadSalaryForm.controls['balanceamount'].setValue(adSalalary.balanceamount);
+          this.advanceSalaryForm.controls['Name'].setValue(adSalalary.employeename);
+          this.advanceSalaryForm.controls['EmpId'].setValue(adSalalary.employeeId);
+          this.advanceSalaryForm.controls['Salary'].setValue(adSalalary.salary);
+          this.advanceSalaryForm.controls['Department'].setValue(adSalalary.department_name);
+          this.advanceSalaryForm.controls['Unit'].setValue(adSalalary.unitname);
+          this.advanceSalaryForm.controls['Loan'].setValue(adSalalary.loan);
+          this.advanceSalaryForm.controls['LoanAmount'].setValue(adSalalary.amount);
+          this.advanceSalaryForm.controls['Emi'].setValue(adSalalary.emiamount);
+          this.advanceSalaryForm.controls['balanceEmi'].setValue(adSalalary.balance_emi);
+          this.advanceSalaryForm.controls['balanceamount'].setValue(adSalalary.balanceamount);
 
 
 
-          this.addadSalaryForm.controls['AdAmount'].setValue(adSalalary.advanceamount);
-          this.addadSalaryForm.controls['Month'].setValue(adSalalary.date);
-          this.addadSalaryForm.controls['PaidDate'].setValue(adSalalary.advancedate);
+          this.advanceSalaryForm.controls['AdAmount'].setValue(adSalalary.advanceamount);
+          this.advanceSalaryForm.controls['Month'].setValue(adSalalary.date);
+          this.advanceSalaryForm.controls['PaidDate'].setValue(adSalalary.advancedate);
 
           this.EMPID = adSalalary.employeeid;
 
@@ -183,9 +173,9 @@ export class AddoreditAdvancesalaryComponent {
     this.selectedEmployee = employee;
     this.filteredEmployees = [];
     this.showDropdown = false;
-    this.addadSalaryForm.patchValue({ Name: employee.employeename });
-    this.addadSalaryForm.get('Name')?.markAsTouched();
-    this.addadSalaryForm.get('Name')?.updateValueAndValidity();
+    this.advanceSalaryForm.patchValue({ Name: employee.employeename });
+    this.advanceSalaryForm.get('Name')?.markAsTouched();
+    this.advanceSalaryForm.get('Name')?.updateValueAndValidity();
 
     this.getEmpByIdFn(employee.employeeId);
     this.empid = employee.empid;
@@ -210,7 +200,7 @@ export class AddoreditAdvancesalaryComponent {
     this.showDropdown = false;
 
 
-    this.addadSalaryForm.patchValue({
+    this.advanceSalaryForm.patchValue({
       Name: '',
       EmpId: '',
       Salary: '',
@@ -224,8 +214,8 @@ export class AddoreditAdvancesalaryComponent {
 
     });
     this.historyList = [];
-    this.addadSalaryForm.get('Name')?.markAsTouched();
-    this.addadSalaryForm.get('Name')?.updateValueAndValidity();
+    this.advanceSalaryForm.get('Name')?.markAsTouched();
+    this.advanceSalaryForm.get('Name')?.updateValueAndValidity();
     this.showCloseIcon = false;
   }
 
@@ -237,12 +227,9 @@ export class AddoreditAdvancesalaryComponent {
 
   /**get empname for dropdown */
   getEmployeeNameFn() {
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/getemployeedetails/', { id: 'sample' }, { headers: reqHeader })
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeedetails/', { id: 'sample' })
       .subscribe((response: any) => {
         this.Loader = false;
 
@@ -266,12 +253,9 @@ export class AddoreditAdvancesalaryComponent {
   /**get Employee By ID */
   getEmpByIdFn(empid: any) {
     this.empID = empid
-    const reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/get_employee/', { empid: this.empID }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/get_employee/', { empid: this.empID }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response.response === 'Success') {
@@ -279,17 +263,17 @@ export class AddoreditAdvancesalaryComponent {
         if (this.empbyidListlist && this.empbyidListlist.length > 0) {
           const employee = this.empbyidListlist[0];
 
-          this.addadSalaryForm.controls['EmpId'].setValue(employee.employeeId);
-          this.addadSalaryForm.controls['Salary'].setValue(employee.basicsalary);
-          this.addadSalaryForm.controls['Department'].setValue(employee.department_name);
-          // this.addadSalaryForm.controls['Unit'].setValue(employee.unitname);
+          this.advanceSalaryForm.controls['EmpId'].setValue(employee.employeeId);
+          this.advanceSalaryForm.controls['Salary'].setValue(employee.basicsalary);
+          this.advanceSalaryForm.controls['Department'].setValue(employee.department_name);
+          // this.advanceSalaryForm.controls['Unit'].setValue(employee.unitname);
 
-          this.addadSalaryForm.controls['Loan'].setValue(employee.isLoan);
-          this.addadSalaryForm.controls['LoanAmount'].setValue(employee.loanamount);
-          this.addadSalaryForm.controls['Emi'].setValue(employee.emi);
+          this.advanceSalaryForm.controls['Loan'].setValue(employee.isLoan);
+          this.advanceSalaryForm.controls['LoanAmount'].setValue(employee.loanamount);
+          this.advanceSalaryForm.controls['Emi'].setValue(employee.emi);
 
-          this.addadSalaryForm.controls['balanceEmi'].setValue(employee.balanceemi);
-          this.addadSalaryForm.controls['balanceamount'].setValue(employee.balanceamount);
+          this.advanceSalaryForm.controls['balanceEmi'].setValue(employee.balanceemi);
+          this.advanceSalaryForm.controls['balanceamount'].setValue(employee.balanceamount);
 
           this.isLoan = employee.isLoan
           this.departmentId = employee.departmentId
@@ -317,7 +301,7 @@ export class AddoreditAdvancesalaryComponent {
 
   /* set salary date based on paid date */
   setDate() {
-    const paidDate = this.addadSalaryForm.get('PaidDate')?.value;
+    const paidDate = this.advanceSalaryForm.get('PaidDate')?.value;
 
     if (paidDate) {
       const date = new Date(paidDate);
@@ -334,7 +318,7 @@ export class AddoreditAdvancesalaryComponent {
       const formattedNextMonth = new Date(year, nextMonth).toISOString().slice(0, 7);
       console.log(formattedNextMonth);
 
-      this.addadSalaryForm.get('Month')?.setValue(formattedNextMonth);
+      this.advanceSalaryForm.get('Month')?.setValue(formattedNextMonth);
 
       // Get the current year and month
       const currentDate = new Date();
@@ -352,18 +336,15 @@ export class AddoreditAdvancesalaryComponent {
   /**add Loan function */
   addAdSalary() {
     console.log('inside')
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
-    if (this.addadSalaryForm.invalid) {
-      this.addadSalaryForm.markAllAsTouched();
+    if (this.advanceSalaryForm.invalid) {
+      this.advanceSalaryForm.markAllAsTouched();
       return;
     }
 
 
     // Get the selected salary month and current month
-    const paidDate = this.addadSalaryForm.controls['PaidDate'].value;
-    const selectedMonth = this.addadSalaryForm.controls['Month'].value;
+    const paidDate = this.advanceSalaryForm.controls['PaidDate'].value;
+    const selectedMonth = this.advanceSalaryForm.controls['Month'].value;
     const currentDate = new Date().toISOString().slice(0, 7); // Get current month in 'YYYY-MM' format
 
     // Ensure paidDate exists and validate that the selected salary month is not in the past
@@ -379,13 +360,13 @@ export class AddoreditAdvancesalaryComponent {
     }
 
     // formdata.append('employeeid', this.empid);
-    formdata.append('employeeid', this.addadSalaryForm.controls['EmpId'].value);
+    formdata.append('employeeid', this.advanceSalaryForm.controls['EmpId'].value);
     formdata.append('departmentId', this.departmentId);
     formdata.append('unitId', this.unitId);
-    formdata.append('salary', this.addadSalaryForm.controls['Salary'].value);
-    formdata.append('advanceamount', this.addadSalaryForm.controls['AdAmount'].value);
-    formdata.append('date', this.addadSalaryForm.controls['Month'].value);
-    formdata.append('advancedate', this.addadSalaryForm.controls['PaidDate'].value);
+    formdata.append('salary', this.advanceSalaryForm.controls['Salary'].value);
+    formdata.append('advanceamount', this.advanceSalaryForm.controls['AdAmount'].value);
+    formdata.append('date', this.advanceSalaryForm.controls['Month'].value);
+    formdata.append('advancedate', this.advanceSalaryForm.controls['PaidDate'].value);
 
     this.Loader = true;
 
@@ -394,12 +375,12 @@ export class AddoreditAdvancesalaryComponent {
       : environment.apiUrl + 'codspropay/api/addadvancesalary/';
 
 
-    this.http.post(apiUrl, formdata, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(apiUrl, formdata).subscribe((response: any) => {
       this.Loader = false;
 
       if (response.response === 'Success') {
         this.toastrService.showSuccess(response.message);
-        this.addadSalaryForm.reset();
+        this.advanceSalaryForm.reset();
         this.router.navigateByUrl('superadmin/advancesalary');
       } else {
         this.handleErrorResponse(response); // Handle non-success responses

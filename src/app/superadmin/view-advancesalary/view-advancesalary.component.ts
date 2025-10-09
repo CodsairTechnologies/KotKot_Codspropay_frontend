@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -16,13 +16,13 @@ import { ErrorHandlingService } from '../../core/services/error-handling.service
   selector: 'app-view-advancesalary',
   standalone: true,
   imports: [ReactiveFormsModule, DialogModule, TableComponent,
-          CommonModule, NgSelectModule, PaginatorModule, RouterModule,
-          FormsModule],
+    CommonModule, NgSelectModule, PaginatorModule, RouterModule,
+    FormsModule],
   templateUrl: './view-advancesalary.component.html',
   styleUrl: './view-advancesalary.component.css'
 })
 export class ViewAdvancesalaryComponent {
-first = 0;
+  first = 0;
   rows = 20;
 
   deleteCountryModal: boolean = false;
@@ -42,7 +42,7 @@ first = 0;
 
   Delete_ID: any;
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private http: HttpClient, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
     this.token = sessionStorage.getItem("token");
@@ -71,12 +71,9 @@ first = 0;
 
   /**get loan table data */
   getAdSalaryTableFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/get_advancesalary_list/', { id: 'sample' }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/get_advancesalary_list/', { id: 'sample' }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] == 'Success') {
@@ -92,7 +89,7 @@ first = 0;
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -100,11 +97,9 @@ first = 0;
 
   /**delete designation */
   dltAdSalaryFn() {
-    var reqHeader = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
-    });
+ 
     this.Loader = true;
-    this.http.post(environment.apiUrl + 'codspropay/api/deleteadvancesalary/', { id: this.salaryID }, { headers: reqHeader }).subscribe((response: any) => {
+     this.apiService.postData(environment.apiUrl + 'codspropay/api/deleteadvancesalary/', { id: this.salaryID }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response['response'] == 'Success') {
@@ -118,7 +113,7 @@ first = 0;
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -183,7 +178,7 @@ first = 0;
     console.log('Event Object Element:', objEvent.objElement);
 
     switch (objEvent.strOperation) {
-       case 'EDIT_DATA':
+      case 'EDIT_DATA':
         console.log(objEvent.objElement.advanceid)
         const id = objEvent.objElement.advanceid;
         const empid = objEvent.objElement.employeeId;
