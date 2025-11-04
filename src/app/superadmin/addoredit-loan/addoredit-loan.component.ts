@@ -22,16 +22,8 @@ import { ErrorHandlingService } from '../../core/services/error-handling.service
 export class AddoreditLoanComponent {
 
   addLoanForm!: FormGroup;
-  token: any;
-  adminid: any;
-  userName: any;
-  status: any;
   Loader: boolean = false;
 
-  EmpId: any;
-  DriverId: any;
-  rangeId: any;
-  addKm: any
   empID: any
   empid: any
   vehiclenamelist: any = [];
@@ -53,18 +45,6 @@ export class AddoreditLoanComponent {
   constructor(private formBuilder: FormBuilder, private router: Router, private apiService: ApiService, private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
-
-    this.token = sessionStorage.getItem("token");
-    this.adminid = sessionStorage.getItem("adminId");
-    this.userName = sessionStorage.getItem("username");
-    this.status = sessionStorage.getItem("status");
-
-    if (!this.token) {
-      this.toastrService.showError('Token not available. Please log in again.');
-      this.router.navigateByUrl('/login');
-      return;
-    }
-
 
     this.addLoanForm = this.formBuilder.group({
       Name: ['', Validators.required],
@@ -118,10 +98,6 @@ export class AddoreditLoanComponent {
     if (this.showDropdown && !this.dropdownContainer.nativeElement.contains(event.target)) {
       this.showDropdown = false;
     }
-
-
-
-
   }
 
 
@@ -149,17 +125,15 @@ export class AddoreditLoanComponent {
           this.addLoanForm.controls['Repayment'].setValue(loan.repaymentdate);
           this.addLoanForm.controls['Closuredate'].setValue(loan.closuredate);
 
-
         } else {
           console.log('No data found.');
         }
       } else {
-        this.handleErrorResponse(response); // Handle non-success responses
+        this.handleErrorResponse(response); 
       }
     },
       (error) => {
-        this.Loader = false; // Hide loader on error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); 
       })
   }
 
@@ -245,12 +219,12 @@ export class AddoreditLoanComponent {
           this.filteredEmployees = this.Employeelist;
           this.Loader = false;
         } else {
-          this.handleErrorResponse(response); // Handle non-success responses
+          this.handleErrorResponse(response); 
         }
       },
         (error) => {
-          this.Loader = false; // Hide loader on error
-           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+          this.Loader = false; 
+           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); 
         })
   }
 

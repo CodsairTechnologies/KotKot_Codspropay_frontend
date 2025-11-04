@@ -22,16 +22,8 @@ export class AddoreditAdvancesalaryComponent {
 
 
   advanceSalaryForm!: FormGroup;
-  token: any;
-  adminid: any;
-  userName: any;
-  status: any;
   Loader: boolean = false;
-
   EmpId: any;
-  DriverId: any;
-  rangeId: any;
-  addKm: any
   empID: any
   empbyidListlist: any = [];
   historyList: any = [];
@@ -57,11 +49,6 @@ export class AddoreditAdvancesalaryComponent {
     private route: ActivatedRoute, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
-
-    this.token = sessionStorage.getItem("token");
-    this.adminid = sessionStorage.getItem("adminId");
-    this.userName = sessionStorage.getItem("username");
-    this.status = sessionStorage.getItem("status");
 
     this.advanceSalaryForm = this.formBuilder.group({
       EmpId: [''],
@@ -131,8 +118,6 @@ export class AddoreditAdvancesalaryComponent {
           this.advanceSalaryForm.controls['balanceEmi'].setValue(adSalalary.balance_emi);
           this.advanceSalaryForm.controls['balanceamount'].setValue(adSalalary.balanceamount);
 
-
-
           this.advanceSalaryForm.controls['AdAmount'].setValue(adSalalary.advanceamount);
           this.advanceSalaryForm.controls['Month'].setValue(adSalalary.date);
           this.advanceSalaryForm.controls['PaidDate'].setValue(adSalalary.advancedate);
@@ -150,16 +135,17 @@ export class AddoreditAdvancesalaryComponent {
           console.log('No data found.');
         }
       } else {
-        this.handleErrorResponse(response); // Handle non-success responses
+        this.handleErrorResponse(response); 
       }
     },
       (error) => {
-        this.Loader = false; // Hide loader on error
+        this.Loader = false; 
         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 
-  /** get salary By id*/
+  /** end get salary By id*/
+
   filterEmployees(event: any) {
     const filterValue = event.target.value.toLowerCase();
     this.filteredEmployees = this.Employeelist.filter(employee =>
@@ -237,12 +223,12 @@ export class AddoreditAdvancesalaryComponent {
           this.Employeelist = response.employeelist;
           this.filteredEmployees = this.Employeelist;
         } else {
-          this.handleErrorResponse(response); // Handle non-success responses
+          this.handleErrorResponse(response); 
         }
       },
         (error) => {
-          this.Loader = false; // Hide loader on error
-          this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+          this.Loader = false; 
+          this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         })
   }
   /**END get empname for dropdown */
@@ -255,7 +241,7 @@ export class AddoreditAdvancesalaryComponent {
     this.empID = empid
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/get_employee/', { empid: this.empID }).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/get_employee/', { empid: this.empID }).subscribe((response: any) => {
       this.Loader = false;
 
       if (response.response === 'Success') {
@@ -287,12 +273,12 @@ export class AddoreditAdvancesalaryComponent {
           console.log('No data found.');
         }
       } else {
-        this.handleErrorResponse(response); // Handle non-success responses
+        this.handleErrorResponse(response); 
       }
     },
       (error) => {
-        this.Loader = false; // Hide loader on error
-        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+        this.Loader = false; 
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
   /**get Employee By ID */
@@ -375,7 +361,7 @@ export class AddoreditAdvancesalaryComponent {
       : environment.apiUrl + 'codspropay/api/addadvancesalary/';
 
 
-     this.apiService.postData(apiUrl, formdata).subscribe((response: any) => {
+    this.apiService.postData(apiUrl, formdata).subscribe((response: any) => {
       this.Loader = false;
 
       if (response.response === 'Success') {
@@ -383,12 +369,12 @@ export class AddoreditAdvancesalaryComponent {
         this.advanceSalaryForm.reset();
         this.router.navigateByUrl('superadmin/advancesalary');
       } else {
-        this.handleErrorResponse(response); // Handle non-success responses
+        this.handleErrorResponse(response); 
       }
     },
       (error) => {
-        this.Loader = false; // Hide loader on error
-        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+        this.Loader = false; 
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); 
       })
   }
   /**END add Loan function */
@@ -415,8 +401,5 @@ export class AddoreditAdvancesalaryComponent {
       this.toastrService.showError(response.message);
     }
   }
-
-
-
 
 }
