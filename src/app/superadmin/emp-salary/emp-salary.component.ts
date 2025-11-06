@@ -82,13 +82,13 @@ import { ErrorHandlingService } from '../../core/services/error-handling.service
   selector: 'app-emp-salary',
   standalone: true,
   imports: [ReactiveFormsModule, DialogModule, TableComponent,
-        CommonModule, NgSelectModule, PaginatorModule,
-        FormsModule],
+    CommonModule, NgSelectModule, PaginatorModule,
+    FormsModule],
   templateUrl: './emp-salary.component.html',
   styleUrl: './emp-salary.component.css'
 })
 export class EmpSalaryComponent {
- @ViewChild('checkboxTable') checkboxTable!: ElementRef;
+  @ViewChild('checkboxTable') checkboxTable!: ElementRef;
 
   deleteCountryModal: boolean | undefined;
   EditModal: boolean | undefined;
@@ -132,7 +132,8 @@ export class EmpSalaryComponent {
 
   salaryList: any = [];
   days: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
-
+  worklocationlist: any = [];
+  workId: any;
 
 
 
@@ -155,8 +156,8 @@ export class EmpSalaryComponent {
       Month: ['',],
       paymentType: ['Full'],
       paidAmount: [''],
-      salaryDate: ['',],
-      // TotWorkingDays: ['',],
+      salaryDate: [''],
+      Location: [''],
 
       searchID: [''],
       searchSalaryDate: ['',],
@@ -176,6 +177,7 @@ export class EmpSalaryComponent {
     });
 
     this.get_Department();
+    this.getWorklocationByStatusFn();
 
     this.paginatedPaymentList.forEach((item: EmployeeDetails) => {
       item.checked = item.Ispaid === 'Yes'; // Initialize checked state
@@ -190,9 +192,9 @@ export class EmpSalaryComponent {
     this.filterform.get('Month')?.valueChanges.subscribe(() => {
       this.resetSearchSection();
     });
-    // this.filterform.get('TotWorkingDays')?.valueChanges.subscribe(() => {
-    //   this.resetSearchSection();
-    // });
+    this.filterform.get('Location')?.valueChanges.subscribe(() => {
+      this.resetSearchSection();
+    });
     this.filterform.get('salaryDate')?.valueChanges.subscribe(() => {
       this.resetSearchSection();
     });
@@ -223,7 +225,7 @@ export class EmpSalaryComponent {
       Department: '',
       Role: '',
       Month: '',
-      // TotWorkingDays: '',
+      Location: '',
       salaryDate: ''
     }, { emitEvent: false }); // prevent recursion
   }
@@ -278,7 +280,7 @@ export class EmpSalaryComponent {
   }
 
 
-    onCheckboxChange(employeeid: string, event: Event, item: EmployeeDetails): void {
+  onCheckboxChange(employeeid: string, event: Event, item: EmployeeDetails): void {
     const checked = (event.target as HTMLInputElement).checked;
 
     console.log(`Checkbox change detected for ${employeeid}:`, checked);
@@ -287,47 +289,47 @@ export class EmpSalaryComponent {
       console.log('Adding item to selectedEmployeeDetails');
       if (!this.selectedEmployeeDetails.some(detail => detail.employeeid === employeeid)) {
         this.selectedEmployeeDetails.push({
-           employeeid: item.employeeid,
-                name: item.name,
-                month: item.month,
-                month_name: item.month_name,
-                year: item.year,
-                // type: item.salarytype,
+          employeeid: item.employeeid,
+          name: item.name,
+          month: item.month,
+          month_name: item.month_name,
+          year: item.year,
+          // type: item.salarytype,
 
-                ot_earnings: item.ot_earnings,
-                total_otduration: item.total_ot,
-                workingdays: item.workingdays,
-                pf: item.pf || 0,
-                esi: item.esi || 0,
+          ot_earnings: item.ot_earnings,
+          total_otduration: item.total_ot,
+          workingdays: item.workingdays,
+          pf: item.pf || 0,
+          esi: item.esi || 0,
 
-                total_earnings: item.total_earnings,
-                salary: item.salary,
-                advancesalary: item.advancesalaryamount,
-                emi: item.emi,
-                pfamount: '',
-                basicsalary: item.basicsalary,
+          total_earnings: item.total_earnings,
+          salary: item.salary,
+          advancesalary: item.advancesalaryamount,
+          emi: item.emi,
+          pfamount: '',
+          basicsalary: item.basicsalary,
 
-                da: item.da,
-                hra: item.hra,
-                ta: item.ta,
-                basicda: item.basicda,
+          da: item.da,
+          hra: item.hra,
+          ta: item.ta,
+          basicda: item.basicda,
 
-                unit: item.unitid,          // ✅ pass unitid instead of unit name
-                department: item.departmentid,  // ✅ pass departmentid instead of department name
+          unit: item.unitid,          // ✅ pass unitid instead of unit name
+          department: item.departmentid,  // ✅ pass departmentid instead of department name
 
-                foodallowance: item.foodallowance || '0',
-                extraallowance: item.extraallowance || '0',
+          foodallowance: item.foodallowance || '0',
+          extraallowance: item.extraallowance || '0',
 
-                totaldeduction: item.totaldeduction,
-                paidsalary: item.paidsalary,
-                hourlyrate: item.hourlyrate,
-                holidayot_earnings: item.holidayot_earnings,
-                holidayot: item.holidayot,
-                oldbalance: item.oldbalance,
-                workinghours: item.workinghours,
-                basichours: item.basichours,
-                total_hours: item.total_hours,
-                othours: item.othours,
+          totaldeduction: item.totaldeduction,
+          paidsalary: item.paidsalary,
+          hourlyrate: item.hourlyrate,
+          holidayot_earnings: item.holidayot_earnings,
+          holidayot: item.holidayot,
+          oldbalance: item.oldbalance,
+          workinghours: item.workinghours,
+          basichours: item.basichours,
+          total_hours: item.total_hours,
+          othours: item.othours,
         });
       } else {
         console.log(`Item ${employeeid} already exists in selectedEmployeeDetails`);
@@ -450,10 +452,10 @@ export class EmpSalaryComponent {
   }
 
   get_Department() {
-  
+
     this.Loader = true;
 
-     this.apiService.postData(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' }).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' }).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Department_ArrayList = response['departmentlist']
         this.Loader = false;
@@ -465,11 +467,42 @@ export class EmpSalaryComponent {
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
+  /**
+   * 
+   * get active work loaction
+   */
 
+  selectWorkLocation(event: any) {
+    this.workId = event.target.value;
+  }
+  getWorklocationByStatusFn() {
+
+    this.Loader = true;
+
+    this.apiService.postData(environment.apiUrl + '/api/getactiveworklocation/', { id: 'sample' })
+      .subscribe({
+        next: (response) => {
+          this.Loader = false;
+          if (response.response === 'Success') {
+            this.worklocationlist = response.worklocationlist;
+          } else {
+            this.toastrService.showError(response.message);
+          }
+        },
+        error: (error) => {
+          this.Loader = false;
+          this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
+        }
+      });
+  }
+
+  /**
+   * get active work loaction
+   */
 
   // filterby dept
 
@@ -497,14 +530,15 @@ export class EmpSalaryComponent {
 
     const payload = {
       role: role,
+      worklocationid: this.workId,
       departmentid: this.Dept_ID,
       year_month: month,
       salarydate: salaryDate,
-      total_working_days: 0
+      total_working_days: ''
     };
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/get_salarydetails/', payload).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/get_salarydetails/', payload).subscribe(
       (response: any) => {
         if (response.response === 'Success') {
           this.salaryList = response.details;
@@ -516,7 +550,7 @@ export class EmpSalaryComponent {
       },
       (error) => {
         this.Loader = false;
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
     );
   }
@@ -546,7 +580,7 @@ export class EmpSalaryComponent {
     };
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeesalarydetails/', payload).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeesalarydetails/', payload).subscribe(
       (response: any) => {
         if (response.response === 'Success') {
           this.salaryList = response.details;
@@ -558,7 +592,7 @@ export class EmpSalaryComponent {
       },
       (error) => {
         this.Loader = false;
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
     );
   }
@@ -572,6 +606,19 @@ export class EmpSalaryComponent {
 
 
 
+clearFilters() {
+  // Reset the filter form to its default state
+  this.filterform.reset();
+
+  // Clear dependent arrays/lists
+  this.salaryList = [];
+
+  // Reset pagination
+  this.currentPage = 1;
+
+  // Optional: show a toast or console log for confirmation
+  console.log('Filters cleared and data reset');
+}
 
 
   get paginatedPaymentList() {
@@ -598,7 +645,7 @@ export class EmpSalaryComponent {
         .map((item: EmployeeDetails) => ({
           employeeid: item.employeeid,
           name: item.name,
-                    month: item.month,
+          month: item.month,
 
           month_name: item.month_name,
           year: item.year,
@@ -672,7 +719,7 @@ export class EmpSalaryComponent {
 
 
   payout() {
- 
+
     const status = this.filterform.get('paymentType')?.value || 'Full';
     const amount = this.filterform.get('paidAmount')?.value;
     const salaryDate = this.filterform.get('salaryDate')?.value || this.filterform.get('searchSalaryDate')?.value;
@@ -690,7 +737,7 @@ export class EmpSalaryComponent {
       fines: emp.fines || [],
       iswithheld: emp.iswithheld || 'No',
       withhelddays: emp.withhelddays || 0,
-      incentive: emp.incentive || 0   
+      incentive: emp.incentive || 0
     }));
 
     const payload = {
@@ -704,7 +751,7 @@ export class EmpSalaryComponent {
     console.log('Final Payload:', payload);
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/add_salary/', payload).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/add_salary/', payload).subscribe(
       (response: any) => {
         if (response.response === 'Success') {
           this.Loader = false;
@@ -722,7 +769,7 @@ export class EmpSalaryComponent {
       },
       (error) => {
         this.Loader = false;
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       })
   }
 

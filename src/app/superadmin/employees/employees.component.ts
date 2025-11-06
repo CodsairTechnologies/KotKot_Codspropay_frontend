@@ -44,7 +44,6 @@ export class EmployeesComponent {
 
   currentDate!: string;
   Loader: boolean = false;
-  token: any
   Employee_Id: any;
   Gender: any;
   Company_ArrayList: any = [];
@@ -162,11 +161,7 @@ export class EmployeesComponent {
 
   ngOnInit(): void {
 
-    this.token = sessionStorage.getItem("token");
     this.adminId = sessionStorage.getItem("adminId");
-
-    console.log('token', this.token);
-
     this.currentDate = new Date().toISOString().split('T')[0];
 
     this.EmployeeForm = this.formBuilder.group({
@@ -178,7 +173,7 @@ export class EmployeesComponent {
       EmpType: [''],
       ContactNo: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       DOB: ['', [Validators.required, this.maxDateValidator()]],
-      Age: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      Age: [''],
       Email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
       FatherName: [''],
       BloodGroup: [''],
@@ -188,11 +183,11 @@ export class EmployeesComponent {
       MaritalStatus: [''],
       SpouceName: [''],
       Location: ['', Validators.required],
-      restaurant: [''],
+      restaurant: ['', Validators.required],
       Designation: ['', Validators.required],
       salaryDate: ['', Validators.required],
       // Shift: ['', Validators.required],
-      Shift: [''],
+      Shift: ['', Validators.required],
       country: ['', Validators.required],
       state: ['', Validators.required],
       district: ['', Validators.required],
@@ -675,7 +670,8 @@ export class EmployeesComponent {
     'Location',
     'country',
     'state',
-    'district'
+    'district',
+    'restaurant'
   ];
 
   showNextForm() {
@@ -835,8 +831,6 @@ export class EmployeesComponent {
   }
 
   getCountryByStatusFn() {
-    console.log('tok', this.token);
-
 
     this.Loader = true;
 
@@ -1248,6 +1242,12 @@ export class EmployeesComponent {
 
   addEmployee() {
 
+Object.keys(this.EmployeeForm.controls).forEach(key => {
+  const control = this.EmployeeForm.get(key);
+  if (control && control.invalid) {
+    console.log('❌ Invalid field:', key, control.errors);
+  }
+});
 
     if (this.EmployeeForm.invalid) {
       this.EmployeeForm.markAllAsTouched();
@@ -1291,11 +1291,11 @@ export class EmployeesComponent {
     formdata.append('gender', this.Gender);
     formdata.append('contactNo', this.EmployeeForm.controls['ContactNo'].value);
     formdata.append('dob', this.EmployeeForm.controls['DOB'].value);
-    formdata.append('age', this.EmployeeForm.controls['Age'].value);
+    formdata.append('age', this.EmployeeForm.controls['Age'].value || '');
     formdata.append('email', this.EmployeeForm.controls['Email'].value);
     formdata.append('fathername', this.EmployeeForm.controls['FatherName'].value);
     formdata.append('bloodgroup', this.EmployeeForm.controls['BloodGroup'].value);
-    formdata.append('role',this.EmployeeForm.controls['EmpType'].value);
+    formdata.append('role',this.EmployeeForm.controls['EmpType'].value || '');
     formdata.append('qualification', this.EmployeeForm.controls['Qualification'].value);
     formdata.append('address', this.EmployeeForm.controls['Address'].value);
     formdata.append('unitId', this.Company_Id);
@@ -1307,7 +1307,7 @@ export class EmployeesComponent {
     formdata.append('foodallowance', this.EmployeeForm.controls['FoodAllowance'].value);
     formdata.append('extraallowance', this.EmployeeForm.controls['ExtraAllowance'].value);
 
-    formdata.append('isot', this.EmployeeForm.controls['OT'].value);
+    formdata.append('isOT', this.EmployeeForm.controls['OT'].value);
     formdata.append('leavedays', this.EmployeeForm.controls['CasualLeave'].value);
 
 

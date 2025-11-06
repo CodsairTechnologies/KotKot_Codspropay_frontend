@@ -23,12 +23,26 @@
               <label class="form-label">Role</label>
               <select class="form-select" formControlName="Role">
                 <option value="" disabled selected>Select Role</option>
-                                <option value="All">All</option>
+                <option value="All">All</option>
 
                 <option value="Staff">Staff</option>
                 <option value="Office Staff">Office Staff</option>
               </select>
             </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+              <label class="form-label">Work Loc./Branch</label>
+              <select class="form-select" aria-label="Default select example" formControlName="Location"
+                (change)="selectWorkLocation($event)">
+                <option value="" disabled selected>Select Location</option>
+                <option *ngFor="let objdesig of worklocationlist" [value]="objdesig.id">{{
+                  objdesig.worklocation_name }}</option>
+              </select>
+
+            </div>
+
+
+
 
             <!-- Department -->
             <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
@@ -126,13 +140,14 @@
               </div>
             </div>
 
-            <!-- Right aligned payout button -->
+            <!-- ✅ Payout + Clear buttons side by side -->
             <div class="col-md-8 col-sm-12 d-flex justify-content-end align-items-end mb-3">
-              <button class="bttn" (click)="payout()">Payout</button>
+              <button class="bttn me-2" (click)="payout()">Payout</button>
+              <button type="button" class="filter-clear" (click)="clearFilters()">
+                <i class="bi bi-x-circle-fill me-1"></i> Clear Filter
+              </button>
             </div>
           </div>
-
-
 
         </form>
       </div>
@@ -166,6 +181,7 @@
 
               <th scope="col">Company</th>
               <th scope="col">Department</th>
+              <th scope="col">Worklocation</th>
               <th scope="col">Basic Salary</th>
               <th scope="col">Working Days</th>
               <th scope="col">Total Working Hours</th>
@@ -225,6 +241,7 @@
 
               <td>{{ item.unit }}</td>
               <td>{{ item.department }}</td>
+              <td>{{ item.worklocation }}</td>
               <td>{{ item.basicsalary }}</td>
               <td>{{ item.workingdays }}</td>
               <td>{{ item.total_hours }}</td>

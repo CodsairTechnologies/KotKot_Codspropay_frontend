@@ -195,7 +195,7 @@ export class OtPunchComponent {
             }
           } else {
             this.arrList = [];
-            this.handleErrorResponse(response.message);
+            this.handleErrorResponse(response);
           }
         },
         error: (error) => {

@@ -13,7 +13,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Workbook } from 'exceljs';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { Document, Packer, Paragraph, TextRun} from 'docx';
+import { Document, Packer, Paragraph, TextRun } from 'docx';
 import * as FileSaver from 'file-saver';
 import { saveAs } from 'file-saver';
 import * as fs from 'file-saver';
@@ -43,11 +43,11 @@ interface ExpiryData {
   selector: 'app-employees-profile',
   standalone: true,
   imports: [ReactiveFormsModule, DialogModule, TableComponent, PaginatorModule,
-      CommonModule,
-      FormsModule],
+    CommonModule,
+    FormsModule],
   templateUrl: './employees-profile.component.html',
   styleUrl: './employees-profile.component.css',
-    providers: [DatePipe],
+  providers: [DatePipe],
   animations: [
     trigger('toggleBox', [
       state('void', style({
@@ -95,6 +95,7 @@ export class EmployeesProfileComponent {
   isESIBoxVisible = false;
   isloanBoxVisible = false;
   isDocumentBoxVisible = false;
+  isBranchBoxVisible = false;
 
   employeeId: any;
   Loader: boolean = false;
@@ -139,13 +140,17 @@ export class EmployeesProfileComponent {
   expiryList: any = [];
   resignationForm !: FormGroup
 
-  constructor(private rout: ActivatedRoute, private formBuilder: FormBuilder, private apiService: ApiService, private router: Router, private datePipe: DatePipe, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
+  constructor(private rout: ActivatedRoute, private formBuilder: FormBuilder, private routee: ActivatedRoute, private apiService: ApiService, private router: Router, private datePipe: DatePipe, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
 
-
-    this.token = sessionStorage.getItem("token");
-    console.log(this.token);
+    this.routee.queryParams.subscribe(params => {
+      const id = params['id'];
+      this.employeeId = params['empid'];
+      if (id) {
+        this.getEmployeeById(id, this.employeeId);
+      }
+    });
 
     // Form Initialization
     this.resignationForm = this.formBuilder.group({
@@ -153,7 +158,7 @@ export class EmployeesProfileComponent {
       reason: ['', [Validators.required, Validators.minLength(5)]]
     });
 
-
+    this.getBranchHistoryTableFn();
 
     // this.employeeId = sessionStorage.getItem("employeeId");
     // this.id = sessionStorage.getItem("profileid");
@@ -164,22 +169,14 @@ export class EmployeesProfileComponent {
     //   this.getEmpDetailsById(); // Call your method to fetch employee details
     // });
 
-    this.rout.params.subscribe((params: Params) => {
-      this.employeeId = params['value'];
-      this.id = sessionStorage.getItem('profileid');
-
-      console.log('Employee ID:', this.employeeId);
-      console.log('Profile ID retrieved from session storage:', this.id);
-
-      this.getEmpDetailsById();
-    });
-
 
     this.EmployeeForm = this.formBuilder.group({
 
       Name: [''],
       ContactNo: [''],
       EmpID: [''],
+      EmpType: [''],
+      kotkotid: [''],
       Email: [''],
       Unit: [''],
       Department: [''],
@@ -274,7 +271,7 @@ export class EmployeesProfileComponent {
 
     // this.getEmpDetailsById();
 
-    this.getDocumentexpiryFn();
+    // this.getDocumentexpiryFn();
 
   }
 
@@ -293,6 +290,14 @@ export class EmployeesProfileComponent {
   ]
 
 
+  arrList1: any = [];
+
+  arrColumns1: any = [
+    { strHeader: "SlNo", strAlign: "center", strKey: "slNo" },
+    { strHeader: "Previous Branch", strAlign: "center", strKey: "worklocation_name" },
+    { strHeader: "Updated on", strAlign: "center", strKey: "date" },
+
+  ]
 
 
 
@@ -301,7 +306,7 @@ export class EmployeesProfileComponent {
 
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/getemployeeexpiryfields/', { employeeid: this.employeeId }).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployeeexpiryfields/', { employeeid: this.employeeId }).subscribe(
       (response: any) => {
         this.Loader = false; // Ensure loader is hidden in both success and error cases
 
@@ -315,7 +320,7 @@ export class EmployeesProfileComponent {
       },
       (error) => {
         this.Loader = false; // Hide loader on error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -435,6 +440,8 @@ export class EmployeesProfileComponent {
       this.isloanBoxVisible = !this.isloanBoxVisible;
     } else if (box === 'document') {
       this.isDocumentBoxVisible = !this.isDocumentBoxVisible;
+    } else if (box === 'Branch') {
+      this.isBranchBoxVisible = !this.isBranchBoxVisible;
     }
 
   }
@@ -466,7 +473,7 @@ export class EmployeesProfileComponent {
       rejoiningdate: this.rejoinDate
     };
 
-     this.apiService.postData(environment.apiUrl + '/api/addrejoin/', payload)
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/addrejoin/', payload)
       .subscribe((response: any) => {
         this.Loader = false;
 
@@ -496,13 +503,13 @@ export class EmployeesProfileComponent {
 
   /**get employee details by id */
 
-  getEmpDetailsById() {
+  getEmployeeById(id: any, empid: any) {
 
     console.log(this.token);
 
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/employeesingleview/', { employeeid: this.employeeId }).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/employeesingleview/', { id: id, employeeid: empid, }).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.EmpDetailsList = response['employeesingleviewlist'];
@@ -538,12 +545,14 @@ export class EmployeesProfileComponent {
 
 
           this.EmployeeForm.controls['Name'].setValue(empdetails.name);
+          this.EmployeeForm.controls['EmpType'].setValue(empdetails.role);
+          this.EmployeeForm.controls['kotkotid'].setValue(empdetails.labourcardNo);
           this.EmployeeForm.controls['ContactNo'].setValue(empdetails.contactNo);
           this.EmployeeForm.controls['EmpID'].setValue(empdetails.employeeId);
           this.EmployeeForm.controls['Email'].setValue(empdetails.email);
-          this.EmployeeForm.controls['Unit'].setValue(empdetails.unitname);
-          this.EmployeeForm.controls['Department'].setValue(empdetails.departmentname);
-          this.EmployeeForm.controls['Designation'].setValue(empdetails.designation);
+          this.EmployeeForm.controls['Unit'].setValue(empdetails.worklocation_name);
+          this.EmployeeForm.controls['Department'].setValue(empdetails.department_name);
+          this.EmployeeForm.controls['Designation'].setValue(empdetails.designation_name);
           this.EmployeeForm.controls['PF'].setValue(empdetails.pfno);
           this.EmployeeForm.controls['UAN'].setValue(empdetails.uanno);
           this.EmployeeForm.controls['IP'].setValue(empdetails.ipno);
@@ -631,12 +640,43 @@ export class EmployeesProfileComponent {
   }
 
 
+  /**get Branch history table */
+
+  getBranchHistoryTableFn() {
+
+    this.Loader = true;
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/viewworklocationhistory/', { employeeid: this.employeeId })
+      .subscribe((response: any) => {
+        if (response.response === 'Success') {
+          response.worklocationlist.forEach((obj: { [key: string]: any }, index: number) => {
+            obj['slNo'] = index + 1;
+          });
+          this.Loader = false;
+          this.arrList1 = response.worklocationlist;
+          console.log(this.salList);
+        } else if (response.response === 'Error') {
+          this.Loader = false;
+          // this.toastrService.showError(response.message);
+        } else {
+          this.Loader = false;
+          // this.toastrService.showError(response.message);
+        }
+      },
+        (error) => {
+          this.Loader = false;
+          console.error("Error occurred:", error);
+          // this.toastrService.showError("Something went wrong. Please try again later");
+        });
+  }
+  /**get Branch history table */
+
+
   /**get salary history table */
 
   getSalaryHistoryTableFn() {
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/getsalaryhistory/', { employeeid: this.employeeId })
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getsalaryhistory/', { employeeid: this.employeeId })
       .subscribe((response: any) => {
         if (response.response === 'Success') {
           this.Loader = false;
@@ -673,7 +713,7 @@ export class EmployeesProfileComponent {
     };
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/getsalarybydate/', payload).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getsalarybydate/', payload).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.salList = response.salarydetails;
@@ -698,9 +738,9 @@ export class EmployeesProfileComponent {
   /**get loan history table */
 
   getLoanHistoryTableFn() {
-  
+
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/getloanhistory/', { employeeid: this.employeeId })
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getloanhistory/', { employeeid: this.employeeId })
       .subscribe((response: any) => {
         if (response.response === 'Success') {
           this.Loader = false;
@@ -726,7 +766,7 @@ export class EmployeesProfileComponent {
 
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/employeesingleview/', { employeeid: this.employeeId }).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/employeesingleview/', { employeeid: this.employeeId }).subscribe((response: any) => {
       this.Loader = false;
       if (response['response'] == 'Success') {
 
@@ -780,7 +820,7 @@ export class EmployeesProfileComponent {
     formdata.append('employeeid', this.employeeId);
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/editpf/', formdata).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/editpf/', formdata).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.toastrService.showSuccess(response.message);
@@ -805,7 +845,7 @@ export class EmployeesProfileComponent {
 
   /**edit payment */
   editPaymentFn() {
- 
+
 
     if (this.editsalaryform.invalid) {
       return;
@@ -830,7 +870,7 @@ export class EmployeesProfileComponent {
     formdata.append('salarydetails', JSON.stringify(salaryDetails));
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/edit_salary/', formdata).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/edit_salary/', formdata).subscribe((response: any) => {
       this.Loader = false;
       if (response['response'] == 'Success') {
         this.Loader = false
@@ -865,7 +905,7 @@ export class EmployeesProfileComponent {
     formdata.append('Da', this.EditPFForm.controls['EmployerContribution'].value);
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '', formdata).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + '', formdata).subscribe((response: any) => {
       this.Loader = false;
       if (response['response'] == 'Success') {
         this.Loader = false;
@@ -904,7 +944,7 @@ export class EmployeesProfileComponent {
 
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '', formdata).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + '', formdata).subscribe((response: any) => {
       this.Loader = false;
       if (response['response'] == 'Success') {
         this.Loader = false;
@@ -1231,7 +1271,7 @@ export class EmployeesProfileComponent {
     };
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/payslip/', payload).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/payslip/', payload).subscribe((response: any) => {
 
       if (response['response'] === 'Success') {
         this.Loader = false;
@@ -1274,7 +1314,7 @@ export class EmployeesProfileComponent {
     };
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/employeereport/', payload).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/employeereport/', payload).subscribe((response: any) => {
 
       if (response['response'] === 'Success') {
         this.Loader = false;
@@ -1586,7 +1626,7 @@ export class EmployeesProfileComponent {
 
 
     this.Loader = true;
-   this.apiService.postData(environment.apiUrl + '/api/resign/', payload)
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/resign/', payload)
       .subscribe(
         (response: any) => {
           this.Loader = false;
@@ -1622,52 +1662,52 @@ export class EmployeesProfileComponent {
   }
 
 
-downloadLetterPdf() {
-  const element = document.getElementById('letterContent');
+  downloadLetterPdf() {
+    const element = document.getElementById('letterContent');
 
-  if (!element || !this.resignationData) {
-    this.toastrService.showError('Resignation letter content or data not found.');
-    return;
-  }
-
-  // Temporarily adjust styles for export
-  const modalContent = element.closest('.modal-content') as HTMLElement;
-  const originalPadding = modalContent?.style.padding;
-  const originalFontSize = element.style.fontSize;
-
-  if (modalContent) modalContent.style.padding = '0';
-  element.style.fontSize = '14px'; // shrink text
-
-  html2canvas(element, { scale: 2, useCORS: true }).then((canvas) => {
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    const imgWidth = pageWidth;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    // Handle multipage
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+    if (!element || !this.resignationData) {
+      this.toastrService.showError('Resignation letter content or data not found.');
+      return;
     }
 
-    pdf.save(`Resignation_Letter_${this.resignationData.employeeId}.pdf`);
+    // Temporarily adjust styles for export
+    const modalContent = element.closest('.modal-content') as HTMLElement;
+    const originalPadding = modalContent?.style.padding;
+    const originalFontSize = element.style.fontSize;
 
-    // Restore original styles
-    if (modalContent) modalContent.style.padding = originalPadding || '15px';
-    element.style.fontSize = originalFontSize || '';
-  });
-}
+    if (modalContent) modalContent.style.padding = '0';
+    element.style.fontSize = '14px'; // shrink text
+
+    html2canvas(element, { scale: 2, useCORS: true }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Handle multipage
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save(`Resignation_Letter_${this.resignationData.employeeId}.pdf`);
+
+      // Restore original styles
+      if (modalContent) modalContent.style.padding = originalPadding || '15px';
+      element.style.fontSize = originalFontSize || '';
+    });
+  }
 
 
 

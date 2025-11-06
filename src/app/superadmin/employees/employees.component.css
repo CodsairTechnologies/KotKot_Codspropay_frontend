@@ -311,11 +311,10 @@
 }
 
 
-/* File Upload Styles */
 .file-upload {
-    display: block;              /* no flex pushing */
-    padding: 10px;
-    height: auto;                /* adjust height automatically */
+    display: block;             
+    padding: 6px;
+    height: 46px;            
     border: 1px solid #ebe8e8;
     border-radius: 4px;
     background-color: white;
@@ -324,36 +323,39 @@
 .upload-container {
   display: flex;
   align-items: center;
-  justify-content: space-between; 
+  justify-content: flex-start; 
   gap: 10px;
 }
 
 
-.file-name,
+
+
+
 .file-name-passport,
 .file-name-ikkama,
 .file-name-balady,
-.file-name-contract {
+.file-name-contract,
+.file-name {
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 200px;
 }
 
 .file-name
 {
-    max-width: 200px;
+    max-width: 100px;
 }
 
 
 .file-name-passport,
 .file-name-ikkama,
-.file-name-balady,
-.file-name-contract {
+.file-name-balady
+{
 
     max-width: 300px;
 }
+
 
 .custom-file-upload {
     display: inline-flex;

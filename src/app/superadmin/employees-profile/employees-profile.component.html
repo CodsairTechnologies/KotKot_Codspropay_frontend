@@ -8,11 +8,11 @@
         <div class="col-lg-5 col-12">
             <div class="breadcrumb">
                 <span class="home-icon"><i class="bi bi-house-door-fill"></i></span>
-                <a href="/super-admin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp;
+                <a href="/superadmin/dashboard" class="breadcrumb-item">Dashboard</a> &nbsp;
                 <i class="bi bi-chevron-right"></i> &nbsp;
-                <a routerLink="/super-admin/viewemployee" class="breadcrumb-item">Employees</a> &nbsp;
+                <a href="/superadmin/employeelist" class="breadcrumb-item">Employees</a> &nbsp;
                 <i class="bi bi-chevron-right"></i> &nbsp;
-                <a href="/super-admin/employee-profile" class="breadcrumb-item">Employee Profile</a>
+                <a href="/superadmin/employee-profile" class="breadcrumb-item">Employee Profile</a>
             </div>
         </div>
 
@@ -71,44 +71,76 @@
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-12 col-sm-12">
-                        <div class="row mt-4">
-                            <div class="col-md-6 col-sm-12 mb-3">
-                                <!-- Name -->
-                                <div class="mb-3">
+                        <div class="row mt-4 ms-2">
+
+                            <div class="col-6 ">
+
+                                <!--  Name -->
+
+                                <div class="mb-3 f1">
                                     <label for="Name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="Name" formControlName="Name" readonly>
+                                    <input type="text" class="form-control " id="Name" formControlName="Name" readonly>
                                 </div>
-                                <!-- Contact Number -->
-                                <div class="mb-3">
-                                    <label for="ContactNo" class="form-label">Contact No</label>
-                                    <input type="text" class="form-control" id="ContactNo" formControlName="ContactNo"
+
+                                <div class="mb-3 f1">
+
+                                    <label for="contactno" class="form-label">Email </label>
+                                    <input type="text" class="form-control" id="contactno" formControlName="Email"
                                         readonly>
+
                                 </div>
+
+
                             </div>
-                            <div class="col-md-6 col-sm-12 mb-3">
+
+                            <div class="col-6">
+
                                 <!-- Employee ID -->
-                                <div class="mb-3">
-                                    <label for="EmpID" class="form-label">Employee ID</label>
-                                    <input type="text" class="form-control" id="EmpID" formControlName="EmpID" readonly>
+
+                                <div class="row">
+                                    <div class="col-6 mb-3">
+                                        <label for="employeeid" class="form-label">Employee ID </label>
+                                        <input type="text" class="form-control" id="employeeid" formControlName="EmpID"
+                                            readonly>
+
+                                    </div>
+
+
+                                    <div class="col-6 mb-3">
+                                        <label for="employeeid" class="form-label">Role </label>
+                                        <input type="text" class="form-control" id="EmpType" formControlName="EmpType"
+                                            readonly>
+
+                                    </div>
                                 </div>
-                                <!-- Email -->
-                                <div class="mb-3">
-                                    <label for="Email" class="form-label">Email</label>
-                                    <input type="text" class="form-control" id="Email" formControlName="Email" readonly>
+
+
+
+                                <!-- Contact Number -->
+                                <div class="row">
+
+                                    <div class="col-6 mb-3">
+                                        <label for="contactno" class="form-label">Contact No </label>
+                                        <input type="number" class="form-control" id="contactno"
+                                            formControlName="ContactNo" readonly>
+                                    </div>
+
+                                    <div class="col-6 mb-3">
+                                        <label for="kotkotid" class="form-label">KotKot ID </label>
+                                        <input type="text" class="form-control" id="kotkotid" formControlName="kotkotid"
+                                            readonly>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
+
                     </div>
 
                 </div>
                 <div class="row">
                     <!-- Unit -->
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="mb-3">
-                            <label for="Unit" class="form-label">Unit</label>
-                            <input type="text" class="form-control" id="Unit" formControlName="Unit" readonly>
-                        </div>
-                    </div>
+
                     <!-- Department -->
                     <div class="col-lg-4 col-md-6 col-sm-12">
                         <div class="mb-3">
@@ -123,6 +155,13 @@
                             <label for="Designation" class="form-label">Designation</label>
                             <input type="text" class="form-control" id="Designation" formControlName="Designation"
                                 readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="mb-3">
+                            <label for="Unit" class="form-label">Work Location</label>
+                            <input type="text" class="form-control" id="Unit" formControlName="Unit" readonly>
                         </div>
                     </div>
                 </div>
@@ -542,7 +581,7 @@
                     <div class="col-md-4">
                         <div class="adhaarno">
                             <label for="driving Number" class="form-label file-label">Driving Licence Number</label>
-                            <input type="text" class="form-control" placeholder="Enter Driving Licence Number here"
+                            <input type="text" class="form-control" 
                                 formControlName="DrivingLicenceNumber" readonly>
                         </div>
                     </div>
@@ -550,7 +589,7 @@
                     <div class="col-md-3">
                         <div class="adhaarno">
                             <label for="LicenceExpiry" class="form-label file-label">Driving Licence Expiry</label>
-                            <input type="text" class="form-control" placeholder="Enter Licence Expiry here"
+                            <input type="text" class="form-control"
                                 formControlName="LicenceExpiry" readonly>
                         </div>
                     </div>
@@ -691,6 +730,32 @@
                         (click)="getLoanHistoryTableFn()">History</button>
                 </div>
             </div>
+
+
+        </div>
+
+
+
+        <!-- Branch history details -->
+
+
+        <div class="profiledetails">
+            <div class="rectangle ps-3">Branch History</div>
+            <hr class="divider">
+            <div class="icon" (click)="toggleBox('Branch')">
+                <i class="bi bi-chevron-double-down"></i>
+            </div>
+        </div>
+
+
+        <div class="salary-box" *ngIf="isBranchBoxVisible" @toggleBox>
+
+            <!-- <div class="box"> -->
+            <app-table [arrList]="arrList1" [arrColumns]="arrColumns1">
+            </app-table>
+            <!-- </div> -->
+
+
 
 
         </div>
@@ -1000,7 +1065,7 @@
                                     </tr>
                                     <tr>
                                         <td class="label">Firm :</td>
-                                        <td class="value">{{item.firm || 'AZOOMIE'}}</td>
+                                        <td class="value">{{item.firm || 'KOTKOT'}}</td>
                                     </tr>
                                     <tr>
                                         <td class="label">Department :</td>
@@ -1122,7 +1187,7 @@
                                     This is to certify that
                                     <span class="bold-text cap">{{ item.name }}</span>,
                                     <span class="bold-text cap">{{ item.address }}</span>
-
+                                    <!-- 
                                     <ng-container *ngIf="item.resigneddate; else ongoing">
                                         was working with us as
                                         <span class="bold-text">{{ item.designation }}</span> from
@@ -1133,7 +1198,35 @@
                                         }} wass efficient and punctual in {{ possessivePronoun }} duty time and very
                                         obedient. We
                                         wish {{ objectivePronoun }} all success in future and endeavours.
+                                    </ng-container> -->
+
+                                    <ng-container
+                                        *ngIf="item.resigneddate && item.resigneddate !== 'null' && item.resigneddate !== ''; else ongoing">
+                                        was working with us as
+                                        <span class="bold-text">{{ item.designation }}</span> from
+                                        <span class="bold-text">
+                                            {{
+                                            item.joiningdate && item.joiningdate !== 'null' && item.joiningdate !== ''
+                                            ? (item.joiningdate | date: 'dd-MM-yyyy')
+                                            : ''
+                                            }}
+                                        </span>
+                                        to
+                                        <span class="bold-text">
+                                            {{
+                                            item.resigneddate && item.resigneddate !== 'null' && item.resigneddate !==
+                                            ''
+                                            ? (item.resigneddate | date: 'dd-MM-yyyy')
+                                            : ''
+                                            }}
+                                        </span>.
+                                        {{ pronoun }} was professionally sound, hard-working, and a devoted worker.
+                                        {{ pronoun }} was efficient and punctual in {{ possessivePronoun }} duty time
+                                        and very obedient.
+                                        We wish {{ objectivePronoun }} all success in future endeavours.
                                     </ng-container>
+
+
 
                                     <ng-template #ongoing>
                                         is working with us as
@@ -1528,4 +1621,3 @@
         </div>
     </div>
 </div>
-

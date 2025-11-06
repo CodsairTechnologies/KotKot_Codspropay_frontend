@@ -33,24 +33,23 @@
             <form [formGroup]="EmployeefilterForm">
                 <div class="row">
                     <div class="col-lg-3 col-md-6 mb-3">
-                        <label for="Company" class="form-label">Company</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="Company"
-                            (change)="selectCompany($event, 'add')">
-                            <option value="" disabled selected>Select Company</option>
-                            <option [value]="Company['id']" *ngFor="let Company of Companylist">{{
-                                Company['unitname'] }}
-                            </option>
-                        </select>
+                        <label for="WorkLocation" class="form-label">Work Location</label>
+                         <select class="form-select" aria-label="Default select example"
+                                    formControlName="Location" (change)="selectWorkLocation($event)">
+                                    <option value="" disabled selected>Select Location</option>
+                                    <option *ngFor="let objdesig of worklocationlist" [value]="objdesig.id">{{
+                                        objdesig.worklocation_name }}</option>
+                                </select>
                     </div>
 
                     <div class="col-lg-3 col-md-6 mb-3">
                         <label for="Department" class="form-label">Department</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="Department"
-                            (change)="selectByDepartment($event, 'add')">
-                            <option value="" disabled selected>Select Department</option>
-                            <option [value]="dept['id']" *ngFor="let dept of departments">{{ dept['departmentname']
-                                }}</option>
-                        </select>
+                         <select class="form-select" aria-label="Default select example"
+                                    formControlName="Department" (change)="selectDepartment($event)">
+                                    <option value="" disabled selected>Select Department</option>
+                                    <option *ngFor="let objdept of Department_ArrayList" [value]="objdept.id">{{
+                                        objdept.department_name }}</option>
+                                </select>
                     </div>
 
                     <div class="col-lg-2 col-md-6 mb-3">

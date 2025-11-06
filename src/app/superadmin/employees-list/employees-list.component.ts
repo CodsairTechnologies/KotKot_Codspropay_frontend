@@ -27,12 +27,9 @@ export class EmployeesListComponent {
 
   EmployeefilterForm!: FormGroup;
   Loader: boolean = false;
-  token: any;
   arrList: any = []
-  Companylist: any = [];
-  departments: any = [];
+  Department_ArrayList: any = [];
 
-  CompanyID: any;
   deptId: any;
   first = 0;
   rows = 10;
@@ -43,19 +40,19 @@ export class EmployeesListComponent {
   blnForDelete: boolean = true;
   blnNoEdit: boolean = true;
   blnHasSingleview: boolean = true;
-  blnHasProfile: boolean = false;
+  blnHasProfile: boolean = true;
 
   /*** boolean key for actions*/
   isExpiry: any;
-
+  workId: any;
+  worklocationlist: any = [];
 
   constructor(private router: Router, private formBuilder: FormBuilder, private apiService: ApiService, private toastrService: ToastService, private errorHandingservice: ErrorHandlingService) { }
 
   ngOnInit(): void {
-    this.token = sessionStorage.getItem("token");
     this.EmployeefilterForm = this.formBuilder.group({
 
-      Company: ['', Validators.required],
+      Location: ['', Validators.required],
       Department: ['', Validators.required],
       Status: ['', Validators.required],
       Role: ['', Validators.required],
@@ -66,7 +63,8 @@ export class EmployeesListComponent {
     })
 
     this.get_AllStaff();
-    // this.fetchCompanyFn();
+    this.getWorklocationByStatusFn();
+    this.fetchDepartmentById();
 
   }
 
@@ -75,11 +73,11 @@ export class EmployeesListComponent {
     { strHeader: "SlNo", strAlign: "center", strKey: "slNo" },
     { strHeader: "Emp ID", strAlign: "center", strKey: "employeeId" },
     { strHeader: "Name", strAlign: "center", strKey: "name" },
-    { strHeader: "Role", strAlign: "center", strKey: "type" },
+    // { strHeader: "Role", strAlign: "center", strKey: "type" },
 
     // { strHeader: "Mobile No", strAlign: "center", strKey: "contactNo" },
-    // { strHeader: "Company", strAlign: "center", strKey: "unitname" },
     { strHeader: "Department", strAlign: "center", strKey: "department_name" },
+    { strHeader: "Designation", strAlign: "center", strKey: "designation_name" },
     { strHeader: "Status", strAlign: "center", strKey: "strStatus" },
     { strHeader: "Actions", strAlign: "center", strKey: "strActions" },
 
@@ -94,7 +92,7 @@ export class EmployeesListComponent {
   get_AllStaff() {
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployee/', { id: 'sample' }).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getemployee/', { id: 'sample' }).subscribe(
       (response: any) => {
         this.Loader = false; // Turn off loader after response
         if (response['response'] === 'Success') {
@@ -108,7 +106,7 @@ export class EmployeesListComponent {
       },
       (error) => {
         this.Loader = false; // Turn off loader in case of HTTP error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Use common HTTP error handling
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Use common HTTP error handling
       }
     );
   }
@@ -122,55 +120,58 @@ export class EmployeesListComponent {
 
 
 
-  selectCompany(event: any, action: any) {
-    this.CompanyID = event.target.value;
-    console.log("Selected Company ID:", this.CompanyID);
-    this.fetchDepartmentByCompanyId();
+  /**
+   * 
+   * get active work loaction
+   */
 
+  selectWorkLocation(event: any) {
+    this.workId = event.target.value;
   }
-
-
-
-  fetchCompanyFn() {
+  getWorklocationByStatusFn() {
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/getunit/', { id: 'sample' })
-      .subscribe((response: any) => {
-        this.Loader = false; // Hide loader initially
-        if (response['response'] === 'Success') {
-          this.Companylist = response.unitlist;
-        } else {
-          this.handleErrorResponse(response);
+
+    this.apiService.postData(environment.apiUrl + '/api/getactiveworklocation/', { id: 'sample' })
+      .subscribe({
+        next: (response) => {
+          this.Loader = false;
+          if (response.response === 'Success') {
+            this.worklocationlist = response.worklocationlist;
+          } else {
+            this.toastrService.showError(response.message);
+          }
+        },
+        error: (error) => {
+          this.Loader = false;
+          this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
-      }, error => {
-        this.Loader = false; // Hide loader in case of error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       });
   }
 
-  selectByDepartment(event: any, action: any) {
+  /**
+   * get active work loaction
+   */
+  selectDepartment(event: any) {
     this.deptId = event.target.value;
-    console.log("Selected Department ID:", this.deptId);
-    // this.getEmpWorkShiftTableFn();
   }
 
-  fetchDepartmentByCompanyId(callback?: () => void) {
- 
+  fetchDepartmentById() {
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + '/api/getdepartmentbyunit/', { unitid: this.CompanyID })
+    this.apiService.postData(environment.apiUrl + '/api/getactivedepartment/', { id: 'sample' })
       .subscribe((response: any) => {
-        this.Loader = false; // Hide loader initially
-        if (response['response'] === 'Success') {
-          this.departments = response['departments'];
-          if (callback) callback();
+        this.Loader = false;
+        if (response.response === 'Success') {
+          this.Department_ArrayList = response.departmentlist;
         } else {
-          this.handleErrorResponse(response);
+          this.toastrService.showError(response.message);
         }
-      }, error => {
-        this.Loader = false; // Hide loader in case of error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
-      });
+      }, (error) => {
+        // Pass Loader reference to common service
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
+      }
+      );
   }
 
 
@@ -206,7 +207,7 @@ export class EmployeesListComponent {
       word: searchKeyword
     };
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/employeesearch/', payload)
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/employeesearch/', payload)
       .subscribe(
         (response: any) => {
           this.Loader = false; // Hide loader initially
@@ -223,7 +224,7 @@ export class EmployeesListComponent {
         },
         error => {
           this.Loader = false; // Hide loader in case of error
-           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
+          this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
@@ -233,9 +234,9 @@ export class EmployeesListComponent {
   /** Filter */
 
   getFilterEmpTableFn() {
-     
+
     const filters = {
-      unit: this.EmployeefilterForm.get('Company')!.value,
+      worklocationid: this.EmployeefilterForm.get('Location')!.value,
       department: this.EmployeefilterForm.get('Department')!.value,
       status: this.EmployeefilterForm.get('Status')!.value,
       role: this.EmployeefilterForm.get('Role')!.value
@@ -243,7 +244,7 @@ export class EmployeesListComponent {
     };
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/employeefilter/', filters).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/employeefilter/', filters).subscribe(
       (response: any) => {
         this.Loader = false; // Hide loader initially
         if (response.response === 'Success') {
@@ -259,7 +260,7 @@ export class EmployeesListComponent {
       },
       (error) => {
         this.Loader = false; // Hide loader in case of error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
       }
     );
   }
@@ -282,7 +283,7 @@ export class EmployeesListComponent {
 
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/expiryemployeefilter/', payload)
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/expiryemployeefilter/', payload)
       .subscribe(
         (response: any) => {
           this.Loader = false; // Hide loader initially
@@ -299,16 +300,16 @@ export class EmployeesListComponent {
         },
         error => {
           this.Loader = false; // Hide loader in case of error
-           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
+          this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }
 
 
-  dltEmpFn(item: any, item1 :any) {
+  dltEmpFn(item: any, item1: any) {
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/deleteemployee/', { id: item , employeeid : item1}).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/deleteemployee/', { id: item, employeeid: item1 }).subscribe(
       (response: any) => {
         this.Loader = false; // Hide loader immediately upon response
         if (response['response'] === 'Success') {
@@ -320,7 +321,7 @@ export class EmployeesListComponent {
       },
       (error) => {
         this.Loader = false; // Hide loader in case of error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP error
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP error
       }
     );
   }
@@ -343,9 +344,9 @@ export class EmployeesListComponent {
 
   toggleActiveINactive(id: number, newStatus: string) {
     const payload = { id: id, status: newStatus };
- 
+
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/statusemployee/', payload).subscribe(
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/statusemployee/', payload).subscribe(
       (response: any) => {
         this.Loader = false; // Turn off loader after receiving the response
         if (response['response'] === 'Success') {
@@ -357,7 +358,7 @@ export class EmployeesListComponent {
       },
       (error) => {
         this.Loader = false; // Turn off loader in case of error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP error using common error function
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP error using common error function
       }
     );
   }
@@ -365,19 +366,16 @@ export class EmployeesListComponent {
 
   profileEmployee(value: { employeeId: string; id: string }) {
     // Store the id in session storage
-    sessionStorage.setItem("profileid", value.id);
+    this.router.navigate(['superadmin/employee-profile'], {
+      queryParams: { id: value.id, empid: value.employeeId }
+    });
 
-    // Navigate using the employeeId as the 'value' route parameter
-    this.router.navigate(['superadmin/employee-profile', value.employeeId]);
-
-    console.log('Employee ID passed for navigation:', value.employeeId);
-    console.log('Profile ID stored in session storage:', value.id);
   }
 
 
   clearfilter() {
     this.EmployeefilterForm.reset({
-      Company: '',
+      Location: '',
       Department: '',
       Status: '',
       Role: '',
@@ -448,7 +446,7 @@ export class EmployeesListComponent {
     formData.append('file', this.selectedFile);
 
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/employeeupload/', formData)
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/employeeupload/', formData)
       .subscribe(
         (response: any) => {
           this.Loader = false;
@@ -485,7 +483,7 @@ export class EmployeesListComponent {
         },
         error => {
           this.Loader = false;
-           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
+          this.errorHandingservice.handleErrorResponse(error, { value: this.Loader });
         }
       );
   }

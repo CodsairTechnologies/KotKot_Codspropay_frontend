@@ -520,6 +520,11 @@ tr {
   width: 150px;
 }
 
+.table td:nth-child(32),
+.table th:nth-child(32) {
+  width: 150px;
+}
+
 
 
 /* Add a border to the right of the last fixed column */
@@ -869,4 +874,18 @@ input.form-control:focus {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: normal;
   font-size: 14px;
+}
+.filter-clear {
+  background-color: var(--bs-secondary); /* Bootstrap secondary color */
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-clear:hover {
+  background-color: #5c636a; /* Slightly darker shade for hover */
 }
