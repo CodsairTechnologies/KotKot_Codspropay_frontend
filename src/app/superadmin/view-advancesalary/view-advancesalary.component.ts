@@ -55,7 +55,7 @@ export class ViewAdvancesalaryComponent {
 
   arrColumns: any = [
     { strHeader: "SlNo", strAlign: "center", strKey: "slNo" },
-    { strHeader: "Emp ID", strAlign: "center", strKey: "employeeId" },
+    { strHeader: "Emp ID", strAlign: "center", strKey: "empid" },
     { strHeader: "Emp Name", strAlign: "center", strKey: "employeename" },
     { strHeader: "Paid Date", strAlign: "center", strKey: "advancedate" },
     { strHeader: "Salary Month", strAlign: "center", strKey: "date" },

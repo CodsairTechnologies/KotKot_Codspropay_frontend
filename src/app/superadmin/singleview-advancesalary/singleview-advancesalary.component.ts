@@ -24,7 +24,6 @@ import { ErrorHandlingService } from '../../core/services/error-handling.service
 export class SingleviewAdvancesalaryComponent {
  viewAdSalaryForm!: FormGroup;
 
-  token: any;
   adminid: any;
   userName: any;
   status: any;
@@ -44,22 +43,11 @@ export class SingleviewAdvancesalaryComponent {
 
   ngOnInit(): void {
 
-    this.token = sessionStorage.getItem("token");
     this.adminid = sessionStorage.getItem("adminId");
     this.userName = sessionStorage.getItem("username");
     this.status = sessionStorage.getItem("status");
-
-
     this.salaryID = sessionStorage.getItem("advanceid");
     this.EMPID = sessionStorage.getItem("empid");
-
-
-
-    if (!this.token) {
-      this.toastrService.showError('Token not available. Please log in again.');
-      this.router.navigateByUrl('/login');
-      return;
-    }
 
 
     this.viewAdSalaryForm = this.formBuilder.group({
@@ -67,7 +55,7 @@ export class SingleviewAdvancesalaryComponent {
       Name: [''],
       Salary: [''],
       Department: [''],
-      Unit: [''],
+      // Unit: [''],
       Loan: [''],
       LoanAmount: [''],
       Emi: [''],
@@ -103,7 +91,7 @@ export class SingleviewAdvancesalaryComponent {
           this.viewAdSalaryForm.controls['EmpId'].setValue(adSalalary.employeeId);
           this.viewAdSalaryForm.controls['Salary'].setValue(adSalalary.salary);
           this.viewAdSalaryForm.controls['Department'].setValue(adSalalary.department_name);
-          // this.viewAdSalaryForm.controls['Unit'].setValue(adSalalary.unitname);
+          // this.viewAdSalaryForm.controls['Unit'].setValue(adSalalary.worklocation_name);
           this.viewAdSalaryForm.controls['Loan'].setValue(adSalalary.loan);
           this.viewAdSalaryForm.controls['LoanAmount'].setValue(adSalalary.amount);
           this.viewAdSalaryForm.controls['Emi'].setValue(adSalalary.emiamount);

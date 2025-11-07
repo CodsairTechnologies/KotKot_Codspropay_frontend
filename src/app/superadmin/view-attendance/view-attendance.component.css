@@ -4,14 +4,14 @@
     list-style: none;
     padding: 10px;
     margin-left: 40px;
-}
-
-.breadcrumbs {
+  }
+  
+  .breadcrumbs {
     position: relative;
     display: inline-block;
-}
-
-.breadcrumbs:not(:last-child)::after {
+  }
+  
+  .breadcrumbs:not(:last-child)::after {
     content: '';
     display: inline-block;
     width: 16px;
@@ -20,47 +20,47 @@
     background-repeat: no-repeat;
     background-position: center;
     margin-left: 5px;
-}
-
-.bi-house-door-fill {
+  }
+  
+  .bi-house-door-fill {
     color: rgb(0, 0, 0);
     font-size: 18px;
-}
-
-.breadcrumb a {
+  }
+  
+  .breadcrumb a {
     text-decoration: none;
     color: black;
     font-size: 18px;
     font-style: normal;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
-}
-
-
-
-.home-icon {
+  }
+  
+  
+  
+  .home-icon {
     margin-right: 5px;
-}
-
-.arrow-icon {
+  }
+  
+  .arrow-icon {
     margin: 0 5px;
-}
-
-.bi-chevron-right {
-
-    font-size: 15px;
-    vertical-align: middle;
-
-}
-
-.bi-chevron-right::before {
+  }
+  
+  .bi-chevron-right {
+  
+    max-width: 25px;
+    font-size: 13px;
+    margin-top: 5px;
+  
+  }
+  
+  .bi-chevron-right::before {
     font-weight: bolder !important;
-    font-size: 15px;
-
-}
-
-
-/* breadcrums end */
+  }
+  
+  
+  /* breadcrums end */
+  
 
 
 
@@ -168,10 +168,6 @@
 
 .button {
     border: none;
-}
-
-.bi {
-    font-size: 19px;
 }
 
 

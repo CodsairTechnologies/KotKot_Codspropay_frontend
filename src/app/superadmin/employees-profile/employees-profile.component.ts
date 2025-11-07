@@ -271,7 +271,7 @@ export class EmployeesProfileComponent {
 
     // this.getEmpDetailsById();
 
-    // this.getDocumentexpiryFn();
+    this.getDocumentexpiryFn();
 
   }
 
@@ -324,34 +324,35 @@ export class EmployeesProfileComponent {
       })
   }
 
-  checkAndDisplayWarning(expiryList: ExpiryData[]) {
-    let reminders = '';
+ checkAndDisplayWarning(expiryList: ExpiryData[]) {
+  let reminders = '';
 
-    expiryList.forEach((expiry: ExpiryData) => {
-      // Checking for expired documents and including the expiration date
-      const licenseReminder = this.getReminderMessage(expiry.License, 'Driving License');
-      const passportReminder = this.getReminderMessage(expiry.Passport, 'Passport');
-      const visaReminder = this.getReminderMessage(expiry.Visa, 'Visa');
+  expiryList.forEach((expiry: ExpiryData) => {
+    // Loop through all key-value pairs in expiry
+    Object.keys(expiry).forEach((key) => {
+      const value = expiry[key as keyof ExpiryData];
 
-      if (licenseReminder) {
-        reminders += `• ${licenseReminder}<br>`;
+      // Skip fields that are not related to expiry
+      if (['name', 'employeeId', 'expiry_count'].includes(key)) {
+        return;
       }
-      if (passportReminder) {
-        reminders += `• ${passportReminder}<br>`;
-      }
-      if (visaReminder) {
-        reminders += `• ${visaReminder}<br>`;
+
+      // Get reminder message for each expiry field dynamically
+      const reminder = this.getReminderMessage(value as string, key);
+
+      if (reminder) {
+        reminders += `• ${reminder}<br>`;
       }
     });
+  });
 
-    // If there are any reminders, display the warning message
-    if (reminders) {
-      reminders += '<br>Please renew soon.';
-
-      // Display the warning message
-      this.showWarningMessage(reminders);
-    }
+  // If there are any reminders, display the warning message
+  if (reminders) {
+    reminders += '<br>Please renew soon.';
+    this.showWarningMessage(reminders);
   }
+}
+
 
 
 

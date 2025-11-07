@@ -16,17 +16,16 @@ import { ErrorHandlingService } from '../../core/services/error-handling.service
   selector: 'app-singleview-loan',
   standalone: true,
   imports: [ReactiveFormsModule, DialogModule, TableComponent,
-          CommonModule, NgSelectModule, PaginatorModule, 
-          FormsModule],
+    CommonModule, NgSelectModule, PaginatorModule,
+    FormsModule],
   templateUrl: './singleview-loan.component.html',
   styleUrl: './singleview-loan.component.css'
 })
 export class SingleviewLoanComponent {
-viewLoanForm!: FormGroup;
+  viewLoanForm!: FormGroup;
   LoanForm!: FormGroup;
 
 
-  token: any;
   adminid: any;
   userName: any;
   status: any;
@@ -66,7 +65,9 @@ viewLoanForm!: FormGroup;
 
   arrColumns: any = [
     { strHeader: "SlNo", strAlign: "center", strWidth: "5%", strKey: "slNo" },
-    { strHeader: "Date", strAlign: "center", strWidth: "15%", strKey: "paiddate" },
+    { strHeader: "Paid Date", strAlign: "center", strWidth: "15%", strKey: "paiddate" },
+    { strHeader: "Paid Month", strAlign: "center", strWidth: "15%", strKey: "paymentmonth" },
+
     { strHeader: "EMI", strAlign: "center", strWidth: "15%", strKey: "emiamount" },
     { strHeader: "Status", strAlign: "center", strWidth: "15%", strKey: "status" },
 
@@ -79,7 +80,6 @@ viewLoanForm!: FormGroup;
 
   ngOnInit(): void {
 
-    this.token = sessionStorage.getItem("token");
     this.adminid = sessionStorage.getItem("adminId");
     this.userName = sessionStorage.getItem("username");
     this.status = sessionStorage.getItem("status");
@@ -92,13 +92,6 @@ viewLoanForm!: FormGroup;
 
     console.log("Loan ID:", this.loanID);
     console.log("Loan No:", this.loanNo);
-
-    if (!this.token) {
-      this.toastrService.showError('Token not available. Please log in again.');
-      this.router.navigateByUrl('/login');
-      return;
-    }
-
 
     this.viewLoanForm = this.formBuilder.group({
       Name: [''],
@@ -135,9 +128,9 @@ viewLoanForm!: FormGroup;
 
 
   getLoanByIdFn(loanID: string, loanNo: string, EmployeeID: string) {
-  
+
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/getloanbyid/', { id: loanID, loanNo: loanNo, employeeid: EmployeeID }).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/getloanbyid/', { id: loanID, loanNo: loanNo, employeeid: EmployeeID }).subscribe((response: any) => {
       if (response.response === 'Success') {
         this.Loader = false;
         this.empbyidListlist = response['loanDetails'];
@@ -193,7 +186,7 @@ viewLoanForm!: FormGroup;
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
@@ -254,7 +247,7 @@ viewLoanForm!: FormGroup;
     formdata.append('paymentmonth', this.selectedMonth);
     formdata.append('emiamount', this.emi);
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/addmakepayment/', formdata).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/addmakepayment/', formdata).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.toastrService.showSuccess(response.message);
@@ -268,14 +261,14 @@ viewLoanForm!: FormGroup;
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
   // Skip Payment
 
   skipPayment() {
-   
+
     if (this.LoanForm.invalid) {
       this.LoanForm.markAllAsTouched();
       return
@@ -287,7 +280,7 @@ viewLoanForm!: FormGroup;
     formdata.append('paymentmonth', this.selectedMonth);
     formdata.append('emiamount', this.emi);
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/addskippedpayment/', formdata).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/addskippedpayment/', formdata).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.toastrService.showSuccess(response.message);
@@ -299,14 +292,14 @@ viewLoanForm!: FormGroup;
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 
   // Force Close Loan
 
   forceCloseLoan() {
-  
+
     if (this.LoanForm.invalid) {
       this.LoanForm.markAllAsTouched();
       return
@@ -318,7 +311,7 @@ viewLoanForm!: FormGroup;
     formdata.append('paymentmonth', this.selectedMonth);
     formdata.append('emiamount', this.LoanForm.get('EMI')?.value.toString());
     this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/foreclosure/', formdata).subscribe((response: any) => {
+    this.apiService.postData(environment.apiUrl + 'codspropay/api/foreclosure/', formdata).subscribe((response: any) => {
       if (response['response'] == 'Success') {
         this.Loader = false;
         this.toastrService.showSuccess(response.message);
@@ -332,7 +325,7 @@ viewLoanForm!: FormGroup;
     },
       (error) => {
         this.Loader = false; // Hide loader on error
-         this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
+        this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
       })
   }
 

@@ -55,7 +55,7 @@ export class AddoreditAdvancesalaryComponent {
       Name: ['', Validators.required],
       Salary: [''],
       Department: [''],
-      Unit: [''],
+      // Unit: [''],
       Loan: [''],
       LoanAmount: [''],
       Emi: [''],
@@ -111,7 +111,7 @@ export class AddoreditAdvancesalaryComponent {
           this.advanceSalaryForm.controls['EmpId'].setValue(adSalalary.employeeId);
           this.advanceSalaryForm.controls['Salary'].setValue(adSalalary.salary);
           this.advanceSalaryForm.controls['Department'].setValue(adSalalary.department_name);
-          this.advanceSalaryForm.controls['Unit'].setValue(adSalalary.unitname);
+          // this.advanceSalaryForm.controls['Unit'].setValue(adSalalary.worklocation_name);
           this.advanceSalaryForm.controls['Loan'].setValue(adSalalary.loan);
           this.advanceSalaryForm.controls['LoanAmount'].setValue(adSalalary.amount);
           this.advanceSalaryForm.controls['Emi'].setValue(adSalalary.emiamount);
@@ -252,7 +252,7 @@ export class AddoreditAdvancesalaryComponent {
           this.advanceSalaryForm.controls['EmpId'].setValue(employee.employeeId);
           this.advanceSalaryForm.controls['Salary'].setValue(employee.basicsalary);
           this.advanceSalaryForm.controls['Department'].setValue(employee.department_name);
-          // this.advanceSalaryForm.controls['Unit'].setValue(employee.unitname);
+          // this.advanceSalaryForm.controls['Unit'].setValue(employee.worklocation_name);
 
           this.advanceSalaryForm.controls['Loan'].setValue(employee.isLoan);
           this.advanceSalaryForm.controls['LoanAmount'].setValue(employee.loanamount);

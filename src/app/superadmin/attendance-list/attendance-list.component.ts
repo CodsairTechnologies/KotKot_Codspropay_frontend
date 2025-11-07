@@ -41,7 +41,6 @@ export class AttendanceListComponent {
 
   AddForm!: FormGroup
   EditForm!: FormGroup
-  AddDailyForm!: FormGroup;
   attendancelist: any = [];
   dailyattendancelist: any = [];
 
@@ -111,20 +110,14 @@ export class AttendanceListComponent {
 
     this.AddForm = this.formbuilder.group({
       attendanceFile: [null, Validators.required],
-      month: [''],
+      month: ['',Validators.required],
       year: [currentYear, [Validators.required, Validators.min(1900), Validators.max(2099)]]
     });
-
-    this.AddDailyForm = this.formbuilder.group({
-      attendanceFile: [null, Validators.required],
-      date: [''],
-    });
-
 
 
     this.EditForm = this.formbuilder.group({
       attendanceFile: [null, Validators.required],
-      month: [''],
+      month: ['', Validators.required],
       year: ['', [Validators.required, Validators.min(1900), Validators.max(2099)]]
     });
 
@@ -676,50 +669,6 @@ export class AttendanceListComponent {
     } else {
       console.error('File URL is not defined');
     }
-  }
-
-
-  addDailyAttendanceFileFn() {
-
-    if (!this.selectedDailyAttendanceFile) {
-      this.toastrService.showError('Please select attendance file before submitting.....')
-    }
-
-    if (this.AddDailyForm.invalid) {
-      this.AddDailyForm.markAllAsTouched();
-      return;
-    }
-
-    const formdata = new FormData();
-
-    if (this.selectedDailyAttendanceFile) {
-      formdata.append('file', this.selectedDailyAttendanceFile);
-    }
-
-
-    formdata.append('date', this.AddDailyForm.controls['date'].value);
-
-    this.Loader = true;
-     this.apiService.postData(environment.apiUrl + 'codspropay/api/dailypunchupload/', formdata)
-      .subscribe((response: any) => {
-        this.Loader = false;
-
-        if (response['response'] === 'Success') {
-
-          this.toastrService.showSuccess(response.message);
-          // this.getAttendanceTableFn();
-          setTimeout(() => {
-            this.reloadCurrentPage();
-          }, 1000);
-
-        } else {
-          this.handleErrorResponse(response); // Handle non-success responses
-        }
-      },
-        (error) => {
-          this.Loader = false; // Hide loader on error
-           this.errorHandingservice.handleErrorResponse(error, { value: this.Loader }); // Handle HTTP errors
-        })
   }
 
 

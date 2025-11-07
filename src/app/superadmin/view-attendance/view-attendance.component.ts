@@ -1,7 +1,7 @@
 import { ApiService } from '../../core/services/api.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import Swal from 'sweetalert2';
 import { TableComponent } from '../../commoncomponents/table/table.component';
@@ -15,7 +15,7 @@ import { ErrorHandlingService } from '../../core/services/error-handling.service
   selector: 'app-view-attendance',
   standalone: true,
   imports: [ReactiveFormsModule, DialogModule, TableComponent,
-        CommonModule, PaginatorModule,
+        CommonModule, PaginatorModule, RouterModule,
         FormsModule],
   templateUrl: './view-attendance.component.html',
   styleUrl: './view-attendance.component.css'

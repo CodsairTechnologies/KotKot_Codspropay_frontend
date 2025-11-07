@@ -75,9 +75,10 @@ export class EmployeesListComponent {
     { strHeader: "Name", strAlign: "center", strKey: "name" },
     // { strHeader: "Role", strAlign: "center", strKey: "type" },
 
-    // { strHeader: "Mobile No", strAlign: "center", strKey: "contactNo" },
     { strHeader: "Department", strAlign: "center", strKey: "department_name" },
     { strHeader: "Designation", strAlign: "center", strKey: "designation_name" },
+        { strHeader: "Work Location", strAlign: "center", strKey: "worklocation_name" },
+
     { strHeader: "Status", strAlign: "center", strKey: "strStatus" },
     { strHeader: "Actions", strAlign: "center", strKey: "strActions" },
 
