@@ -472,11 +472,16 @@ export class EmployeesListComponent {
             this.ExpiryFilterEmpFn();
           }
           else if (response.response === 'Error') {
-            let errorMsg = 'Upload failed for these rows:\n';
-            response.failed.forEach((item: any) => {
-              errorMsg += `Row ${item.row}: ${item.error}\n`;
-            });
-            this.toastrService.showError(errorMsg);
+             let msg = response.message || 'Upload failed';
+
+    // if (response.failed && response.failed.length > 0) {
+    //   msg += '\n\nFailed Rows:\n';
+    //   response.failed.forEach((item: any) => {
+    //     msg += `Row ${item.row}: ${item.error}\n`;
+    //   });
+    // }
+
+    this.toastrService.showError(msg);
           }
           else if (response.response === 'Warning') {
             this.handleErrorResponse(response);

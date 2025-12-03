@@ -30,7 +30,7 @@ export class LoginComponent {
   showPassword: boolean = false;
 
   token: any;
-  // type: any;
+  type: any;
   adminid: any;
   userName: any;
   status: any;
@@ -66,76 +66,78 @@ export class LoginComponent {
   }
 
 
-login() {
+  login() {
     if (this.loginForm.invalid) {
-        this.loginForm.markAllAsTouched();
-        return;
+      this.loginForm.markAllAsTouched();
+      return;
     }
 
     // Detect the browser name
     const getBrowserName = () => {
-        const userAgent = navigator.userAgent;
-        const vendor = navigator.vendor;
+      const userAgent = navigator.userAgent;
+      const vendor = navigator.vendor;
 
-        if (/Edg/.test(userAgent)) {
-            return 'Microsoft Edge';
-        } else if (/Chrome/.test(userAgent) && /Google Inc/.test(vendor)) {
-            return 'Chrome';
-        } else if (/Safari/.test(userAgent) && /Apple Computer/.test(vendor)) {
-            return 'Safari';
-        } else if (/Firefox/.test(userAgent)) {
-            return 'Firefox';
-        } else if (/MSIE|Trident/.test(userAgent)) {
-            return 'Internet Explorer';
-        } else {
-            return 'Other';
-        }
+      if (/Edg/.test(userAgent)) {
+        return 'Microsoft Edge';
+      } else if (/Chrome/.test(userAgent) && /Google Inc/.test(vendor)) {
+        return 'Chrome';
+      } else if (/Safari/.test(userAgent) && /Apple Computer/.test(vendor)) {
+        return 'Safari';
+      } else if (/Firefox/.test(userAgent)) {
+        return 'Firefox';
+      } else if (/MSIE|Trident/.test(userAgent)) {
+        return 'Internet Explorer';
+      } else {
+        return 'Other';
+      }
     };
 
     const browserName = getBrowserName();
 
     const payload = {
-        username: this.loginForm.controls['username'].value,
-        password: this.loginForm.controls['password'].value,
-        loginbrowser: browserName,
+      username: this.loginForm.controls['username'].value,
+      password: this.loginForm.controls['password'].value,
+      loginbrowser: browserName,
     };
 
     this.isLoading = true;
 
     this.http.post(environment.apiUrl + 'api/hrlogin/', payload).subscribe((response: any) => {
-        this.isLoading = false;
-        if (response['response'] == 'Success') {
-            this.logindetails = response['logindetails'][0];
+      this.isLoading = false;
+      if (response['response'] == 'Success') {
+        this.logindetails = response['logindetails'][0];
 
-            this.token = this.logindetails['token'];
-            this.adminid = this.logindetails['loginId'];
-            this.userName = this.logindetails['username'];
-            this.status = this.logindetails['status'];
+        this.token = this.logindetails['token'];
+        this.adminid = this.logindetails['loginId'];
+        this.userName = this.logindetails['username'];
+        this.status = this.logindetails['status'];
+        this.type = this.logindetails['type'];
 
-            // --- AUTH INTEGRATION START ---
-            // 1. Store the token using the AuthService's 'login' function.
-            //    This uses localStorage as defined in AuthService.
-            this.authService.login(this.token); 
-            // --- AUTH INTEGRATION END ---
-            
-            // You are currently storing other details in sessionStorage.
-            // The token logic must be consistent (AuthService uses localStorage).
-            sessionStorage.setItem("adminId", this.adminid);
-            sessionStorage.setItem("username", this.userName);
-            sessionStorage.setItem("status", this.status);
+        // --- AUTH INTEGRATION START ---
+        // 1. Store the token using the AuthService's 'login' function.
+        //    This uses localStorage as defined in AuthService.
+        this.authService.login(this.token);
+        // --- AUTH INTEGRATION END ---
 
-            this.router.navigate(['/superadmin/dashboard']);
-            this.toastrService.showSuccess('Login Successful!');
-        }
-        else {
-            this.toastrService.showError(response.message || 'Invalid credentials.');
-        }
+        // You are currently storing other details in sessionStorage.
+        // The token logic must be consistent (AuthService uses localStorage).
+        sessionStorage.setItem("adminId", this.adminid);
+        sessionStorage.setItem("username", this.userName);
+        sessionStorage.setItem("status", this.status);
+        sessionStorage.setItem("type", this.type);
+
+        this.router.navigate(['/superadmin/dashboard']);
+        this.toastrService.showSuccess('Login Successful!');
+      }
+      else {
+        this.toastrService.showError(response.message || 'Invalid credentials.');
+      }
     }, (error: any) => {
-        this.isLoading = false;
-        console.error('Login error:', error);
-        this.toastrService.showError('An error occurred. Please try again.');
+      this.isLoading = false;
+      console.error('Login error:', error);
+      this.toastrService.showError('An error occurred. Please try again.');
     });
-}
+  }
 
 
 

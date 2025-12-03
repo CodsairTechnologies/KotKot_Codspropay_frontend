@@ -16,11 +16,20 @@
                 Filter <i class="bi bi-funnel-fill"></i>
             </button>
             <div class="but2">
+                <a class="btn-link">
+                    <button class="bttn1" type="button" (click)="openUploadModal()">
+                        <i class="bi bi-plus"></i>Upload
+                    </button>
+                </a>
+            </div>
+            <div class="but2">
                 <a routerLink="/superadmin/addemployees" class="btn-link">
                     <button class="bttn1" type="button"><i class="bi bi-plus"></i>Add</button>
                 </a>
             </div>
         </div>
+
+        
 
 
 
@@ -155,7 +164,7 @@
             <div class="modal-body">
                 <!-- Download Template -->
                 <div class="mb-3 text-center">
-                    <a href="\assets\excels\employees.xlsx" download class="btn btn-outline-primary">
+                    <a href="\assets\excel\employees.xlsx" download class="btn btn-outline-primary">
                         <i class="bi bi-download"></i> Download Excel Template
                     </a>
                 </div>

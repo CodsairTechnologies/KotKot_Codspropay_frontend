@@ -4,13 +4,14 @@ import { ToastService } from '../../core/services/toast.service';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [DialogModule,
-      CommonModule,
-      FormsModule, RouterModule],
+  imports: [DialogModule, ButtonModule,
+    CommonModule,
+    FormsModule, RouterModule],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
@@ -26,12 +27,14 @@ export class LayoutComponent {
   display: boolean = false;
 
   Loader: boolean = false;
-
+  type: any;
 
   constructor(private router: Router, private toastrService: ToastService) {
 
   }
   ngOnInit(): void {
+    this.type = sessionStorage.getItem("type");
+
   }
 
   toggleCollapse(index: number) {

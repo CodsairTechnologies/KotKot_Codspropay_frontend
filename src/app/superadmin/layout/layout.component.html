@@ -73,7 +73,7 @@
             </div>
             <ul class="sub-menu" [ngClass]="{ 'show': isCollapsed[10] }">
                 <li><a class="link_name">Uploads</a></li>
-                 <li><a href="superadmin/ot-punch">OT Punch</a></li>
+                <li><a href="superadmin/ot-punch">OT Punch</a></li>
                 <li><a href="superadmin/employee-punch">Employee Punch</a></li>
                 <li><a href="superadmin/bonus">Bonus</a></li>
                 <!-- <li><a href="superadmin/employee-punch">Employee Punch</a></li> -->
@@ -242,8 +242,9 @@
         <div class="dropdown mr-4">
             <div class="profile-content d-flex align-items-center me-4" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-                <img src="\assets\images\profile.png" alt="" style="width: 32px; height: 32px; border-radius: 50%;"> &nbsp;
-                <span class="profile ml-2 mr-2"> Super Admin &nbsp; </span>
+                <img src="\assets\images\profile.png" alt="" style="width: 32px; height: 32px; border-radius: 50%;">
+                &nbsp;
+                <span class="profile ml-2 mr-2"> {{type}} &nbsp; </span>
                 <!-- Down arrow icon -->
                 <i class="bi bi-chevron-down"></i>
             </div>
@@ -267,17 +268,16 @@
         <i class="bi bi-exclamation-triangle-fill custom-warning-icon"></i>
         <p class="mt-1">Are you sure you want to log out?</p>
     </div>
-    <p-footer>
+    <ng-template pTemplate="footer">
         <div class="d-flex justify-content-center">
-            <!-- Cancel Button -->
-            <button type="button" pButton label="Cancel" icon="pi pi-times" class="custom-cancel-button me-2"
-                (click)="onReject()"></button>
+            <button type="button" class="custom-cancel-button me-2"
+                (click)="onReject()">Cancel</button>
 
-            <!-- Logout Button -->
-            <button type="button" pButton label="Logout" icon="pi pi-check" class="custom-logout-button"
-                (click)="logout()"></button>
+            <button type="button" class="custom-logout-button"
+                (click)="logout()">Logout</button>
         </div>
-    </p-footer>
+    </ng-template>
+
 </p-dialog>
 
 
